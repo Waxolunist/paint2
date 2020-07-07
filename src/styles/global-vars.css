@@ -1,0 +1,9 @@
+html {
+  --painting-width-nounit: 210;
+  --painting-width: 210px;
+  --painting-height-nounit: 297;
+  --painting-height: 297px;
+  --painting-scalefactor: 1.2;
+  --painting-margin: 1.5em;
+  --icon-size: 30px;
+}

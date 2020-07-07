@@ -1,0 +1,9 @@
+/node_modules/
+/lib/
+/test/
+/build/
+/docs/
+/docs-src/
+/bundle/
+/.vscode/
+/.idea/
