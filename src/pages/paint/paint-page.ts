@@ -41,12 +41,10 @@ export class PaintPage extends LitElement {
   calcAspectRatio() {
     const {height, width} = this.area!.getBoundingClientRect();
     if (this.isLandscape({height, width})) {
-      console.log('landscape');
       const scale = Math.min(width / 297, height / 210);
       this.height = (210 * scale) | 0;
       this.width = (297 * scale) | 0;
     } else {
-      console.log('portrait');
       const scale = Math.min(width / 210, height / 297);
       this.height = (297 * scale) | 0;
       this.width = (210 * scale) | 0;

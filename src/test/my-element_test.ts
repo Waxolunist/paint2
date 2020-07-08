@@ -1,3 +1,4 @@
+/*
 import {MyElement} from '../my-element.js';
 import {fixture, html} from '@open-wc/testing';
 
@@ -48,3 +49,4 @@ suite('my-element', () => {
     );
   });
 });
+*/

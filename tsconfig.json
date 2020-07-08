@@ -2,19 +2,20 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "lib": ["ESNext", "dom", "dom.iterable"],
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "outDir": "./build",
-    "rootDir": "./src",
+    "moduleResolution": "node",
+    "lib": ["ESNext", "DOM", "DOM.Iterable", "WebWorker"],
     "strict": true,
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "downlevelIteration": true,
+    "removeComments": false,
+    "isolatedModules": false,
+    "noEmit": false,
+    "experimentalDecorators": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "plugins": [
@@ -24,6 +25,5 @@
       }
     ]
   },
-  "include": ["src/**/*.ts"],
-  "exclude": []
+  "exclude": ["node_modules"]
 }

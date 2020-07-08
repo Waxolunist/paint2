@@ -6,7 +6,6 @@ import {
   eventOptions,
   LitElement,
 } from 'lit-element';
-import {PaintButton} from '../paint-button/paint-button';
 import {ShadowStyles, AnimatedStyles} from '../../styles/shared-styles';
 
 @customElement('paint-icon-button')
