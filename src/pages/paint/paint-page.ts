@@ -12,11 +12,17 @@ import '../../components/color-toolbar/paint-color-toolbar';
 import '../../components/paint-area/paint-area';
 import store from '../../store';
 import {navigate} from 'lit-redux-router';
+import {PaintArea} from '../../components/paint-area/paint-area';
+import {connect} from 'pwa-helpers/connect-mixin';
+import {ThunkDispatch, storeData, loadData} from '../../ducks/paint';
 
 @customElement('paint-paint-page')
-export class PaintPage extends LitElement {
+export class PaintPage extends connect(store)(LitElement) {
   @query('[name="paint-area-container"]')
-  private area?: HTMLElement;
+  private areaContainer?: HTMLElement;
+
+  @query('[name="paint-area"]')
+  private area?: PaintArea;
 
   @property({type: Number, reflect: false})
   width = 0;
@@ -26,6 +32,14 @@ export class PaintPage extends LitElement {
 
   @property({type: String, reflect: false})
   colorCode = '#000';
+
+  @property({type: String})
+  id = '';
+
+  connectedCallback() {
+    super.connectedCallback();
+    console.log(`Load paint-page with id ${this.id}`);
+  }
 
   firstUpdated() {
     this.calcAspectRatio();
@@ -39,7 +53,7 @@ export class PaintPage extends LitElement {
   }
 
   calcAspectRatio() {
-    const {height, width} = this.area!.getBoundingClientRect();
+    const {height, width} = this.areaContainer!.getBoundingClientRect();
     if (this.isLandscape({height, width})) {
       const scale = Math.min(width / 297, height / 210);
       this.height = (210 * scale) | 0;
@@ -118,6 +132,7 @@ export class PaintPage extends LitElement {
         <div class="paint-wrapper">
           <div name="paint-area-container" class="paint-area-container">
             <paint-area
+              name="paint-area"
               width="${this.width}"
               height="${this.height}"
               colorCode="${this.colorCode}"
@@ -129,6 +144,20 @@ export class PaintPage extends LitElement {
   }
 
   private navigateBack() {
+    (store.dispatch as ThunkDispatch)(
+      storeData({
+        painting: {
+          id: 0,
+          dataUrl: this.area!.toImage(),
+        },
+        rawData: {
+          paintingId: 0,
+          strokes: [],
+        },
+      })
+    );
+
+    (store.dispatch as ThunkDispatch)(loadData(0));
     store.dispatch(navigate('/'));
   }
 

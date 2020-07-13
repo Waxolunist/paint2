@@ -1,9 +1,17 @@
-import {css, customElement, eventOptions, html, LitElement, property, query, PropertyValues} from 'lit-element';
+import {
+  css,
+  customElement,
+  eventOptions,
+  html,
+  LitElement,
+  property,
+  query,
+  PropertyValues,
+} from 'lit-element';
 import PaintWorker from 'web-worker:./paint.worker.ts';
 
 @customElement('paint-area')
 export class PaintArea extends LitElement {
-
   @query('canvas[name="canvas"]')
   private canvas?: HTMLCanvasElement;
 
@@ -35,7 +43,7 @@ export class PaintArea extends LitElement {
   }
 
   updated(_changedProperties: PropertyValues) {
-    if(_changedProperties.has('width') && parseInt(this.width as string) > 0) {
+    if (_changedProperties.has('width') && parseInt(this.width as string) > 0) {
       try {
         this.initWorker();
       } catch (e) {
@@ -55,34 +63,42 @@ export class PaintArea extends LitElement {
   private initWorker() {
     const offscreenCanvas = this.canvas!.transferControlToOffscreen();
     this.#worker?.postMessage(
-        {
-          command: 'create',
-          canvas: offscreenCanvas,
-          measurePerformance: false,
-          lineWidth: 4,
-        },
-        [offscreenCanvas],
+      {
+        command: 'create',
+        canvas: offscreenCanvas,
+        measurePerformance: false,
+        lineWidth: 4,
+      },
+      [offscreenCanvas]
     );
   }
 
-  private mapEvents(rawEvents: { pageX: number; pageY: number }[] = []): { pageX: number; pageY: number }[] {
-    return rawEvents.map(({pageX, pageY}: { pageX: number; pageY: number }) => ({pageX, pageY}));
+  private mapEvents(
+    rawEvents: {pageX: number; pageY: number}[] = []
+  ): {pageX: number; pageY: number}[] {
+    return rawEvents.map(({pageX, pageY}: {pageX: number; pageY: number}) => ({
+      pageX,
+      pageY,
+    }));
   }
 
   private createMessage(
-      command: string,
-      { pageX, pageY, buttons } = { pageX: 0, pageY: 0, buttons: 0 },
-      rawEvents: PointerEvent[] = [],
-      { left, top } = { left: 0, top: 0 },
-  ) { return {
-    command,
-    coordinates: this.mapEvents(rawEvents.length ? rawEvents : [{pageX, pageY}]),
-    left,
-    top,
-    erase: buttons === 32,
-    color: '#000000'
+    command: string,
+    {pageX, pageY, buttons} = {pageX: 0, pageY: 0, buttons: 0},
+    rawEvents: PointerEvent[] = [],
+    {left, top} = {left: 0, top: 0}
+  ) {
+    return {
+      command,
+      coordinates: this.mapEvents(
+        rawEvents.length ? rawEvents : [{pageX, pageY}]
+      ),
+      left,
+      top,
+      erase: buttons === 32,
+      color: this.colorCode,
+    };
   }
-  };
 
   @eventOptions({capture: true, passive: true})
   private pointerDown(e: PointerEvent) {
@@ -90,7 +106,12 @@ export class PaintArea extends LitElement {
     this.canvas!.setPointerCapture(e.pointerId);
     this.#canvasClientBoundingRect = this.canvas!.getBoundingClientRect();
     this.#worker!.postMessage(
-        this.createMessage('start', e, e.getCoalescedEvents(), this.#canvasClientBoundingRect),
+      this.createMessage(
+        'start',
+        e,
+        e.getCoalescedEvents(),
+        this.#canvasClientBoundingRect
+      )
     );
   }
 
@@ -104,14 +125,19 @@ export class PaintArea extends LitElement {
   private pointerMove(e: PointerEvent) {
     if (this.#pointerActive) {
       this.#worker!.postMessage(
-          this.createMessage('move', e, e.getCoalescedEvents(), this.#canvasClientBoundingRect),
+        this.createMessage(
+          'move',
+          e,
+          e.getCoalescedEvents(),
+          this.#canvasClientBoundingRect
+        )
       );
     }
   }
 
-  throttle(timer: (callback: any) => void): ((callback: any) => void) {
+  private throttle(timer: (callback: any) => void): (callback: any) => void {
     let queuedCallback: (() => void) | null;
-    return callback => {
+    return (callback) => {
       if (!queuedCallback) {
         timer(() => {
           const cb = queuedCallback;
@@ -132,6 +158,10 @@ export class PaintArea extends LitElement {
     });
   }
 
+  toImage(): string {
+    return this.canvas!.toDataURL('image/png');
+  }
+
   static get styles() {
     // language=CSS
     return [
@@ -149,14 +179,15 @@ export class PaintArea extends LitElement {
 
   render() {
     return html`
-      <canvas 
+      <canvas
         name="canvas"
-        width="${this.width}" 
+        width="${this.width}"
         height="${this.height}"
         @pointerdown="${this.pointerDown}"
         @pointerup="${this.pointerUp}"
         @pointercancel="${this.pointerUp}"
-        @pointermove="${this.throttledPointerMove}"></canvas>
+        @pointermove="${this.throttledPointerMove}"
+      ></canvas>
     `;
   }
 }

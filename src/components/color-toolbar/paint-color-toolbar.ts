@@ -1,12 +1,12 @@
 import {css, customElement, html, LitElement, property} from 'lit-element';
 import {repeat} from 'lit-html/directives/repeat';
-import {htmlcolors} from './colors';
+import {colors} from './colors';
 import '../icon-button/paint-icon-button';
 
 @customElement('paint-color-toolbar')
 export class ColorToolbar extends LitElement {
   @property({type: Number, reflect: true})
-  private activeColor = 'black';
+  private activeColor = colors[0];
 
   static get styles() {
     // language=CSS
@@ -41,6 +41,10 @@ export class ColorToolbar extends LitElement {
         .color-option[active] {
           --paint-icon-button-border-radius: 0;
         }
+
+        .color-option:last-child {
+          margin-bottom: 1em;
+        }
       `,
     ];
   }
@@ -49,27 +53,25 @@ export class ColorToolbar extends LitElement {
     return html`
       <div class="color-palette">
         ${repeat(
-          Object.entries(htmlcolors),
-          ([name]) => name,
-          ([name, code]) => html` <paint-icon-button
+          colors,
+          (code) => html` <paint-icon-button
             class="color-option"
             style="--paint-icon-button-background-color: ${code}"
             data-color-code="${code}"
-            data-color-name="${name}"
-            ?active="${this.activeColor === name}"
-            @icon-clicked="${this.colorChange(code, name)}"
+            ?active="${this.activeColor === code}"
+            @icon-clicked="${this.colorChange(code)}"
           ></paint-icon-button>`
         )}
       </div>
     `;
   }
 
-  colorChange(code: string, name: string) {
+  colorChange(code: string) {
     return () => {
-      this.activeColor = name;
+      this.activeColor = code;
       this.dispatchEvent(
         new CustomEvent('color-changed', {
-          detail: {code, name},
+          detail: {code},
           bubbles: true,
           composed: true,
         })
