@@ -1,9 +1,25 @@
 import {customElement, LitElement, html} from 'lit-element';
 import './store';
+import {connect} from 'pwa-helpers/connect-mixin';
+import store from './store';
+import {PaintState} from './ducks/paint-model';
+import {navigate} from 'lit-redux-router';
+import {RouterState} from 'lit-redux-router/lib/reducer';
+
 @customElement('paint-app')
-export class PaintApp extends LitElement {
+export class PaintApp extends connect(store)(LitElement) {
   connectedCallback() {
     super.connectedCallback();
+  }
+
+  stateChanged({router, paint}: {router: RouterState; paint: PaintState}) {
+    console.log(router);
+    const activePaintingId = paint.activePainting?.painting?.id;
+    if (activePaintingId && router.activeRoute === '/') {
+      store.dispatch(navigate(`/paint/${activePaintingId}`));
+    } else if(!activePaintingId && router.activeRoute !== '/') {
+      store.dispatch(navigate('/'));
+    }
   }
 
   render() {

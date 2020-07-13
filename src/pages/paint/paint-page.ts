@@ -11,10 +11,9 @@ import '../../components/icon-button/paint-icon-button';
 import '../../components/color-toolbar/paint-color-toolbar';
 import '../../components/paint-area/paint-area';
 import store from '../../store';
-import {navigate} from 'lit-redux-router';
 import {PaintArea} from '../../components/paint-area/paint-area';
 import {connect} from 'pwa-helpers/connect-mixin';
-import {ThunkDispatch, storeData, loadData} from '../../ducks/paint';
+import {ThunkDispatch, storeData} from '../../ducks/paint';
 
 @customElement('paint-paint-page')
 export class PaintPage extends connect(store)(LitElement) {
@@ -146,19 +145,11 @@ export class PaintPage extends connect(store)(LitElement) {
   private navigateBack() {
     (store.dispatch as ThunkDispatch)(
       storeData({
-        painting: {
-          id: 0,
-          dataUrl: this.area!.toImage(),
-        },
-        rawData: {
-          paintingId: 0,
-          strokes: [],
-        },
+        id: this.id,
+        dataUrl: this.area!.toImage(),
+        strokes: [],
       })
     );
-
-    (store.dispatch as ThunkDispatch)(loadData(0));
-    store.dispatch(navigate('/'));
   }
 
   private colorChanged(e: CustomEvent) {

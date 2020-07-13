@@ -1,13 +1,24 @@
-import {customElement, LitElement, html, css} from 'lit-element';
+import {customElement, LitElement, html, css, property} from 'lit-element';
 import '../../components/new-paint-button/new-paint-button';
 import '../../components/paint-button/paint-button';
 import '../../components/icon-button/paint-icon-button';
 import {closeIcon, shareIcon} from './icons';
 import store from '../../store';
-import {navigate} from 'lit-redux-router';
+import {connect} from 'pwa-helpers/connect-mixin';
+import {Painting, PaintState} from '../../ducks/paint-model';
+import {repeat} from 'lit-html/directives/repeat';
+import {loadData, newPainting, ThunkDispatch} from '../../ducks/paint';
+import {RouterState} from 'lit-redux-router/lib/reducer';
 
 @customElement('paint-overview-page')
-export class OverviewPage extends LitElement {
+export class OverviewPage extends connect(store)(LitElement) {
+  @property()
+  paintings: Painting[] = [];
+
+  stateChanged({router, paint}: {router: RouterState; paint: PaintState}) {
+    if (router.routes['/'].active) this.paintings = paint.paintings;
+  }
+
   static get styles() {
     // language=CSS
     return css`
@@ -57,55 +68,56 @@ export class OverviewPage extends LitElement {
         ></paint-new-paint-button>
         <paint-paint-button
           class="painting"
-          @paint-clicked="${this.openPainting}"
+          @paint-clicked="${this.openPainting(0)}"
         >
           <paint-icon-button
             slot="addons"
-            @icon-clicked="${this.removePainting}"
+            @icon-clicked="${this.removePainting(0)}"
             >${closeIcon}</paint-icon-button
           >
-          <paint-icon-button slot="addons" @icon-clicked="${this.sharePainting}"
+          <paint-icon-button
+            slot="addons"
+            @icon-clicked="${this.sharePainting(0)}"
             >${shareIcon}</paint-icon-button
           >
         </paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
-        <paint-paint-button class="painting"></paint-paint-button>
+        ${repeat(
+          this.paintings,
+          (painting) =>
+            html`<paint-paint-button
+              class="painting"
+              @paint-clicked="${this.openPainting(painting.id)}"
+            >
+              <paint-icon-button
+                slot="addons"
+                @icon-clicked="${this.removePainting(painting.id)}"
+                >${closeIcon}</paint-icon-button
+              >
+              <paint-icon-button
+                slot="addons"
+                @icon-clicked="${this.sharePainting(painting.id)}"
+                >${shareIcon}</paint-icon-button
+              >
+              <img slot="content" src="${painting.blobUrl}"></img>
+            </paint-paint-button>`
+        )};
       </div>
     `;
   }
 
-  private newPainting(e: CustomEvent) {
-    console.log(e);
+  private newPainting() {
+    (store.dispatch as ThunkDispatch)(newPainting());
   }
 
-  private openPainting() {
-    store.dispatch(navigate('/paint/3'));
-  }
+  private openPainting = (id?: number | string) => () => {
+    (store.dispatch as ThunkDispatch)(loadData(id));
+  };
 
-  private removePainting(e: CustomEvent) {
-    console.log(e);
-  }
+  private removePainting = (id?: number | string) => (e: CustomEvent) => {
+    console.log(`${id}: ${e}`);
+  };
 
-  private sharePainting(e: CustomEvent) {
-    console.log(e);
-  }
+  private sharePainting = (id?: number | string) => (e: CustomEvent) => {
+    console.log(`${id}: ${e}`);
+  };
 }
