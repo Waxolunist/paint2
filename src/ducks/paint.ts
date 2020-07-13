@@ -13,11 +13,12 @@ import database from '../database';
 const STORE = '@paint/STORE';
 const LOAD = '@paint/LOAD';
 const NEW = '@paint/NEW';
+const DELETE = '@paint/DELETE';
 
 /*** actions ***/
 interface CRUDAction extends AnyAction {
-  type: typeof STORE | typeof LOAD | typeof NEW;
-  payload: CRUDPayload;
+  type: typeof STORE | typeof LOAD | typeof NEW | typeof DELETE;
+  payload: CRUDPayload | number | string | undefined;
 }
 
 type PaintActionTypes = CRUDAction;
@@ -51,9 +52,8 @@ export const storeData = ({
 };
 
 export const loadData = (id?: number | string): ThunkAction => async (dispatch) => {
-  console.log(id);
-  const db = await database();
   if(id) {
+    const db = await database();
     const painting = await db.paintings.get(parseInt(id as string));
     if (painting) {
       return dispatch({
@@ -79,6 +79,18 @@ export const newPainting = (): ThunkAction => async (dispatch) => {
   });
 };
 
+export const removePainting = (id?: number | string): ThunkAction => async dispatch => {
+  if(id) {
+    const db = await database();
+    await db.paintings.delete(parseInt(id as string))
+    return dispatch({
+      type: DELETE,
+      payload: id
+    });
+  }
+  return undefined;
+};
+
 const initialState: PaintState = {
   paintings: [],
   activePainting: undefined,
@@ -95,6 +107,8 @@ const paintingsArray = (paintings: Painting[]): Painting[] => {
   ];
 };
 
+const removePaintingFromArray = (id: number | string, paintings: Painting[]): Painting[] => paintings.filter(p => p.id != id);
+
 const paintReducer: Reducer<PaintState, AnyAction> = (
   state = initialState,
   action: AnyAction
@@ -105,7 +119,7 @@ const paintReducer: Reducer<PaintState, AnyAction> = (
         ...state,
         paintings: paintingsArray([
           ...state.paintings,
-          (<CRUDAction>action).payload.painting,
+          ((<CRUDAction>action).payload as CRUDPayload).painting,
         ]),
         activePainting: undefined,
       };
@@ -115,9 +129,15 @@ const paintReducer: Reducer<PaintState, AnyAction> = (
         ...state,
         paintings: paintingsArray([
           ...state.paintings,
-          (<CRUDAction>action).payload.painting,
+          ((<CRUDAction>action).payload as CRUDPayload).painting,
         ]),
-        activePainting: (<CRUDAction>action).payload,
+        activePainting: (<CRUDAction>action).payload as CRUDPayload,
+      };
+    case DELETE:
+      return {
+        ...state,
+        paintings: removePaintingFromArray((<CRUDAction>action).payload as string, state.paintings),
+        activePainting: undefined,
       };
     default:
       return state;

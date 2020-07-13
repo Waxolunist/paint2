@@ -7,7 +7,7 @@ import store from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import {Painting, PaintState} from '../../ducks/paint-model';
 import {repeat} from 'lit-html/directives/repeat';
-import {loadData, newPainting, ThunkDispatch} from '../../ducks/paint';
+import {loadData, newPainting, ThunkDispatch, removePainting} from '../../ducks/paint';
 import {RouterState} from 'lit-redux-router/lib/reducer';
 
 @customElement('paint-overview-page')
@@ -66,21 +66,6 @@ export class OverviewPage extends connect(store)(LitElement) {
           class="painting"
           @paint-clicked="${this.newPainting}"
         ></paint-new-paint-button>
-        <paint-paint-button
-          class="painting"
-          @paint-clicked="${this.openPainting(0)}"
-        >
-          <paint-icon-button
-            slot="addons"
-            @icon-clicked="${this.removePainting(0)}"
-            >${closeIcon}</paint-icon-button
-          >
-          <paint-icon-button
-            slot="addons"
-            @icon-clicked="${this.sharePainting(0)}"
-            >${shareIcon}</paint-icon-button
-          >
-        </paint-paint-button>
         ${repeat(
           this.paintings,
           (painting) =>
@@ -100,7 +85,7 @@ export class OverviewPage extends connect(store)(LitElement) {
               >
               <img slot="content" src="${painting.blobUrl}"></img>
             </paint-paint-button>`
-        )};
+        )}
       </div>
     `;
   }
@@ -113,8 +98,8 @@ export class OverviewPage extends connect(store)(LitElement) {
     (store.dispatch as ThunkDispatch)(loadData(id));
   };
 
-  private removePainting = (id?: number | string) => (e: CustomEvent) => {
-    console.log(`${id}: ${e}`);
+  private removePainting = (id?: number | string) => () => {
+    (store.dispatch as ThunkDispatch)(removePainting(id));
   };
 
   private sharePainting = (id?: number | string) => (e: CustomEvent) => {
