@@ -8,11 +8,12 @@ export class PaintingImpl implements Painting {
   id?: number;
   dataUrl =
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
-  #blobUrl = '';
+  #blobUrl: string;
 
   constructor(dataUrl?: string, id?: number | string) {
     if (id) this.id = parseInt(id as string);
     if (dataUrl) this.dataUrl = dataUrl;
+    this.#blobUrl = '';
   }
 
   get blobUrl(): string {

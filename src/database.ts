@@ -1,7 +1,7 @@
 import Dexie from 'dexie';
 import {Painting, PaintingImpl, PaintingRawData} from './ducks/paint-model';
 
-class PaintingDatabase extends Dexie {
+export class PaintingDatabase extends Dexie {
   public paintings: Dexie.Table<Painting, number>;
   public strokes: Dexie.Table<PaintingRawData, number>;
 

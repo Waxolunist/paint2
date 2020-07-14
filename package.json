@@ -12,7 +12,7 @@
   "type": "module",
   "scripts": {
     "bundle": "npm run clean && rollup -c",
-    "watch": "npm run clean && rollup -c --watch",
+    "watch": "rollup -cw",
     "clean": "rimraf bundle/* test/*.{d.ts,d.ts.map,js,js.map} test/*.{d.ts,d.ts.map,js,js.map}",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
     "lint:eslint": "eslint 'src/**/*.ts'",

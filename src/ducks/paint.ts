@@ -7,25 +7,27 @@ import {
 } from './paint-model';
 import {AnyAction, Reducer} from 'redux';
 import {ThunkDispatch as TDispatch, ThunkAction as TAction} from 'redux-thunk';
-import database from '../database';
+import {PaintingDatabase} from '../database';
+import {AppState} from '../store';
 
 /*** types ***/
 const STORE = '@paint/STORE';
 const LOAD = '@paint/LOAD';
 const NEW = '@paint/NEW';
 const DELETE = '@paint/DELETE';
+const INIT = '@paint/INIT';
 
 /*** actions ***/
 interface CRUDAction extends AnyAction {
-  type: typeof STORE | typeof LOAD | typeof NEW | typeof DELETE;
-  payload: CRUDPayload | number | string | undefined;
+  type: typeof STORE | typeof LOAD | typeof NEW | typeof DELETE | typeof INIT;
+  payload: CRUDPayload | Painting[] | number | string | undefined;
 }
 
 type PaintActionTypes = CRUDAction;
 
-export type ThunkDispatch = TDispatch<PaintState, null, PaintActionTypes>;
+export type ThunkDispatch = TDispatch<AppState, Promise<PaintingDatabase>, PaintActionTypes>;
 
-export type ThunkAction = TAction<void, PaintState, null, PaintActionTypes>;
+export type ThunkAction = TAction<void, AppState, Promise<PaintingDatabase>, PaintActionTypes>;
 
 export const storeData = ({
   id,
@@ -35,8 +37,8 @@ export const storeData = ({
   id?: string;
   dataUrl: string;
   strokes: Stroke[];
-}): ThunkAction => async (dispatch) => {
-  const db = await database();
+}): ThunkAction => async (dispatch, _getState, database) => {
+  const db = await database;
   const painting = new PaintingImpl(dataUrl, id);
   const paintingId = await db.paintings.put(painting);
   await painting.cleanState();
@@ -51,15 +53,17 @@ export const storeData = ({
   });
 };
 
-export const loadData = (id?: number | string): ThunkAction => async (dispatch) => {
+export const loadData = (id?: number | string): ThunkAction => async (dispatch, getState, database) => {
   if(id) {
-    const db = await database();
-    const painting = await db.paintings.get(parseInt(id as string));
+    const db = await database;
+    const {paint} = getState();
+    const painting = paint.paintings.find(p => p.id == id);
     if (painting) {
+      const rawData = await db.strokes.get(parseInt(id as string));
       return dispatch({
         type: LOAD, payload: {
           painting,
-          rawData: undefined,
+          rawData: rawData,
         }
       });
     }
@@ -67,8 +71,8 @@ export const loadData = (id?: number | string): ThunkAction => async (dispatch) 
   return undefined;
 };
 
-export const newPainting = (): ThunkAction => async (dispatch) => {
-  const db = await database();
+export const newPainting = (): ThunkAction => async (dispatch, _getState, database) => {
+  const db = await database;
   const painting = new PaintingImpl();
   await db.paintings.put(painting);
   return dispatch({
@@ -79,16 +83,27 @@ export const newPainting = (): ThunkAction => async (dispatch) => {
   });
 };
 
-export const removePainting = (id?: number | string): ThunkAction => async dispatch => {
+export const removePainting = (id?: number | string): ThunkAction => async (dispatch, _getState, database) => {
   if(id) {
-    const db = await database();
-    await db.paintings.delete(parseInt(id as string))
+    const db = await database;
+    await Promise.all([db.paintings.delete(parseInt(id as string)), db.strokes.delete(parseInt(id as string))]);
     return dispatch({
       type: DELETE,
       payload: id
     });
   }
   return undefined;
+};
+
+export const initialLoad = (): ThunkAction => async (dispatch, _getState, database) => {
+  const db = await database;
+  const paintingsDB = await db.paintings.toArray();
+  const paintingsArray = paintingsDB.map(p => new PaintingImpl(p.dataUrl, p.id));
+  await Promise.all(paintingsArray.map(p => p.cleanState()));
+  return dispatch({
+    type: INIT,
+    payload: paintingsArray
+  });
 };
 
 const initialState: PaintState = {
@@ -138,6 +153,11 @@ const paintReducer: Reducer<PaintState, AnyAction> = (
         ...state,
         paintings: removePaintingFromArray((<CRUDAction>action).payload as string, state.paintings),
         activePainting: undefined,
+      };
+    case INIT:
+      return {
+        ...state,
+        paintings: (<CRUDAction>action).payload as Painting[]
       };
     default:
       return state;
