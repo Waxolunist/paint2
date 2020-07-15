@@ -13,7 +13,7 @@ import '../../components/paint-area/paint-area';
 import store from '../../store';
 import {PaintArea} from '../../components/paint-area/paint-area';
 import {connect} from 'pwa-helpers/connect-mixin';
-import {ThunkDispatch, storeData} from '../../ducks/paint';
+import {ThunkDispatch, storeData, unloadData} from '../../ducks/paint';
 
 @customElement('paint-paint-page')
 export class PaintPage extends connect(store)(LitElement) {
@@ -33,11 +33,11 @@ export class PaintPage extends connect(store)(LitElement) {
   colorCode = '#000';
 
   @property({type: String})
-  id = '';
+  paintingId = '';
 
   connectedCallback() {
     super.connectedCallback();
-    console.log(`Load paint-page with id ${this.id}`);
+    console.log(`Load paint-page with id ${this.paintingId}`);
   }
 
   firstUpdated() {
@@ -113,7 +113,7 @@ export class PaintPage extends connect(store)(LitElement) {
       }
     `;
   }
-  //
+
   render() {
     return html`
       <div class="paint-page">
@@ -143,13 +143,16 @@ export class PaintPage extends connect(store)(LitElement) {
   }
 
   private navigateBack() {
-    (store.dispatch as ThunkDispatch)(
-      storeData({
-        id: this.id,
-        dataUrl: this.area!.toImage(),
-        strokes: [],
-      })
-    );
+    this.area!.getStrokes().then((strokes) => {
+      (store.dispatch as ThunkDispatch)(
+        storeData({
+          id: this.paintingId,
+          dataUrl: this.area!.toImage(),
+          strokes,
+        })
+      );
+      (store.dispatch as ThunkDispatch)(unloadData());
+    });
   }
 
   private colorChanged(e: CustomEvent) {

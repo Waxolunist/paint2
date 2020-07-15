@@ -82,6 +82,7 @@ const createOffScreenCanvasContext = (canvas: OffscreenCanvas) => {
   //_.offScreenCanvasContext!.shadowBlur = 2;
   //_.offScreenCanvasContext!.translate(0.5, 0.5);
   setDrawStyle();
+  draw();
 };
 
 const setEraseStyle = () => {
@@ -95,31 +96,33 @@ const setDrawStyle = (color = '#000000') => {
 };
 
 const drawStroke = ({points, erase, color}: Stroke) => {
-  if (erase) setEraseStyle();
-  else setDrawStyle(color);
+  if (points.length > 0) {
+    if (erase) setEraseStyle();
+    else setDrawStyle(color);
 
-  let p1 = points[0];
-  let p2 = points[1];
+    let p1 = points[0];
+    let p2 = points[1];
 
-  _.offScreenCanvasContext!.beginPath();
-  _.offScreenCanvasContext!.moveTo(p1.x, p1.y);
+    _.offScreenCanvasContext!.beginPath();
+    _.offScreenCanvasContext!.moveTo(p1.x, p1.y);
 
-  for (let i = 1, len = points.length; i < len; ++i) {
-    const midPoint = middleOfTwoPoints(p1, p2);
-    _.offScreenCanvasContext!.quadraticCurveTo(
-      p1.x,
-      p1.y,
-      midPoint.x,
-      midPoint.y
-    );
-    p1 = points[i];
-    p2 = points[i + 1];
+    for (let i = 1, len = points.length; i < len; ++i) {
+      const midPoint = middleOfTwoPoints(p1, p2);
+      _.offScreenCanvasContext!.quadraticCurveTo(
+        p1.x,
+        p1.y,
+        midPoint.x,
+        midPoint.y
+      );
+      p1 = points[i];
+      p2 = points[i + 1];
+    }
+    // Draw last line as a straight line while
+    // we wait for the next point to be able to calculate
+    // the bezier control point
+    _.offScreenCanvasContext!.lineTo(p1.x, p1.y);
+    _.offScreenCanvasContext!.stroke();
   }
-  // Draw last line as a straight line while
-  // we wait for the next point to be able to calculate
-  // the bezier control point
-  _.offScreenCanvasContext!.lineTo(p1.x, p1.y);
-  _.offScreenCanvasContext!.stroke();
 };
 
 const render = () => {
@@ -233,11 +236,18 @@ const logPerformance = () => {
   }
 };
 
+const postStrokes = () => {
+  self.postMessage({
+    strokes: [..._.strokes, {points: _.points, erase: _.erase, color: _.color}],
+  });
+};
+
 const processCommand = ({data}: {data: any}) => {
   switch (data.command) {
     case 'create':
       _.measurePerformance = data.measurePerformance;
       _.lineWidth = data.lineWidth;
+      _.strokes = data.strokes || [];
       createOffScreenCanvasContext(data.canvas);
       break;
     case 'start':
@@ -255,6 +265,9 @@ const processCommand = ({data}: {data: any}) => {
       break;
     case 'perf':
       logPerformance();
+      break;
+    case 'strokes':
+      postStrokes();
       break;
     default:
       break;

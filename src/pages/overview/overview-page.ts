@@ -7,7 +7,12 @@ import store from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import {Painting, PaintState} from '../../ducks/paint-model';
 import {repeat} from 'lit-html/directives/repeat';
-import {loadData, newPainting, ThunkDispatch, removePainting} from '../../ducks/paint';
+import {
+  loadData,
+  newPainting,
+  ThunkDispatch,
+  removePainting,
+} from '../../ducks/paint';
 import {RouterState} from 'lit-redux-router/lib/reducer';
 
 @customElement('paint-overview-page')
@@ -72,6 +77,7 @@ export class OverviewPage extends connect(store)(LitElement) {
             html`<paint-paint-button
               class="painting"
               @paint-clicked="${this.openPainting(painting.id)}"
+              imageUrl="${painting.blobUrl}"
             >
               <paint-icon-button
                 slot="addons"
@@ -83,7 +89,6 @@ export class OverviewPage extends connect(store)(LitElement) {
                 @icon-clicked="${this.sharePainting(painting.id)}"
                 >${shareIcon}</paint-icon-button
               >
-              <img slot="content" src="${painting.blobUrl}"></img>
             </paint-paint-button>`
         )}
       </div>

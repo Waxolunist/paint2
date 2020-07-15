@@ -4,12 +4,19 @@ import {
   eventOptions,
   html,
   LitElement,
+  property,
   query,
 } from 'lit-element';
 import {AnimatedStyles, ShadowStyles} from '../../styles/shared-styles';
 
 @customElement('paint-paint-button')
 export class PaintButton extends LitElement {
+  @query('[name="paint-button"]')
+  private button?: HTMLElement;
+
+  @property({type: URL})
+  imageUrl?: string;
+
   static get styles() {
     // language=CSS
     return [
@@ -27,11 +34,14 @@ export class PaintButton extends LitElement {
           margin: 0;
         }
 
-        slot[name='content']::slotted(*) {
+        slot[name='content']::slotted(*),
+        .content {
           height: 100%;
+          width: 100%;
         }
 
-        slot[name='content']::slotted(img) {
+        slot[name='content']::slotted(img),
+        img.content {
           position: absolute;
           top: 0;
           bottom: 0;
@@ -68,9 +78,6 @@ export class PaintButton extends LitElement {
     ];
   }
 
-  @query('[name="paint-button"]')
-  private button?: HTMLElement;
-
   render() {
     return html`
       <div
@@ -79,7 +86,9 @@ export class PaintButton extends LitElement {
         @pointerdown="${this.pointerDown}"
         @pointerup="${this.pointerUp}"
       >
-        <slot name="content"></slot>
+        ${this.imageUrl
+          ? html`<img class="content" src="${this.imageUrl}"></img>`
+          : html` <slot name="content"></slot>`}
         <div class="addons">
           <slot name="addons"></slot>
         </div>

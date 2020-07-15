@@ -12,6 +12,7 @@ import {AppState} from '../store';
 
 /*** types ***/
 const STORE = '@paint/STORE';
+const UNLOAD = '@paint/UNLOAD';
 const LOAD = '@paint/LOAD';
 const NEW = '@paint/NEW';
 const DELETE = '@paint/DELETE';
@@ -19,15 +20,30 @@ const INIT = '@paint/INIT';
 
 /*** actions ***/
 interface CRUDAction extends AnyAction {
-  type: typeof STORE | typeof LOAD | typeof NEW | typeof DELETE | typeof INIT;
-  payload: CRUDPayload | Painting[] | number | string | undefined;
+  type:
+    | typeof STORE
+    | typeof LOAD
+    | typeof UNLOAD
+    | typeof NEW
+    | typeof DELETE
+    | typeof INIT;
+  payload?: CRUDPayload | Painting[] | number | string;
 }
 
 type PaintActionTypes = CRUDAction;
 
-export type ThunkDispatch = TDispatch<AppState, Promise<PaintingDatabase>, PaintActionTypes>;
+export type ThunkDispatch = TDispatch<
+  AppState,
+  Promise<PaintingDatabase>,
+  PaintActionTypes
+>;
 
-export type ThunkAction = TAction<void, AppState, Promise<PaintingDatabase>, PaintActionTypes>;
+export type ThunkAction = TAction<
+  void,
+  AppState,
+  Promise<PaintingDatabase>,
+  PaintActionTypes
+>;
 
 export const storeData = ({
   id,
@@ -37,7 +53,8 @@ export const storeData = ({
   id?: string;
   dataUrl: string;
   strokes: Stroke[];
-}): ThunkAction => async (dispatch, _getState, database) => {
+}): ThunkAction => async (dispatch, getState, database) => {
+  getState().paint.paintings.find((p) => p.id == id)?.freeMemory();
   const db = await database;
   const painting = new PaintingImpl(dataUrl, id);
   const paintingId = await db.paintings.put(painting);
@@ -53,25 +70,37 @@ export const storeData = ({
   });
 };
 
-export const loadData = (id?: number | string): ThunkAction => async (dispatch, getState, database) => {
-  if(id) {
+export const loadData = (id?: number | string): ThunkAction => async (
+  dispatch,
+  getState,
+  database
+) => {
+  if (id) {
     const db = await database;
     const {paint} = getState();
-    const painting = paint.paintings.find(p => p.id == id);
+    const painting = paint.paintings.find((p) => p.id == id);
     if (painting) {
       const rawData = await db.strokes.get(parseInt(id as string));
       return dispatch({
-        type: LOAD, payload: {
+        type: LOAD,
+        payload: {
           painting,
           rawData: rawData,
-        }
+        },
       });
     }
   }
   return undefined;
 };
 
-export const newPainting = (): ThunkAction => async (dispatch, _getState, database) => {
+export const unloadData = (): ThunkAction => async (dispatch) =>
+  dispatch({type: UNLOAD});
+
+export const newPainting = (): ThunkAction => async (
+  dispatch,
+  _getState,
+  database
+) => {
   const db = await database;
   const painting = new PaintingImpl();
   await db.paintings.put(painting);
@@ -83,26 +112,41 @@ export const newPainting = (): ThunkAction => async (dispatch, _getState, databa
   });
 };
 
-export const removePainting = (id?: number | string): ThunkAction => async (dispatch, _getState, database) => {
-  if(id) {
+export const removePainting = (id?: number | string): ThunkAction => async (
+  dispatch,
+  getState,
+  database
+) => {
+  if (id) {
+    const painting = getState().paint.paintings.find((p) => p.id == id);
+    painting?.freeMemory();
     const db = await database;
-    await Promise.all([db.paintings.delete(parseInt(id as string)), db.strokes.delete(parseInt(id as string))]);
+    await Promise.all([
+      db.paintings.delete(parseInt(id as string)),
+      db.strokes.delete(parseInt(id as string)),
+    ]);
     return dispatch({
       type: DELETE,
-      payload: id
+      payload: id,
     });
   }
   return undefined;
 };
 
-export const initialLoad = (): ThunkAction => async (dispatch, _getState, database) => {
+export const initialLoad = (): ThunkAction => async (
+  dispatch,
+  _getState,
+  database
+) => {
   const db = await database;
   const paintingsDB = await db.paintings.toArray();
-  const paintingsArray = paintingsDB.map(p => new PaintingImpl(p.dataUrl, p.id));
-  await Promise.all(paintingsArray.map(p => p.cleanState()));
+  const paintingsArray = paintingsDB.map(
+    (p) => new PaintingImpl(p.dataUrl, p.id)
+  );
+  await Promise.all(paintingsArray.map((p) => p.cleanState()));
   return dispatch({
     type: INIT,
-    payload: paintingsArray
+    payload: paintingsArray,
   });
 };
 
@@ -122,7 +166,10 @@ const paintingsArray = (paintings: Painting[]): Painting[] => {
   ];
 };
 
-const removePaintingFromArray = (id: number | string, paintings: Painting[]): Painting[] => paintings.filter(p => p.id != id);
+const removePaintingFromArray = (
+  id: number | string,
+  paintings: Painting[]
+): Painting[] => paintings.filter((p) => p.id != id);
 
 const paintReducer: Reducer<PaintState, AnyAction> = (
   state = initialState,
@@ -136,6 +183,10 @@ const paintReducer: Reducer<PaintState, AnyAction> = (
           ...state.paintings,
           ((<CRUDAction>action).payload as CRUDPayload).painting,
         ]),
+      };
+    case UNLOAD:
+      return {
+        ...state,
         activePainting: undefined,
       };
     case LOAD:
@@ -151,13 +202,16 @@ const paintReducer: Reducer<PaintState, AnyAction> = (
     case DELETE:
       return {
         ...state,
-        paintings: removePaintingFromArray((<CRUDAction>action).payload as string, state.paintings),
+        paintings: removePaintingFromArray(
+          (<CRUDAction>action).payload as string,
+          state.paintings
+        ),
         activePainting: undefined,
       };
     case INIT:
       return {
         ...state,
-        paintings: (<CRUDAction>action).payload as Painting[]
+        paintings: (<CRUDAction>action).payload as Painting[],
       };
     default:
       return state;

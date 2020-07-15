@@ -1,7 +1,7 @@
 import {customElement, LitElement, html} from 'lit-element';
 import './store';
 import {connect} from 'pwa-helpers/connect-mixin';
-import store from './store';
+import store, {AppState} from './store';
 import {initialLoad, ThunkDispatch} from './ducks/paint';
 
 @customElement('paint-app')
@@ -9,6 +9,10 @@ export class PaintApp extends connect(store)(LitElement) {
   connectedCallback() {
     super.connectedCallback();
     (store.dispatch as ThunkDispatch)(initialLoad());
+    window.onbeforeunload = () => {
+      (<AppState>store.getState()).paint.paintings.forEach(p => p.freeMemory());
+      //(<AppState>store.getState()).paint.blobUrlsToDelete.filter(b => b).forEach(b => URL.revokeObjectURL(b!));
+    };
   }
 
   render() {
@@ -20,7 +24,7 @@ export class PaintApp extends connect(store)(LitElement) {
           .resolve="${() => import('./pages/overview/overview-page')}"
         ></lit-route>
         <lit-route
-          path="/paint/:id"
+          path="/paint/:paintingId"
           component="paint-paint-page"
           .resolve="${() => import('./pages/paint/paint-page')}"
         ></lit-route>

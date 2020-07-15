@@ -2,6 +2,8 @@ export interface Painting {
   id?: number;
   dataUrl: string;
   readonly blobUrl: string;
+  freeMemory: () => void;
+  cleanState: () => Promise<void>;
 }
 
 export class PaintingImpl implements Painting {
@@ -21,9 +23,14 @@ export class PaintingImpl implements Painting {
   }
 
   async cleanState(): Promise<void> {
+    this.freeMemory();
     const response = await fetch(this.dataUrl);
     this.#blobUrl = URL.createObjectURL(await response.blob());
     delete this.dataUrl;
+  }
+
+  freeMemory(): void {
+    if(this.#blobUrl) URL.revokeObjectURL(this.#blobUrl);
   }
 }
 

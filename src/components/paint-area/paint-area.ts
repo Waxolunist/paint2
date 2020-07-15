@@ -9,11 +9,15 @@ import {
   PropertyValues,
 } from 'lit-element';
 import PaintWorker from 'web-worker:./paint.worker.ts';
+import store, {AppState} from '../../store';
 
 @customElement('paint-area')
 export class PaintArea extends LitElement {
   @query('canvas[name="canvas"]')
   private canvas?: HTMLCanvasElement;
+
+  @property({type: String})
+  paintingId = '';
 
   @property()
   width: number | string = 0;
@@ -32,7 +36,9 @@ export class PaintArea extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.#worker = new PaintWorker();
+    if (!this.#worker) {
+      this.#worker = new PaintWorker();
+    }
     console.log('connected');
   }
 
@@ -68,6 +74,8 @@ export class PaintArea extends LitElement {
         canvas: offscreenCanvas,
         measurePerformance: false,
         lineWidth: 4,
+        strokes: (store.getState() as AppState).paint?.activePainting?.rawData
+          ?.strokes,
       },
       [offscreenCanvas]
     );
@@ -160,6 +168,17 @@ export class PaintArea extends LitElement {
 
   toImage(): string {
     return this.canvas!.toDataURL('image/png');
+  }
+
+  async getStrokes(): Promise<Stroke[]> {
+    return new Promise((resolve) => {
+      this.#worker?.addEventListener(
+        'message',
+        (e) => resolve(e.data.strokes),
+        {once: true}
+      );
+      this.#worker?.postMessage({command: 'strokes'});
+    });
   }
 
   static get styles() {
