@@ -30,7 +30,7 @@ export class PaintingImpl implements Painting {
   }
 
   freeMemory(): void {
-    if(this.#blobUrl) URL.revokeObjectURL(this.#blobUrl);
+    if (this.#blobUrl) URL.revokeObjectURL(this.#blobUrl);
   }
 }
 

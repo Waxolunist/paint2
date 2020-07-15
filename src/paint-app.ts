@@ -10,7 +10,9 @@ export class PaintApp extends connect(store)(LitElement) {
     super.connectedCallback();
     (store.dispatch as ThunkDispatch)(initialLoad());
     window.onbeforeunload = () =>
-      (<AppState>store.getState()).paint.paintings.forEach(p => p.freeMemory());
+      (<AppState>store.getState()).paint.paintings.forEach((p) =>
+        p.freeMemory()
+      );
   }
 
   render() {

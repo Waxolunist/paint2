@@ -22,6 +22,8 @@ export default {
     copy({
       targets: [
         { src: 'src/index.html', dest: 'bundle' },
+        { src: 'src/manifest.json', dest: 'bundle' },
+        { src: 'src/images', dest: 'bundle' },
         { src: ['src/styles/*.css'], dest: 'bundle/styles' },
       ]
     })

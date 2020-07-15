@@ -54,7 +54,9 @@ export const storeData = ({
   dataUrl: string;
   strokes: Stroke[];
 }): ThunkAction => async (dispatch, getState, database) => {
-  getState().paint.paintings.find((p) => p.id == id)?.freeMemory();
+  getState()
+    .paint.paintings.find((p) => p.id == id)
+    ?.freeMemory();
   const db = await database;
   const painting = new PaintingImpl(dataUrl, id);
   const paintingId = await db.paintings.put(painting);
