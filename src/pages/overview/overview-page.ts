@@ -84,11 +84,11 @@ export class OverviewPage extends connect(store)(LitElement) {
                 @icon-clicked="${this.removePainting(painting.id)}"
                 >${closeIcon}</paint-icon-button
               >
-              <paint-icon-button
+              ${(navigator as any).canShare ? html`<paint-icon-button
                 slot="addons"
                 @icon-clicked="${this.sharePainting(painting.id)}"
                 >${shareIcon}</paint-icon-button
-              >
+              >` : ''}
             </paint-paint-button>`
         )}
       </div>

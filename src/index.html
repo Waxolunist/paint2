@@ -101,12 +101,19 @@
 
     <link rel="stylesheet" href="styles/global-vars.css" />
     <link rel="stylesheet" href="styles/body.css" />
-    <script type="module" src="paint-app.js"></script>
     <script>
-      window.process = {env: {NODE_ENV: 'production'}};
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('sw.js', {
+            scope: new URL(document.baseURI).pathname,
+          });
+        });
+      }
+      window.process = { env: { NODE_ENV: 'production' } };
     </script>
   </head>
   <body>
     <paint-app />
+    <script type="module" src="paint-app.js" crossorigin></script>
   </body>
 </html>

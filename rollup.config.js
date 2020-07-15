@@ -2,6 +2,8 @@ import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import copy from 'rollup-plugin-copy'
 import workerLoader from 'rollup-plugin-web-worker-loader';
+import { generateSW } from 'rollup-plugin-workbox';
+
 
 export default {
   input: 'src/paint-app.ts',
@@ -26,6 +28,10 @@ export default {
         { src: 'src/images', dest: 'bundle' },
         { src: ['src/styles/*.css'], dest: 'bundle/styles' },
       ]
-    })
+    }),
+    generateSW({
+      swDest: 'bundle/sw.js',
+      globDirectory: 'bundle',
+    }),
   ],
 };

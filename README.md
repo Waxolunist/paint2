@@ -50,6 +50,19 @@ npm run serve
 
 There is a development HTML file located at `/dev/index.html` that you can view at http://localhost:8000/dev/index.html.
 
+## Test service worker
+
+First create once the certificates. Best tool for that is
+`mkcert`. [https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/][see ``````https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/] 
+
+Configure the certificates in the file `es-dev-server.test.js`.
+
+Then start the server:
+
+```bash
+npm run serve:bundle
+```
+
 ## Editing
 
 If you use VS Code, we highly reccomend the [lit-plugin extension](https://marketplace.visualstudio.com/items?itemName=runem.lit-plugin), which enables some extremely useful features for lit-html templates:
