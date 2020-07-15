@@ -1,7 +1,13 @@
-# LitElement TypeScript starter 
+# Paint for Kids
 
-This project includes a sample component using LitElement with TypeScript.
+Paint for Kids is a free paint app, with no ads and no tracking code. No cookies or whatsoever are used to track you or the usage of the app. No data about users or devices are collected. I only count the number of downloads. It can be installed on most devices, by just adding it to the home screen. The app works offline.
 
+Main goal of this app is having fun with painting. Even little kids should have no problems using it and parents should not have any privacy concerns letting them. 
+
+Use a touch screen compatible pen for the best user experience.
+
+If you have any issues with the app or want to see new features, just create an github issue please.
+    
 ## Setup
 
 Install dependencies:
@@ -63,6 +69,15 @@ Then start the server:
 npm run serve:bundle
 ```
 
+# Build Docker image
+
+    npm run bundle && docker build -t waxolunist/paint:latest -t waxolunist/paint:2 .
+    docker save waxolunist/paint:latest | gzip > paint_latest.tar.gz
+
+Run it with:
+
+    docker run -p 8043:8043 --name paintforkids waxolunist/paint:latest 
+
 ## Editing
 
 If you use VS Code, we highly reccomend the [lit-plugin extension](https://marketplace.visualstudio.com/items?itemName=runem.lit-plugin), which enables some extremely useful features for lit-html templates:
@@ -123,3 +138,13 @@ The site will usually be served at http://localhost:8000.
 ## More information
 
 See [Get started](https://lit-element.polymer-project.org/guide/start) on the LitElement site for more information.
+
+# Issues
+- [ ] about page
+- [ ] eraser
+- [ ] share function not programmed
+- [ ] save to image folder
+- [ ] store in worker
+- [ ] store on pointer up
+- [ ] iOS topBar colour adjustment
+- [ ] loading animations

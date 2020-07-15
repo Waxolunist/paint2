@@ -4,6 +4,16 @@ import {connect} from 'pwa-helpers/connect-mixin';
 import store, {AppState} from './store';
 import {initialLoad, ThunkDispatch} from './ducks/paint';
 
+declare global {
+  interface Window {
+    o9n: {
+      orientation: {
+        lock: (orientation: string) => Promise<void>
+      }
+    }
+  }
+}
+
 @customElement('paint-app')
 export class PaintApp extends connect(store)(LitElement) {
   connectedCallback() {
@@ -13,6 +23,12 @@ export class PaintApp extends connect(store)(LitElement) {
       (<AppState>store.getState()).paint.paintings.forEach((p) =>
         p.freeMemory()
       );
+    // @ts-ignore
+    import('./ponyfills/o9n').then(() => {
+      window.o9n.orientation.lock('portrait').catch((err) => {
+        console.log('Ignore this error: ' + err.message);
+      });
+    });
   }
 
   render() {
