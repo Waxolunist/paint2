@@ -9,10 +9,8 @@ export class PaintApp extends connect(store)(LitElement) {
   connectedCallback() {
     super.connectedCallback();
     (store.dispatch as ThunkDispatch)(initialLoad());
-    window.onbeforeunload = () => {
+    window.onbeforeunload = () =>
       (<AppState>store.getState()).paint.paintings.forEach(p => p.freeMemory());
-      //(<AppState>store.getState()).paint.blobUrlsToDelete.filter(b => b).forEach(b => URL.revokeObjectURL(b!));
-    };
   }
 
   render() {
