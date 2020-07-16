@@ -99,7 +99,17 @@ export class OverviewPage extends connect(store)(LitElement) {
     (store.dispatch as ThunkDispatch)(newPainting());
   }
 
-  private openPainting = (id?: number | string) => () => {
+  private openPainting = (id?: number | string) => (e: CustomEvent) => {
+    const domRect = (<HTMLElement>e.target).getBoundingClientRect();
+    this.dispatchEvent(
+        new CustomEvent('button-clicked', {
+          detail: {
+            domRect
+          },
+          bubbles: true,
+          composed: true,
+        })
+    );
     (store.dispatch as ThunkDispatch)(loadData(id));
   };
 

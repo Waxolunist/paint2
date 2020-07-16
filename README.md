@@ -71,8 +71,13 @@ npm run serve:bundle
 
 # Build Docker image
 
-    npm run bundle && docker build -t waxolunist/paint:latest -t waxolunist/paint:2 .
+    npm run bundle && docker build -t waxolunist/paint:latest -t waxolunist/paint:latest .
     docker save waxolunist/paint:latest | gzip > paint_latest.tar.gz
+
+Or tag and push
+
+     docker tag waxolunist/paint:latest registry.v-collaborate.com/christian.sterzl_gmail.com/waxolunist/paint:latest
+     docker push registry.v-collaborate.com/christian.sterzl_gmail.com/waxolunist/paint:latest
 
 Run it with:
 
@@ -148,3 +153,6 @@ See [Get started](https://lit-element.polymer-project.org/guide/start) on the Li
 - [ ] store on pointer up
 - [ ] iOS topBar colour adjustment
 - [ ] loading animations
+- [ ] PWA context menus / shortcuts
+- [x] lighthouse analysis 
+- [x] TWA

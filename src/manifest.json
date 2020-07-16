@@ -1,7 +1,7 @@
 {
-  "name": "Paint for kids",
+  "name": "Paint for Kids",
   "short_name": "Paint",
-  "description": "Paint for kids (no ads, no tracking)",
+  "description": "Paint for Kids (no ads, no tracking)",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#e3ecff",
