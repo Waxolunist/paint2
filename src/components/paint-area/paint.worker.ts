@@ -5,11 +5,13 @@ interface Memory {
   offScreenCanvasContext: OffscreenCanvasRenderingContext2D | null;
   measurePerformance: boolean;
   lastPoint: Point | undefined;
+  secondLastPoint: Point | undefined;
   erase: boolean;
   color: string;
   lineWidth: number;
   points: Array<Point>;
   strokes: Array<Stroke>;
+  paintImmediate: boolean;
 }
 
 interface Point {
@@ -58,11 +60,13 @@ const _: Memory = {
   offScreenCanvasContext: null,
   measurePerformance: false,
   lastPoint: undefined,
+  secondLastPoint: undefined,
   erase: false,
   color: '#000',
   lineWidth: 4,
   points: [],
   strokes: [],
+  paintImmediate: true,
 };
 
 const clearMemory = () => {
@@ -155,6 +159,7 @@ const startStroke = ({
     _.color = color;
   }
 
+  _.secondLastPoint = _.lastPoint;
   const point = (_.lastPoint = calculatePoint(
     coordinates[0].pageX,
     coordinates[0].pageY,
@@ -162,6 +167,11 @@ const startStroke = ({
     top
   ));
   _.points.push(point);
+
+  if (_.paintImmediate) {
+    _.offScreenCanvasContext!.beginPath();
+    _.offScreenCanvasContext!.moveTo(point.x, point.y);
+  }
 };
 
 const moveStroke = ({
@@ -181,18 +191,23 @@ const moveStroke = ({
     performance.mark('start_script');
   }
 
-  for (let i = 0, len = coordinates.length; i < len; ++i) {
-    const point = calculatePoint(
-      coordinates[i].pageX,
-      coordinates[i].pageY,
-      left,
-      top
-    );
-    if (distanceBetweenTwoPointsGreaterThan(point, _.lastPoint!, 5)) {
-      _.erase = erase;
-      _.color = color;
-      _.points.push((_.lastPoint = point));
-      draw();
+  if (_.paintImmediate) {
+    _.offScreenCanvasContext!.beginPath();
+    _.offScreenCanvasContext!.moveTo(point.x, point.y);
+  } else {
+    for (let i = 0, len = coordinates.length; i < len; ++i) {
+      const point = calculatePoint(
+          coordinates[i].pageX,
+          coordinates[i].pageY,
+          left,
+          top
+      );
+      if (distanceBetweenTwoPointsGreaterThan(point, _.lastPoint!, 5) && distanceBetweenTwoPointsGreaterThan(point, _.secondLastPoint || _.lastPoint!, 5)) {
+        _.erase = erase;
+        _.color = color;
+        _.points.push((_.lastPoint = point));
+        draw();
+      }
     }
   }
 
@@ -248,6 +263,7 @@ const processCommand = ({data}: {data: any}) => {
       _.measurePerformance = data.measurePerformance;
       _.lineWidth = data.lineWidth;
       _.strokes = data.strokes || [];
+      _.paintImmediate = data.paintImmediate;
       createOffScreenCanvasContext(data.canvas);
       break;
     case 'start':

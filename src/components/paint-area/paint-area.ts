@@ -132,6 +132,7 @@ export class PaintArea extends LitElement {
 
   private pointerMove(e: PointerEvent) {
     if (this.#pointerActive) {
+      console.log(e);
       this.#worker!.postMessage(
         this.createMessage(
           'move',
@@ -161,9 +162,14 @@ export class PaintArea extends LitElement {
 
   @eventOptions({capture: true, passive: true})
   private throttledPointerMove(e: PointerEvent) {
-    this.throttledMove(() => {
+    // @ts-ignore
+    if (PointerEvent.prototype.getCoalescedEvents) {
       this.pointerMove(e);
-    });
+    } else {
+      this.throttledMove(() => {
+        this.pointerMove(e);
+      });
+    }
   }
 
   toImage(): string {
@@ -191,6 +197,7 @@ export class PaintArea extends LitElement {
 
         canvas {
           background-color: white;
+          touch-action: none;
         }
       `,
     ];

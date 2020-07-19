@@ -58,7 +58,9 @@ export class OverviewPage extends connect(store)(LitElement) {
         }
 
         .paintings {
-          grid-gap: var(--painting-margin);
+          --painting-scalefactor: 1.3;
+          grid-column-gap: 1.3em;
+          grid-row-gap: 1.3em;
         }
       }
     `;
