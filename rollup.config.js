@@ -3,6 +3,8 @@ import typescript from '@rollup/plugin-typescript';
 import copy from 'rollup-plugin-copy'
 import workerLoader from 'rollup-plugin-web-worker-loader';
 import { generateSW } from 'rollup-plugin-workbox';
+import sourcemaps from 'rollup-plugin-sourcemaps';
+import babel from '@rollup/plugin-babel';
 
 
 export default {
@@ -21,6 +23,12 @@ export default {
     resolve(),
     workerLoader({ inline: false, sourcemap: false }),
     typescript(),
+    babel({
+      exclude: 'node_modules/**',
+      babelHelpers: 'bundled',
+      extensions: ['.ts', '.js'],
+      include: 'src/**/*',
+    }),
     copy({
       targets: [
         { src: 'src/index.html', dest: 'bundle' },
@@ -33,5 +41,6 @@ export default {
       swDest: 'bundle/sw.js',
       globDirectory: 'bundle',
     }),
+    sourcemaps(),
   ],
 };

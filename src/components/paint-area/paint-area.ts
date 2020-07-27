@@ -34,9 +34,13 @@ export class PaintArea extends LitElement {
 
   #canvasClientBoundingRect?: DOMRect;
 
+  #workerSupported = false;
+
   connectedCallback() {
     super.connectedCallback();
-    if (!this.#worker) {
+    this.#workerSupported = !!HTMLCanvasElement.prototype.transferControlToOffscreen;
+
+    if (this.#workerSupported && !this.#worker) {
       this.#worker = new PaintWorker();
     }
     console.log('connected');
@@ -67,18 +71,21 @@ export class PaintArea extends LitElement {
   }
 
   private initWorker() {
-    const offscreenCanvas = this.canvas!.transferControlToOffscreen();
-    this.#worker?.postMessage(
-      {
-        command: 'create',
-        canvas: offscreenCanvas,
-        measurePerformance: false,
-        lineWidth: 4,
-        strokes: (store.getState() as AppState).paint?.activePainting?.rawData
-          ?.strokes,
-      },
-      [offscreenCanvas]
-    );
+    if (this.#workerSupported) {
+      const offscreenCanvas = this.canvas!.transferControlToOffscreen();
+      this.#worker?.postMessage(
+          {
+            command: 'create',
+            canvas: offscreenCanvas,
+            measurePerformance: false,
+            lineWidth: 4,
+            strokes: (store.getState() as AppState).paint?.activePainting?.rawData
+                ?.strokes,
+            paintImmediate: true,
+          },
+          [offscreenCanvas]
+      );
+    }
   }
 
   private mapEvents(
@@ -132,7 +139,6 @@ export class PaintArea extends LitElement {
 
   private pointerMove(e: PointerEvent) {
     if (this.#pointerActive) {
-      console.log(e);
       this.#worker!.postMessage(
         this.createMessage(
           'move',
