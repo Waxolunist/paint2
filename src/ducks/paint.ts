@@ -4,6 +4,7 @@ import {
   PaintingImpl,
   PaintingRawData,
   Painting,
+  Stroke,
 } from './paint-model';
 import {AnyAction, Reducer} from 'redux';
 import {ThunkDispatch as TDispatch, ThunkAction as TAction} from 'redux-thunk';

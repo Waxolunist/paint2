@@ -10,6 +10,9 @@ import {
 } from 'lit-element';
 import PaintWorker from 'web-worker:./paint.worker.ts';
 import store, {AppState} from '../../store';
+import { CanvasPainter } from './paint-painter';
+import { defaultMemory } from './paint-memory';
+import { Stroke } from '../../ducks/paint-model';
 
 @customElement('paint-area')
 export class PaintArea extends LitElement {
@@ -36,12 +39,25 @@ export class PaintArea extends LitElement {
 
   #workerSupported = false;
 
+  #painter?: CanvasPainter = undefined;
+
   connectedCallback() {
     super.connectedCallback();
-    this.#workerSupported = !!HTMLCanvasElement.prototype.transferControlToOffscreen;
+    this.#workerSupported = !!HTMLCanvasElement.prototype
+      .transferControlToOffscreen;
 
     if (this.#workerSupported && !this.#worker) {
       this.#worker = new PaintWorker();
+    } else {
+      this.#painter = new CanvasPainter({
+        ...defaultMemory, 
+        ...{
+          measurePerformance: false,
+          lineWidth: 4,
+          paintImmediate: true,
+          strokes: (store.getState() as AppState).paint?.activePainting?.rawData?.strokes || [],
+        }
+      });
     }
     console.log('connected');
   }
@@ -74,17 +90,19 @@ export class PaintArea extends LitElement {
     if (this.#workerSupported) {
       const offscreenCanvas = this.canvas!.transferControlToOffscreen();
       this.#worker?.postMessage(
-          {
-            command: 'create',
-            canvas: offscreenCanvas,
-            measurePerformance: false,
-            lineWidth: 4,
-            strokes: (store.getState() as AppState).paint?.activePainting?.rawData
-                ?.strokes,
-            paintImmediate: true,
-          },
-          [offscreenCanvas]
+        {
+          command: 'create',
+          canvas: offscreenCanvas,
+          measurePerformance: false,
+          lineWidth: 4,
+          strokes: (store.getState() as AppState).paint?.activePainting?.rawData
+            ?.strokes,
+          paintImmediate: true,
+        },
+        [offscreenCanvas]
       );
+    } else {
+      this.#painter?.createCanvasContext(this.canvas!);
     }
   }
 
@@ -100,9 +118,10 @@ export class PaintArea extends LitElement {
   private createMessage(
     command: string,
     {pageX, pageY, buttons} = {pageX: 0, pageY: 0, buttons: 0},
-    rawEvents: PointerEvent[] = [],
+    event: PointerEvent | any = {},
     {left, top} = {left: 0, top: 0}
   ) {
+    const rawEvents = event.getCoalescedEvents ? event.getCoalescedEvents() : [];
     return {
       command,
       coordinates: this.mapEvents(
@@ -120,33 +139,35 @@ export class PaintArea extends LitElement {
     this.#pointerActive = true;
     this.canvas!.setPointerCapture(e.pointerId);
     this.#canvasClientBoundingRect = this.canvas!.getBoundingClientRect();
-    this.#worker!.postMessage(
-      this.createMessage(
-        'start',
-        e,
-        e.getCoalescedEvents(),
-        this.#canvasClientBoundingRect
-      )
+    const message = this.createMessage(
+      'start',
+      e,
+      e,
+      this.#canvasClientBoundingRect
     );
+    this.#worker?.postMessage(message);
+    this.#painter?.startStroke(message);
   }
 
   @eventOptions({capture: true, passive: true})
   private pointerUp(e: PointerEvent) {
     this.#pointerActive = false;
     this.canvas!.releasePointerCapture(e.pointerId);
-    this.#worker!.postMessage(this.createMessage('stop'));
+    const message = this.createMessage('stop');
+    this.#worker?.postMessage(message);
+    this.#painter?.stopStroke();
   }
 
   private pointerMove(e: PointerEvent) {
     if (this.#pointerActive) {
-      this.#worker!.postMessage(
-        this.createMessage(
-          'move',
-          e,
-          e.getCoalescedEvents(),
-          this.#canvasClientBoundingRect
-        )
+      const message = this.createMessage(
+        'move',
+        e,
+        e,
+        this.#canvasClientBoundingRect
       );
+      this.#worker?.postMessage(message);
+      this.#painter?.moveStroke(message);
     }
   }
 

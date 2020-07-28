@@ -8,9 +8,9 @@ declare global {
   interface Window {
     o9n: {
       orientation: {
-        lock: (orientation: string) => Promise<void>
-      }
-    }
+        lock: (orientation: string) => Promise<void>;
+      };
+    };
   }
 }
 

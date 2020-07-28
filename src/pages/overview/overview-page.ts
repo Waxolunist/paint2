@@ -86,11 +86,13 @@ export class OverviewPage extends connect(store)(LitElement) {
                 @icon-clicked="${this.removePainting(painting.id)}"
                 >${closeIcon}</paint-icon-button
               >
-              ${(navigator as any).canShare ? html`<paint-icon-button
-                slot="addons"
-                @icon-clicked="${this.sharePainting(painting.id)}"
-                >${shareIcon}</paint-icon-button
-              >` : ''}
+              ${(navigator as any).canShare
+                ? html`<paint-icon-button
+                    slot="addons"
+                    @icon-clicked="${this.sharePainting(painting.id)}"
+                    >${shareIcon}</paint-icon-button
+                  >`
+                : ''}
             </paint-paint-button>`
         )}
       </div>
@@ -104,13 +106,13 @@ export class OverviewPage extends connect(store)(LitElement) {
   private openPainting = (id?: number | string) => (e: CustomEvent) => {
     const domRect = (<HTMLElement>e.target).getBoundingClientRect();
     this.dispatchEvent(
-        new CustomEvent('button-clicked', {
-          detail: {
-            domRect
-          },
-          bubbles: true,
-          composed: true,
-        })
+      new CustomEvent('button-clicked', {
+        detail: {
+          domRect,
+        },
+        bubbles: true,
+        composed: true,
+      })
     );
     (store.dispatch as ThunkDispatch)(loadData(id));
   };
