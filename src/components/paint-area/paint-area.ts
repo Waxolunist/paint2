@@ -205,12 +205,16 @@ export class PaintArea extends LitElement {
 
   async getStrokes(): Promise<Stroke[]> {
     return new Promise((resolve) => {
-      this.#worker?.addEventListener(
-        'message',
-        (e) => resolve(e.data.strokes),
-        {once: true}
-      );
-      this.#worker?.postMessage({command: 'strokes'});
+      if (this.#workerSupported) {
+        this.#worker?.addEventListener(
+          'message',
+          (e) => resolve(e.data.strokes),
+          {once: true}
+        );
+        this.#worker?.postMessage({command: 'strokes'});
+      } else {
+        resolve(this.#painter?.getStrokes());
+      }
     });
   }
 

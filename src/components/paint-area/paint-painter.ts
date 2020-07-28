@@ -180,7 +180,6 @@ export class CanvasPainter {
       this._.erase = false;
     };
   
-    getMessage = () => ({
-      strokes: [...this._.strokes, {points: this._.points, erase: this._.erase, color: this._.color}],
-    });
+    getStrokes = () => [...this._.strokes, {points: this._.points, erase: this._.erase, color: this._.color}];
+    
   }
