@@ -23,6 +23,6 @@
       }
     ],
     "@typescript-eslint/ban-ts-comment": ["warn"],
-    "quotes": ["error", "single", { "allowTemplateLiterals": true }]
+    "quotes": ["error", "single", {"allowTemplateLiterals": true}]
   }
 }
