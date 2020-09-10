@@ -12,7 +12,16 @@ describe('paint-color-toolbar', () => {
 
   it('renders correctly', async () => {
     const element = await fixture(
-      `<paint-color-toolbar></paint-color-toolbar>`
+      html`<paint-color-toolbar></paint-color-toolbar>`
+    );
+    expect(element).shadowDom.to.equalSnapshot();
+  });
+
+  it('renders correctly with predefined active color', async () => {
+    const element = await fixture(
+      html`<paint-color-toolbar
+        activeColor="${colors[1]}"
+      ></paint-color-toolbar>`
     );
     expect(element).shadowDom.to.equalSnapshot();
   });
@@ -29,5 +38,6 @@ describe('paint-color-toolbar', () => {
     firePointerEvent(colorButton, ['down', 'up']);
     const {detail} = await oneEvent(el, 'color-changed');
     expect(detail.code).to.equal(colors[1]);
+    expect((<ColorToolbar>el).activeColor).to.equal(detail.code);
   });
 });

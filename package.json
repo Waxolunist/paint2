@@ -31,8 +31,8 @@
     "serve:bundle": "npm run bundle && es-dev-server --config es-dev-server.test.js",
     "test": "karma start karma.conf.cjs --browsers ChromeHeadlessNoSandbox",
     "test:watch": "karma start karma.conf.cjs --auto-watch=true --single-run=false --browsers Chrome",
-    "test:update-snapshots": "karma start karma.conf.cjs --update-snapshots",
-    "test:prune-snapshots": "karma start karma.conf.cjs --prune-snapshots"
+    "test:update-snapshots": "karma start karma.conf.cjs --update-snapshots --browsers ChromeHeadlessNoSandbox",
+    "test:prune-snapshots": "karma start karma.conf.cjs --prune-snapshots --browsers ChromeHeadlessNoSandbox"
   },
   "pre-commit": [
     "format:check",

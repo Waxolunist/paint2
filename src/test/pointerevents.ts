@@ -5,17 +5,22 @@ export const firePointerEvent = async (
   events: Array<pointerevents> | pointerevents = 'down',
   querySelector = ':first-child',
   pointerId = 1
-) => {
-  const fire = (event: string) =>
-    setTimeout(() =>
-      el
-        .shadowRoot!.querySelector(querySelector)!
-        .dispatchEvent(new PointerEvent(`pointer${event}`, {pointerId}))
-    );
+): Promise<void> => {
+  const fire = (event: string, cb: (() => void) | undefined) =>
+    setTimeout(() => {
+      el.shadowRoot!.querySelector(querySelector)!.dispatchEvent(
+        new PointerEvent(`pointer${event}`, {pointerId})
+      );
+      if (cb) cb();
+    });
 
-  if (events instanceof String) {
-    fire(<string>events);
-  } else {
-    (<Array<pointerevents>>events).forEach(fire);
-  }
+  return new Promise((resolve) => {
+    if (events instanceof String) {
+      fire(<string>events, resolve);
+    } else {
+      (<Array<pointerevents>>events).forEach((e, idx, arr) =>
+        fire(e, idx === arr.length - 1 ? resolve : undefined)
+      );
+    }
+  });
 };
