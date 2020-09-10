@@ -79,6 +79,8 @@
     "karma": "^5.2.2",
     "karma-chai": "^0.1.0",
     "karma-mocha": "^2.0.1",
+    "karma-mocha-snapshot": "^0.2.1",
+    "karma-snapshot": "^0.6.0",
     "koa-history-api-fallback": "^1.0.0",
     "lit-analyzer": "^1.2.1",
     "mocha": "^8.1.3",
