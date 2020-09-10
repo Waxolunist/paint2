@@ -11,10 +11,10 @@ import {AnimatedStyles, ShadowStyles} from '../../styles/shared-styles';
 
 @customElement('paint-paint-button')
 export class PaintButton extends LitElement {
-  @query('[name="paint-button"]')
+  @query('.paint-button')
   private button?: HTMLElement;
 
-  @property({type: URL})
+  @property({type: String})
   imageUrl?: string;
 
   static get styles() {
@@ -81,7 +81,6 @@ export class PaintButton extends LitElement {
   render() {
     return html`
       <div
-        name="paint-button"
         class="paint-button shadow animated elevate elevate-1 elevated-3"
         @pointerdown="${this.pointerDown}"
         @pointerup="${this.pointerUp}"

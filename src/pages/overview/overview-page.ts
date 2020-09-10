@@ -17,7 +17,7 @@ import {RouterState} from 'lit-redux-router/lib/reducer';
 
 @customElement('paint-overview-page')
 export class OverviewPage extends connect(store)(LitElement) {
-  @property()
+  @property({type: Array, attribute: false})
   paintings: Painting[] = [];
 
   stateChanged({router, paint}: {router: RouterState; paint: PaintState}) {

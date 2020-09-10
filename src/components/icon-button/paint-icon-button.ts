@@ -5,20 +5,20 @@ import {
   query,
   eventOptions,
   LitElement,
+  CSSResult,
+  TemplateResult,
 } from 'lit-element';
 import {ShadowStyles, AnimatedStyles} from '../../styles/shared-styles';
+import {property} from 'lit-element';
 
 @customElement('paint-icon-button')
 export class IconButton extends LitElement {
-  static get styles() {
+  static get styles(): CSSResult[] {
     // language=CSS
     return [
       AnimatedStyles,
       ShadowStyles,
       css`
-        :host {
-        }
-
         ::slotted(svg) {
           width: calc(var(--icon-size) - 6px);
           height: calc(var(--icon-size) - 6px);
@@ -40,14 +40,16 @@ export class IconButton extends LitElement {
     ];
   }
 
-  @query('[name="icon-button"]')
+  @query('.icon-button')
   private button?: HTMLElement;
 
-  render() {
+  @property({type: Boolean})
+  active = false;
+
+  render(): TemplateResult {
     return html`
       <div
-        name="icon-button"
-        class="icon-wrapper shadow animated elevate elevate-2 elevated-3"
+        class="icon-button icon-wrapper shadow animated elevate elevate-2 elevated-3"
         @pointerdown="${this.pointerDown}"
         @pointerup="${this.pointerUp}"
       >

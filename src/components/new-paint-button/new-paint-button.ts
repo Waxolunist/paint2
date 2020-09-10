@@ -1,10 +1,10 @@
-import {css, customElement, html} from 'lit-element';
+import {css, customElement, html, CSSResult, TemplateResult} from 'lit-element';
 import {imageIcon} from './icons';
 import {PaintButton} from '../paint-button/paint-button';
 
 @customElement('paint-new-paint-button')
 export class NewPaintButton extends PaintButton {
-  static get styles() {
+  static get styles(): CSSResult[] {
     // language=CSS
     return [
       css`
@@ -26,7 +26,7 @@ export class NewPaintButton extends PaintButton {
     ];
   }
 
-  render() {
+  render(): TemplateResult {
     return html`
       <paint-paint-button class="add">
         <div slot="content">${imageIcon}</div>

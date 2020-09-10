@@ -1,14 +1,22 @@
-import {css, customElement, html, LitElement, property} from 'lit-element';
+import {
+  css,
+  customElement,
+  html,
+  LitElement,
+  property,
+  CSSResult,
+  TemplateResult,
+} from 'lit-element';
 import {repeat} from 'lit-html/directives/repeat';
 import {colors} from './colors';
 import '../icon-button/paint-icon-button';
 
 @customElement('paint-color-toolbar')
 export class ColorToolbar extends LitElement {
-  @property({type: Number, reflect: true})
-  private activeColor = colors[0];
+  @property({type: String, reflect: true})
+  activeColor = colors[0];
 
-  static get styles() {
+  static get styles(): CSSResult[] {
     // language=CSS
     return [
       css`
@@ -49,7 +57,7 @@ export class ColorToolbar extends LitElement {
     ];
   }
 
-  render() {
+  render(): TemplateResult {
     return html`
       <div class="color-palette">
         ${repeat(
@@ -66,7 +74,7 @@ export class ColorToolbar extends LitElement {
     `;
   }
 
-  colorChange(code: string) {
+  colorChange(code: string): () => void {
     return () => {
       this.activeColor = code;
       this.dispatchEvent(

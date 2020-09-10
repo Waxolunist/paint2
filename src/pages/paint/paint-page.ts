@@ -17,10 +17,10 @@ import {ThunkDispatch, storeData, unloadData} from '../../ducks/paint';
 
 @customElement('paint-paint-page')
 export class PaintPage extends connect(store)(LitElement) {
-  @query('[name="paint-area-container"]')
+  @query('#paint-area-container')
   private areaContainer?: HTMLElement;
 
-  @query('[name="paint-area"]')
+  @query('#paint-area')
   private area?: PaintArea;
 
   @property({type: Number, reflect: false})
@@ -129,9 +129,9 @@ export class PaintPage extends connect(store)(LitElement) {
           ></paint-color-toolbar>
         </div>
         <div class="paint-wrapper">
-          <div name="paint-area-container" class="paint-area-container">
+          <div id="paint-area-container" class="paint-area-container">
             <paint-area
-              name="paint-area"
+              id="paint-area"
               width="${this.width}"
               height="${this.height}"
               colorCode="${this.colorCode}"

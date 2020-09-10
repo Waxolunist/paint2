@@ -16,7 +16,7 @@ import {Stroke} from '../../ducks/paint-model';
 
 @customElement('paint-area')
 export class PaintArea extends LitElement {
-  @query('canvas[name="canvas"]')
+  @query('#canvas')
   private canvas?: HTMLCanvasElement;
 
   @property({type: String})
@@ -41,7 +41,7 @@ export class PaintArea extends LitElement {
 
   #painter?: CanvasPainter = undefined;
 
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback();
     this.#workerSupported = !!HTMLCanvasElement.prototype
       .transferControlToOffscreen;
@@ -64,7 +64,7 @@ export class PaintArea extends LitElement {
     console.log('connected');
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     super.disconnectedCallback();
     this.#worker?.terminate();
     console.log('disconnected');
@@ -81,14 +81,14 @@ export class PaintArea extends LitElement {
     }
   }
 
-  private cloneCanvas() {
+  private cloneCanvas(): void {
     const canvasClone = this.canvas!.cloneNode(true) as HTMLCanvasElement;
     const canvasParent = this.canvas!.parentNode;
     canvasParent!.removeChild(this.canvas!);
     canvasParent!.appendChild(canvasClone);
   }
 
-  private initWorker() {
+  private initWorker(): void {
     if (this.#workerSupported) {
       const offscreenCanvas = this.canvas!.transferControlToOffscreen();
       this.#worker?.postMessage(
@@ -241,7 +241,7 @@ export class PaintArea extends LitElement {
   render() {
     return html`
       <canvas
-        name="canvas"
+        id="canvas"
         width="${this.width}"
         height="${this.height}"
         @pointerdown="${this.pointerDown}"
