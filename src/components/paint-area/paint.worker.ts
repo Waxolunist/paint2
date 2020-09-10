@@ -4,7 +4,7 @@ import {CanvasPainter} from './paint-painter';
 
 console.log('Paint Area Worker initialized');
 
-const postStrokes = () => self.postMessage({ strokes: painter.getStrokes() });
+const postStrokes = () => self.postMessage({strokes: painter.getStrokes()});
 
 let painter: CanvasPainter;
 

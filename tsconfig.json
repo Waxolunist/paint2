@@ -12,7 +12,6 @@
     "isolatedModules": false,
     "noEmit": false,
     "noEmitOnError": false,
-    "experimentalDecorators": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,

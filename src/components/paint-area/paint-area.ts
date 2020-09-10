@@ -10,9 +10,9 @@ import {
 } from 'lit-element';
 import PaintWorker from 'web-worker:./paint.worker.ts';
 import store, {AppState} from '../../store';
-import { CanvasPainter } from './paint-painter';
-import { defaultMemory } from './paint-memory';
-import { Stroke } from '../../ducks/paint-model';
+import {CanvasPainter} from './paint-painter';
+import {defaultMemory} from './paint-memory';
+import {Stroke} from '../../ducks/paint-model';
 
 @customElement('paint-area')
 export class PaintArea extends LitElement {
@@ -50,13 +50,15 @@ export class PaintArea extends LitElement {
       this.#worker = new PaintWorker();
     } else {
       this.#painter = new CanvasPainter({
-        ...defaultMemory, 
+        ...defaultMemory,
         ...{
           measurePerformance: false,
           lineWidth: 4,
           paintImmediate: true,
-          strokes: (store.getState() as AppState).paint?.activePainting?.rawData?.strokes || [],
-        }
+          strokes:
+            (store.getState() as AppState).paint?.activePainting?.rawData
+              ?.strokes || [],
+        },
       });
     }
     console.log('connected');
@@ -121,7 +123,9 @@ export class PaintArea extends LitElement {
     event: PointerEvent | any = {},
     {left, top} = {left: 0, top: 0}
   ) {
-    const rawEvents = event.getCoalescedEvents ? event.getCoalescedEvents() : [];
+    const rawEvents = event.getCoalescedEvents
+      ? event.getCoalescedEvents()
+      : [];
     return {
       command,
       coordinates: this.mapEvents(

@@ -2,23 +2,23 @@ const {createDefaultConfig} = require('@open-wc/testing-karma');
 const merge = require('deepmerge');
 
 module.exports = (config) => {
-  config.set(
-    merge(createDefaultConfig(config), {
+    const configObj = merge(createDefaultConfig(config), {
+      browsers : ['Chrome'],
       frameworks: ['mocha', 'chai'],
       client: {
-        mocha: {ui: 'tdd'},
+        mocha: {ui: 'bdd'},
       },
       files: [
         {
-          pattern: config.grep ? config.grep : 'build/test/**/*_test.js',
+          pattern: config.grep ? config.grep : 'test-bundle/multi-entry.js',
           type: 'module',
         },
       ],
-      // See the karma-esm docs for all options
       esm: {
         nodeResolve: true,
       },
-    })
-  );
+    });
+  //console.log(configObj);
+  config.set(configObj);
   return config;
 };

@@ -5,6 +5,7 @@
 /docs/
 /docs-src/
 /bundle/
+/test-bundle/
 /.vscode/
 /.idea/
 *.tar.gz

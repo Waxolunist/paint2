@@ -93,10 +93,10 @@
 
           function createOrientation() {
             var orientationMap = {
-              '90': 'landscape-primary',
+              90: 'landscape-primary',
               '-90': 'landscape-secondary',
-              '0': 'portrait-primary',
-              '180': 'portrait-secondary',
+              0: 'portrait-primary',
+              180: 'portrait-secondary',
             };
 
             function ScreenOrientation() {}
