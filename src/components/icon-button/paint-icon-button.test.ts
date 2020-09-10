@@ -1,5 +1,11 @@
 import {IconButton} from './paint-icon-button';
-import {fixture, elementUpdated, fixtureSync, html} from '@open-wc/testing';
+import {
+  fixture,
+  elementUpdated,
+  fixtureSync,
+  html,
+  oneEvent,
+} from '@open-wc/testing';
 import {firePointerEvent} from '../../test/pointerevents';
 
 const expect = chai.expect;
@@ -38,5 +44,12 @@ describe('paint-icon-button', () => {
     );
     await firePointerEvent(element, ['down', 'up']);
     expect(element).shadowDom.to.equalSnapshot();
+  });
+
+  it('fires event after pointer up', async () => {
+    const el = await fixture(html`<paint-icon-button></paint-icon-button>`);
+    firePointerEvent(el, ['down', 'up']);
+    const {detail} = await oneEvent(el, 'icon-clicked');
+    expect(detail).to.be.not.undefined;
   });
 });
