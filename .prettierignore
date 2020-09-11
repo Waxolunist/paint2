@@ -1,2 +1,3 @@
 src/images/
 package-lock.json
+*.md

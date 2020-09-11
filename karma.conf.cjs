@@ -25,20 +25,20 @@ module.exports = (config) => {
     },
     files: [
       {
-        pattern: config.grep
-          ? config.grep
-          : 'test-bundle/**/components/**/*.test.js',
+        pattern: config.grep ? config.grep : 'test-bundle/src/**/*.test.js',
         type: 'module',
       },
     ],
     esm: {
       nodeResolve: true,
+      exclude: ['**/__snapshots__/*'],
     },
     snapshot: {
       pathResolver: resolve,
     },
+    preprocessors: {'**/__snapshots__/*.md': ['snapshot']},
   });
-  //console.log(configObj);
+  console.log(configObj);
   config.set(configObj);
   return config;
 };
