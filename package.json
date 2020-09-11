@@ -17,8 +17,8 @@
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
     "lint:eslint": "eslint 'src/**/*.ts'",
     "lint:lit-analyzer": "lit-analyzer",
-    "format": "prettier 'src' '*.cjs' '*.js' '*.json' --write",
-    "format:check": "prettier 'src' '*.cjs' '*.js' '*.json' --check",
+    "format": "prettier 'src' '*.cjs' '*.js' '*.json' 'cypress/**/*.js' --write",
+    "format:check": "prettier 'src' '*.cjs' '*.js' '*.json' 'cypress/**/*.js' --check",
     "docs": "npm run docs:clean && npm run build && npm run analyze && npm run docs:build && npm run docs:assets && npm run docs:gen",
     "docs:clean": "rimraf docs",
     "docs:gen": "eleventy --config=.eleventy.cjs",
@@ -32,7 +32,10 @@
     "test": "karma start karma.conf.cjs --browsers ChromeHeadlessNoSandbox",
     "test:watch": "karma start karma.conf.cjs --auto-watch=true --single-run=false --browsers Chrome",
     "test:update-snapshots": "karma start karma.conf.cjs --update-snapshots --browsers ChromeHeadlessNoSandbox",
-    "test:prune-snapshots": "karma start karma.conf.cjs --prune-snapshots --browsers ChromeHeadlessNoSandbox"
+    "test:prune-snapshots": "karma start karma.conf.cjs --prune-snapshots --browsers ChromeHeadlessNoSandbox",
+    "test:cy": "start-server-and-test serve http://localhost:8000 test:cy:run",
+    "test:cy:run": "cypress run",
+    "test:cy:open": "cypress open"
   },
   "pre-commit": [
     "format:check",
@@ -45,7 +48,6 @@
   ],
   "author": "Christian Sterzl",
   "dependencies": {
-    "cypress": "^5.1.0",
     "dexie": "^3.0.2",
     "lit-element": "^2.4.0",
     "lit-html": "^1.3.0",
@@ -74,6 +76,7 @@
     "@typescript-eslint/parser": "^4.1.0",
     "acorn": "^8.0.1",
     "chai": "^4.2.0",
+    "cypress": "^5.1.0",
     "deepmerge": "^4.2.2",
     "es-dev-server": "^1.57.4",
     "eslint": "^7.8.1",
@@ -95,6 +98,7 @@
     "rollup-plugin-web-worker-loader": "^1.3.1",
     "rollup-plugin-workbox": "^5.2.1",
     "sinon": "^9.0.3",
+    "start-server-and-test": "^1.11.3",
     "tslib": "^2.0.1",
     "typescript": "^4.0.2",
     "web-component-analyzer": "^1.1.6",
