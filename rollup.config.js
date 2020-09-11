@@ -55,6 +55,7 @@ export default [
       dir: './test-bundle',
       format: 'esm',
       sourcemap: true,
+      preserveModules: true,
     },
     onwarn(warning) {
       if (warning.code !== 'THIS_IS_UNDEFINED') {
@@ -65,7 +66,7 @@ export default [
       del({
         targets: './test-bundle/*',
       }),
-      multi(),
+      multi({entryFileName: '[name].js'}),
       resolve(),
       typescript(),
       babel({

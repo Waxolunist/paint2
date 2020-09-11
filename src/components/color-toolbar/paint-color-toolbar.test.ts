@@ -32,6 +32,7 @@ describe('paint-color-toolbar', () => {
         activeColor="${colors[0]}"
       ></paint-color-toolbar>`
     );
+    expect((<ColorToolbar>el).activeColor).to.equal(colors[0]);
     const colorButton = el.shadowRoot!.querySelector(
       `paint-icon-button[data-color-code="${colors[1]}"]`
     )!;

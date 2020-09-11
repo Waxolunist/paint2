@@ -2280,7 +2280,6 @@
   >
   </paint-icon-button>
 </div>
-
 ```
 
 #### `renders correctly with predefined active color`
@@ -4563,6 +4562,4 @@
   >
   </paint-icon-button>
 </div>
-
 ```
-

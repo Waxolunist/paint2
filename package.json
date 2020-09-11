@@ -45,6 +45,7 @@
   ],
   "author": "Christian Sterzl",
   "dependencies": {
+    "cypress": "^5.1.0",
     "dexie": "^3.0.2",
     "lit-element": "^2.4.0",
     "lit-html": "^1.3.0",
@@ -96,6 +97,7 @@
     "sinon": "^9.0.3",
     "tslib": "^2.0.1",
     "typescript": "^4.0.2",
-    "web-component-analyzer": "^1.1.6"
+    "web-component-analyzer": "^1.1.6",
+    "wrench": "^1.5.9"
   }
 }

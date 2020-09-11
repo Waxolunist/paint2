@@ -1,11 +1,5 @@
 import {IconButton} from './paint-icon-button';
-import {
-  fixture,
-  elementUpdated,
-  fixtureSync,
-  html,
-  oneEvent,
-} from '@open-wc/testing';
+import {fixture, html, oneEvent} from '@open-wc/testing';
 import {firePointerEvent} from '../../test/pointerevents';
 
 const expect = chai.expect;
