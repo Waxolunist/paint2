@@ -1,5 +1,5 @@
 //*** Performance ops  */
-export const logPerformance = (measure = false) => {
+export const logPerformance = (measure = false): void => {
   if (measure) {
     const measures = performance.getEntriesByType('measure');
     if (measures.length) {

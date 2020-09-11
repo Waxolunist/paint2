@@ -8,6 +8,7 @@ const postStrokes = () => self.postMessage({strokes: painter.getStrokes()});
 
 let painter: CanvasPainter;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const processCommand = ({data}: {data: any}) => {
   switch (data.command) {
     case 'create':

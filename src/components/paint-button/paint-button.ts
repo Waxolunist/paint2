@@ -6,6 +6,8 @@ import {
   LitElement,
   property,
   query,
+  CSSResult,
+  TemplateResult,
 } from 'lit-element';
 import {AnimatedStyles, ShadowStyles} from '../../styles/shared-styles';
 
@@ -17,7 +19,7 @@ export class PaintButton extends LitElement {
   @property({type: String})
   imageUrl?: string;
 
-  static get styles() {
+  static get styles(): CSSResult[] {
     // language=CSS
     return [
       AnimatedStyles,
@@ -78,7 +80,7 @@ export class PaintButton extends LitElement {
     ];
   }
 
-  render() {
+  render(): TemplateResult {
     return html`
       <div
         class="paint-button shadow animated elevate elevate-1 elevated-3"

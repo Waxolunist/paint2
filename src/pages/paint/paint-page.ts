@@ -5,6 +5,8 @@ import {
   css,
   property,
   query,
+  CSSResult,
+  TemplateResult,
 } from 'lit-element';
 import {arrowBack} from './icons';
 import '../../components/icon-button/paint-icon-button';
@@ -35,23 +37,26 @@ export class PaintPage extends connect(store)(LitElement) {
   @property({type: String})
   paintingId = '';
 
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback();
     console.log(`Load paint-page with id ${this.paintingId}`);
   }
 
-  firstUpdated() {
+  firstUpdated(): void {
     this.calcAspectRatio();
   }
 
-  isLandscape({height, width}: {height?: number; width?: number} = {}) {
+  isLandscape({
+    height,
+    width,
+  }: {height?: number; width?: number} = {}): boolean {
     if (width && height) {
       return width > height;
     }
     return window.screen.orientation.type.startsWith('landscape');
   }
 
-  calcAspectRatio() {
+  calcAspectRatio(): void {
     const {height, width} = this.areaContainer!.getBoundingClientRect();
     if (this.isLandscape({height, width})) {
       const scale = Math.min(width / 297, height / 210);
@@ -64,7 +69,7 @@ export class PaintPage extends connect(store)(LitElement) {
     }
   }
 
-  static get styles() {
+  static get styles(): CSSResult {
     // language=CSS
     return css`
       :host {
@@ -114,7 +119,7 @@ export class PaintPage extends connect(store)(LitElement) {
     `;
   }
 
-  render() {
+  render(): TemplateResult {
     return html`
       <div class="paint-page">
         <div class="paint-toolbar">
@@ -142,7 +147,7 @@ export class PaintPage extends connect(store)(LitElement) {
     `;
   }
 
-  private navigateBack() {
+  private navigateBack(): void {
     this.area!.getStrokes().then((strokes) => {
       (store.dispatch as ThunkDispatch)(
         storeData({
@@ -155,7 +160,7 @@ export class PaintPage extends connect(store)(LitElement) {
     });
   }
 
-  private colorChanged(e: CustomEvent) {
+  private colorChanged(e: CustomEvent): void {
     this.colorCode = e.detail.code;
   }
 }

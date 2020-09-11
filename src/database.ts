@@ -36,13 +36,14 @@ _database.on('populate', () => {
   console.log('populate');
   const paintingsFromLS = localStorage.getItem('paintings');
   if (paintingsFromLS) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const paintings = JSON.parse(paintingsFromLS || '[]').map((p: any) => p);
     localStorage.removeItem('paintings');
     _database.paintings.bulkAdd(paintings);
   }
 });
 
-export const database = async () => {
+export const database = async (): Promise<PaintingDatabase> => {
   if (!_database.isOpen()) {
     try {
       await _database.open();

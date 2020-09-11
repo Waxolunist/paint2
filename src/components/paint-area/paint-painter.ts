@@ -14,7 +14,7 @@ export class CanvasPainter {
     this._.strokes = this._.strokes || [];
   }
 
-  createCanvasContext = (canvas: OffscreenCanvas | HTMLCanvasElement) => {
+  createCanvasContext = (canvas: OffscreenCanvas | HTMLCanvasElement): void => {
     this._.canvas = canvas;
     this._.canvasContext = canvas.getContext('2d')!;
     this._.canvasContext!.lineCap = 'round';
@@ -27,17 +27,17 @@ export class CanvasPainter {
     this.draw(true);
   };
 
-  setEraseStyle = () => {
+  setEraseStyle = (): void => {
     this._.canvasContext!.strokeStyle = '#FFFFFF';
     this._.canvasContext!.lineWidth = 32;
   };
 
-  setDrawStyle = (color = '#000000') => {
+  setDrawStyle = (color = '#000000'): void => {
     this._.canvasContext!.strokeStyle = color;
     this._.canvasContext!.lineWidth = this._.lineWidth;
   };
 
-  drawStroke = ({points, erase, color}: Stroke) => {
+  drawStroke = ({points, erase, color}: Stroke): void => {
     if (points.length > 0) {
       if (erase) this.setEraseStyle();
       else this.setDrawStyle(color);
@@ -79,7 +79,7 @@ export class CanvasPainter {
     top: number;
     erase: boolean;
     color: string;
-  }) => {
+  }): void => {
     if (this._.points.length > 0) {
       this._.strokes.push({
         points: this._.points,
@@ -118,7 +118,7 @@ export class CanvasPainter {
     top: number;
     erase: boolean;
     color: string;
-  }) => {
+  }): void => {
     if (this._.measurePerformance) {
       performance.mark('start_script');
     }
@@ -151,13 +151,13 @@ export class CanvasPainter {
     }
   };
 
-  stopStroke = () => {
+  stopStroke = (): void => {
     if (!this._.paintImmediate) {
       this.draw(false);
     }
   };
 
-  render = (drawAll = true) => () => {
+  render = (drawAll = true): (() => void) => () => {
     if (drawAll) {
       this.clearCanvas();
       for (let i = 0, len = this._.strokes.length; i < len; ++i) {
@@ -167,9 +167,10 @@ export class CanvasPainter {
     this.drawStroke(this._);
   };
 
-  draw = (drawAll = true) => requestAnimationFrame(this.render(drawAll));
+  draw = (drawAll = true): number =>
+    requestAnimationFrame(this.render(drawAll));
 
-  clearCanvas = () => {
+  clearCanvas = (): void => {
     this._.canvasContext!.clearRect(
       -1,
       -1,
@@ -178,13 +179,13 @@ export class CanvasPainter {
     );
   };
 
-  clearMemory = () => {
+  clearMemory = (): void => {
     this._.strokes = [];
     this._.points = [];
     this._.erase = false;
   };
 
-  getStrokes = () => [
+  getStrokes = (): Stroke[] => [
     ...this._.strokes,
     {points: this._.points, erase: this._.erase, color: this._.color},
   ];

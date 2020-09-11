@@ -1,8 +1,8 @@
-import {customElement, html, LitElement} from 'lit-element';
+import {customElement, html, LitElement, TemplateResult} from 'lit-element';
 
 @customElement('paint-error404-page')
 export class Error404Page extends LitElement {
-  render() {
+  render(): TemplateResult {
     return html`
       <section>
         <h2>Oops! You hit a 404</h2>

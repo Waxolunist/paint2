@@ -1,4 +1,12 @@
-import {customElement, LitElement, html, css, property} from 'lit-element';
+import {
+  customElement,
+  LitElement,
+  html,
+  css,
+  property,
+  CSSResult,
+  TemplateResult,
+} from 'lit-element';
 import '../../components/new-paint-button/new-paint-button';
 import '../../components/paint-button/paint-button';
 import '../../components/icon-button/paint-icon-button';
@@ -20,11 +28,17 @@ export class OverviewPage extends connect(store)(LitElement) {
   @property({type: Array, attribute: false})
   paintings: Painting[] = [];
 
-  stateChanged({router, paint}: {router: RouterState; paint: PaintState}) {
+  stateChanged({
+    router,
+    paint,
+  }: {
+    router: RouterState;
+    paint: PaintState;
+  }): void {
     if (router.routes['/'].active) this.paintings = paint.paintings;
   }
 
-  static get styles() {
+  static get styles(): CSSResult {
     // language=CSS
     return css`
       :host {
@@ -66,7 +80,7 @@ export class OverviewPage extends connect(store)(LitElement) {
     `;
   }
 
-  render() {
+  render(): TemplateResult {
     return html`
       <div class="paintings">
         <paint-new-paint-button
@@ -86,7 +100,7 @@ export class OverviewPage extends connect(store)(LitElement) {
                 @icon-clicked="${this.removePainting(painting.id)}"
                 >${closeIcon}</paint-icon-button
               >
-              ${(navigator as any).canShare
+              ${navigator.canShare
                 ? html`<paint-icon-button
                     slot="addons"
                     @icon-clicked="${this.sharePainting(painting.id)}"

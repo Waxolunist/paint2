@@ -1,9 +1,10 @@
-import {customElement, LitElement, html} from 'lit-element';
+import {customElement, LitElement, html, TemplateResult} from 'lit-element';
 import './store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import store, {AppState} from './store';
 import {initialLoad, ThunkDispatch} from './ducks/paint';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare global {
   interface Window {
     o9n: {
@@ -12,17 +13,24 @@ declare global {
       };
     };
   }
+  interface HTMLElementTagNameMap {
+    'lit-route': LitRouteElement;
+  }
+  interface Navigator {
+    canShare?: (data?: ShareData) => boolean;
+  }
 }
 
 @customElement('paint-app')
 export class PaintApp extends connect(store)(LitElement) {
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback();
     (store.dispatch as ThunkDispatch)(initialLoad());
     window.onbeforeunload = () =>
       (<AppState>store.getState()).paint.paintings.forEach((p) =>
         p.freeMemory()
       );
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     import('./ponyfills/o9n').then(() => {
       window.o9n.orientation.lock('portrait').catch((err) => {
@@ -31,7 +39,7 @@ export class PaintApp extends connect(store)(LitElement) {
     });
   }
 
-  render() {
+  render(): TemplateResult {
     return html`
       <div>
         <lit-route

@@ -16,6 +16,7 @@ import {PaintState} from './ducks/paint-model';
 import {Actions} from 'lit-redux-router/lib/actions';
 import database from './database';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
@@ -27,6 +28,7 @@ export type AppState = {router: RouterState; paint: PaintState};
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?? compose;
 
 const logger = <S, T>({getState}: {getState: () => S}) => (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   next: (action: Action<T>) => any
 ) => (action: Action<T>) => {
   console.log('will dispatch', action);
@@ -41,6 +43,7 @@ const router: Middleware<unknown, AppState> = <T extends string>({
 }: {
   dispatch: Dispatch;
   getState: () => AppState;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }) => (next: (action: Actions | Action<T>) => any) => (action: Action<T>) => {
   const retVal = next(action);
   if (action.type.startsWith('@paint')) {

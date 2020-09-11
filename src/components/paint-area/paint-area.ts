@@ -7,12 +7,14 @@ import {
   property,
   query,
   PropertyValues,
+  CSSResult,
 } from 'lit-element';
 import PaintWorker from 'web-worker:./paint.worker.ts';
 import store, {AppState} from '../../store';
 import {CanvasPainter} from './paint-painter';
 import {defaultMemory} from './paint-memory';
 import {Stroke} from '../../ducks/paint-model';
+import {TemplateResult} from 'lit-element';
 
 @customElement('paint-area')
 export class PaintArea extends LitElement {
@@ -70,7 +72,7 @@ export class PaintArea extends LitElement {
     console.log('disconnected');
   }
 
-  updated(_changedProperties: PropertyValues) {
+  updated(_changedProperties: PropertyValues): void {
     if (_changedProperties.has('width') && parseInt(this.width as string) > 0) {
       try {
         this.initWorker();
@@ -120,7 +122,7 @@ export class PaintArea extends LitElement {
   private createMessage(
     command: string,
     {pageX, pageY, buttons} = {pageX: 0, pageY: 0, buttons: 0},
-    event: PointerEvent | any = {},
+    event: PointerEvent = <PointerEvent>{},
     {left, top} = {left: 0, top: 0}
   ) {
     const rawEvents = event.getCoalescedEvents
@@ -175,7 +177,9 @@ export class PaintArea extends LitElement {
     }
   }
 
-  private throttle(timer: (callback: any) => void): (callback: any) => void {
+  private throttle(
+    timer: (callback: () => void) => void
+  ): (callback: () => void) => void {
     let queuedCallback: (() => void) | null;
     return (callback) => {
       if (!queuedCallback) {
@@ -193,6 +197,7 @@ export class PaintArea extends LitElement {
 
   @eventOptions({capture: true, passive: true})
   private throttledPointerMove(e: PointerEvent) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     if (PointerEvent.prototype.getCoalescedEvents) {
       this.pointerMove(e);
@@ -222,7 +227,7 @@ export class PaintArea extends LitElement {
     });
   }
 
-  static get styles() {
+  static get styles(): CSSResult[] {
     // language=CSS
     return [
       css`
@@ -238,7 +243,7 @@ export class PaintArea extends LitElement {
     ];
   }
 
-  render() {
+  render(): TemplateResult {
     return html`
       <canvas
         id="canvas"
