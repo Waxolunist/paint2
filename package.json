@@ -12,6 +12,7 @@
   "type": "module",
   "scripts": {
     "bundle": "npm run clean && rollup -c",
+    "bundle:tests": "npm run bundle && npm run test:all",
     "watch": "rollup -cw",
     "clean": "rimraf bundle/* test-bundle/*",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
@@ -36,7 +37,8 @@
     "test:prune-snapshots": "karma start karma.conf.cjs --prune-snapshots --browsers ChromeHeadlessNoSandbox",
     "test:cy": "start-server-and-test serve:nowatch tcp:8000 test:cy:run",
     "test:cy:run": "cypress run",
-    "test:cy:open": "cypress open"
+    "test:cy:open": "cypress open",
+    "test:all": "npm run test && npm run test:cy"
   },
   "pre-commit": [
     "format:check",
