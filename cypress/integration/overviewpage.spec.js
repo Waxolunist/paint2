@@ -8,7 +8,7 @@ describe('Overview page', () => {
       .find('paint-overview-page')
       .shadow();
 
-  it('sets auth cookie when logging in via form submission', function () {
+  it('tests start page', function () {
     cy.visit('/');
     getOverviewPage().find('paint-new-paint-button').should('be.length', 1);
   });

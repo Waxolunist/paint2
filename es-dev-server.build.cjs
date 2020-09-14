@@ -3,10 +3,11 @@ const historyApiFallback = require('koa-history-api-fallback');
 // eslint-disable-next-line no-undef
 module.exports = {
   port: 4433,
-  watch: false,
+  watch: true,
   http2: true,
   nodeResolve: false,
   appIndex: 'index.html',
+  compatibility: 'none',
   rootDir: './bundle',
   sslKey: './certs/key.pem',
   sslCert: './certs/cert.pem',

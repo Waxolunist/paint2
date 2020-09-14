@@ -3,12 +3,13 @@ const historyApiFallback = require('koa-history-api-fallback');
 // eslint-disable-next-line no-undef
 module.exports = {
   port: 8000,
-  watch: true,
+  watch: false,
   nodeResolve: true,
   appIndex: 'index.html',
   moduleDirs: ['node_modules'],
+  compatibility: 'none',
   rootDir: './',
-  open: true,
+  open: false,
   middlewares: [
     historyApiFallback({
       index: '/bundle/index.html',
