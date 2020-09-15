@@ -9,6 +9,7 @@ function resolve(basePath, suiteName) {
     const files = wrench.readdirSyncRecursive(`${basePath}/test-bundle/src`);
     const suite = files.find((f) => f.endsWith(`${suiteName}.test.js`));
     if (suite) {
+      console.log(`Found suite ${suite}`);
       const relativeDirname = path.dirname(suite);
       return `${basePath}/src/${relativeDirname}/__snapshots__/${suiteName}.md`;
     }
