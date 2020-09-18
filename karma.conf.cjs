@@ -46,11 +46,6 @@ module.exports = (config) => {
     karmaTypescriptConfig: {
       tsconfig: './tsconfig.json',
     },
-    typescriptPreprocessor: {
-      transformPath: function (path) {
-        return path.replace(/\.ts$/, '.js');
-      },
-    },
   });
   console.log(configObj);
   config.set(configObj);
