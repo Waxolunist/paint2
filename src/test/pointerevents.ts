@@ -9,7 +9,7 @@ export const firePointerEvent = async (
   const fire = (event: string, cb: (() => void) | undefined) =>
     setTimeout(() => {
       el.shadowRoot!.querySelector(querySelector)!.dispatchEvent(
-        new PointerEvent(`pointer${event}`, {}) as Event
+        new PointerEvent(`pointer${event}`, {pointerId}) as Event
       );
       if (cb) cb();
     });
