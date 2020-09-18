@@ -25,7 +25,6 @@
         "strict": true
       }
     ],
-    "sourceMap": true,
     "inlineSourceMap": true
   },
   "include": ["src/**/*"],
