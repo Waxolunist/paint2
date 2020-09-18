@@ -26,7 +26,7 @@ module.exports = {
   plugins: [
     {
       transform(context) {
-        if (context.url === '/bundle/index.html') {
+        if (context.path === '/bundle/index.html') {
           const transformedBody = context.body.replace(
             /<base href=".*"/,
             '<base href="/bundle/"'

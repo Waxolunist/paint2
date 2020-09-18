@@ -4,8 +4,6 @@ import copy from 'rollup-plugin-copy';
 import workerLoader from 'rollup-plugin-web-worker-loader';
 import {generateSW} from 'rollup-plugin-workbox';
 import sourcemaps from 'rollup-plugin-sourcemaps';
-import babel from '@rollup/plugin-babel';
-import multi from '@rollup/plugin-multi-entry';
 import del from 'rollup-plugin-delete';
 
 export default [
@@ -27,12 +25,9 @@ export default [
       }),
       resolve(),
       workerLoader({inline: false, sourcemap: false}),
-      typescript(),
-      babel({
-        exclude: 'node_modules/**',
-        babelHelpers: 'bundled',
-        extensions: ['.ts', '.js'],
-        include: 'src/**/*',
+      typescript({
+        sourceMap: true,
+        exclude: ['node_modules', '**/*.test.ts'],
       }),
       copy({
         targets: [
@@ -45,35 +40,6 @@ export default [
       generateSW({
         swDest: 'bundle/sw.js',
         globDirectory: 'bundle',
-      }),
-      sourcemaps(),
-    ],
-  },
-  {
-    input: 'src/**/*.test.ts',
-    output: {
-      dir: './test-bundle',
-      format: 'esm',
-      sourcemap: true,
-      preserveModules: true,
-    },
-    onwarn(warning) {
-      if (warning.code !== 'THIS_IS_UNDEFINED') {
-        console.error(`(!) ${warning.message}`);
-      }
-    },
-    plugins: [
-      del({
-        targets: './test-bundle/*',
-      }),
-      multi({entryFileName: '[name].js'}),
-      resolve(),
-      typescript(),
-      babel({
-        exclude: 'node_modules/**',
-        babelHelpers: 'bundled',
-        extensions: ['.ts', '.js'],
-        include: 'src/**/*',
       }),
       sourcemaps(),
     ],

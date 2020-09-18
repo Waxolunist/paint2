@@ -5,9 +5,9 @@ const path = require('path');
 const fs = require('fs');
 
 function resolve(basePath, suiteName) {
-  if (fs.existsSync(`${basePath}/test-bundle/src`)) {
-    const files = wrench.readdirSyncRecursive(`${basePath}/test-bundle/src`);
-    const suite = files.find((f) => f.endsWith(`${suiteName}.test.js`));
+  if (fs.existsSync(`${basePath}/src`)) {
+    const files = wrench.readdirSyncRecursive(`${basePath}/src`);
+    const suite = files.find((f) => f.endsWith(`${suiteName}.test.ts`));
     if (suite) {
       console.log(`Found suite ${suite}`);
       const relativeDirname = path.dirname(suite);
@@ -19,14 +19,15 @@ function resolve(basePath, suiteName) {
 
 module.exports = (config) => {
   const configObj = merge(createDefaultConfig(config), {
+    logLevel: config.LOG_DEBUG,
     browsers: ['Chrome'],
-    frameworks: ['mocha', 'chai'],
+    frameworks: ['mocha', 'chai', 'karma-typescript'],
     client: {
       mocha: {ui: 'bdd'},
     },
     files: [
       {
-        pattern: config.grep ? config.grep : 'test-bundle/src/**/*.test.js',
+        pattern: config.grep ? config.grep : 'src/**/*.test.ts',
         type: 'module',
       },
     ],
@@ -37,7 +38,19 @@ module.exports = (config) => {
     snapshot: {
       pathResolver: resolve,
     },
-    preprocessors: {'**/__snapshots__/*.md': ['snapshot']},
+    preprocessors: {
+      '**/__snapshots__/*.md': ['snapshot'],
+      '**/*.ts': 'karma-typescript',
+    },
+    reporters: ['progress', 'karma-typescript'],
+    karmaTypescriptConfig: {
+      tsconfig: './tsconfig.json',
+    },
+    typescriptPreprocessor: {
+      transformPath: function (path) {
+        return path.replace(/\.ts$/, '.js');
+      },
+    },
   });
   console.log(configObj);
   config.set(configObj);
