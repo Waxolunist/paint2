@@ -114,7 +114,7 @@ export class OverviewPage extends connect(store)(LitElement) {
   }
 
   private newPainting() {
-    (store.dispatch as ThunkDispatch)(newPainting());
+    (<ThunkDispatch>store.dispatch)(newPainting());
   }
 
   private openPainting = (id?: number | string) => (e: CustomEvent) => {
@@ -128,11 +128,11 @@ export class OverviewPage extends connect(store)(LitElement) {
         composed: true,
       })
     );
-    (store.dispatch as ThunkDispatch)(loadData(id));
+    (<ThunkDispatch>store.dispatch)(loadData(id));
   };
 
   private removePainting = (id?: number | string) => () => {
-    (store.dispatch as ThunkDispatch)(removePainting(id));
+    (<ThunkDispatch>store.dispatch)(removePainting(id));
   };
 
   private sharePainting = (id?: number | string) => (e: CustomEvent) => {

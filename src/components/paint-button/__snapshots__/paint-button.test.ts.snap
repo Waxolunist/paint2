@@ -1,0 +1,292 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`paint-button renders correctly 1`] = `
+"<!---->
+      <div class=\\"paint-button shadow animated elevate elevate-1 elevated-3\\">
+         <slot name=\\"content\\"></slot>
+        <div class=\\"addons\\">
+          <slot name=\\"addons\\"></slot>
+        </div>
+      </div>
+    <!----><style>
+  .animated {
+    transition-duration: 0.28s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+</style><style>
+  .shadow.animated.elevate {
+    transition-property: box-shadow;
+    box-shadow: none;
+    will-change: box-shadow;
+  }
+
+  .shadow.animated.elevate.clicked {
+    box-shadow: none !important;
+    background-color: #ddd;
+  }
+
+  .shadow.elevate.elevate-1,
+  .shadow.elevate.elevated-1:hover {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
+      0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  }
+
+  .shadow.elevate.elevate-2,
+  .shadow.elevate.elevated-2:hover {
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+      0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+  }
+
+  .shadow.elevate.elevate-3,
+  .shadow.elevate.elevated-3:hover {
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14),
+      0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
+  }
+</style><style>
+        :host {
+          display: block;
+          background-color: white;
+          width: auto;
+          min-width: 100px;
+          height: 100%;
+          min-height: 100px;
+          touch-action: none;
+          margin: 0;
+        }
+
+        slot[name='content']::slotted(*),
+        .content {
+          height: 100%;
+          width: 100%;
+        }
+
+        slot[name='content']::slotted(img),
+        img.content {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+        }
+
+        .addons {
+          position: absolute;
+          width: var(--icon-size);
+          top: calc(var(--icon-size) * -0.5);
+          right: calc(var(--icon-size) * -0.5);
+        }
+
+        slot[name='addons']::slotted(*) {
+          width: var(--icon-size);
+          height: var(--icon-size);
+          display: block;
+          margin-top: 10px;
+        }
+
+        slot[name='addons']::slotted(*:first-child) {
+          margin-top: 0;
+        }
+
+        .paint-button {
+          width: 100%;
+          height: 100%;
+          border: var(--painting-button-border, none);
+          box-sizing: border-box;
+          padding: 5px;
+        }
+      </style>"
+`;
+
+exports[`paint-button renders correctly after pointerdown 1`] = `
+"<!---->
+      <div class=\\"paint-button shadow animated elevate elevate-1 elevated-3 clicked\\">
+         <slot name=\\"content\\"></slot>
+        <div class=\\"addons\\">
+          <slot name=\\"addons\\"></slot>
+        </div>
+      </div>
+    <!----><style>
+  .animated {
+    transition-duration: 0.28s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+</style><style>
+  .shadow.animated.elevate {
+    transition-property: box-shadow;
+    box-shadow: none;
+    will-change: box-shadow;
+  }
+
+  .shadow.animated.elevate.clicked {
+    box-shadow: none !important;
+    background-color: #ddd;
+  }
+
+  .shadow.elevate.elevate-1,
+  .shadow.elevate.elevated-1:hover {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
+      0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  }
+
+  .shadow.elevate.elevate-2,
+  .shadow.elevate.elevated-2:hover {
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+      0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+  }
+
+  .shadow.elevate.elevate-3,
+  .shadow.elevate.elevated-3:hover {
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14),
+      0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
+  }
+</style><style>
+        :host {
+          display: block;
+          background-color: white;
+          width: auto;
+          min-width: 100px;
+          height: 100%;
+          min-height: 100px;
+          touch-action: none;
+          margin: 0;
+        }
+
+        slot[name='content']::slotted(*),
+        .content {
+          height: 100%;
+          width: 100%;
+        }
+
+        slot[name='content']::slotted(img),
+        img.content {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+        }
+
+        .addons {
+          position: absolute;
+          width: var(--icon-size);
+          top: calc(var(--icon-size) * -0.5);
+          right: calc(var(--icon-size) * -0.5);
+        }
+
+        slot[name='addons']::slotted(*) {
+          width: var(--icon-size);
+          height: var(--icon-size);
+          display: block;
+          margin-top: 10px;
+        }
+
+        slot[name='addons']::slotted(*:first-child) {
+          margin-top: 0;
+        }
+
+        .paint-button {
+          width: 100%;
+          height: 100%;
+          border: var(--painting-button-border, none);
+          box-sizing: border-box;
+          padding: 5px;
+        }
+      </style>"
+`;
+
+exports[`paint-button renders correctly after pointerdown and up 1`] = `
+"<!---->
+      <div class=\\"paint-button shadow animated elevate elevate-1 elevated-3\\">
+         <slot name=\\"content\\"></slot>
+        <div class=\\"addons\\">
+          <slot name=\\"addons\\"></slot>
+        </div>
+      </div>
+    <!----><style>
+  .animated {
+    transition-duration: 0.28s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+</style><style>
+  .shadow.animated.elevate {
+    transition-property: box-shadow;
+    box-shadow: none;
+    will-change: box-shadow;
+  }
+
+  .shadow.animated.elevate.clicked {
+    box-shadow: none !important;
+    background-color: #ddd;
+  }
+
+  .shadow.elevate.elevate-1,
+  .shadow.elevate.elevated-1:hover {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
+      0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  }
+
+  .shadow.elevate.elevate-2,
+  .shadow.elevate.elevated-2:hover {
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+      0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+  }
+
+  .shadow.elevate.elevate-3,
+  .shadow.elevate.elevated-3:hover {
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14),
+      0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
+  }
+</style><style>
+        :host {
+          display: block;
+          background-color: white;
+          width: auto;
+          min-width: 100px;
+          height: 100%;
+          min-height: 100px;
+          touch-action: none;
+          margin: 0;
+        }
+
+        slot[name='content']::slotted(*),
+        .content {
+          height: 100%;
+          width: 100%;
+        }
+
+        slot[name='content']::slotted(img),
+        img.content {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+        }
+
+        .addons {
+          position: absolute;
+          width: var(--icon-size);
+          top: calc(var(--icon-size) * -0.5);
+          right: calc(var(--icon-size) * -0.5);
+        }
+
+        slot[name='addons']::slotted(*) {
+          width: var(--icon-size);
+          height: var(--icon-size);
+          display: block;
+          margin-top: 10px;
+        }
+
+        slot[name='addons']::slotted(*:first-child) {
+          margin-top: 0;
+        }
+
+        .paint-button {
+          width: 100%;
+          height: 100%;
+          border: var(--painting-button-border, none);
+          box-sizing: border-box;
+          padding: 5px;
+        }
+      </style>"
+`;

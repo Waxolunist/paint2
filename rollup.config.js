@@ -14,8 +14,10 @@ export default [
       format: 'esm',
       sourcemap: true,
     },
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     onwarn(warning) {
       if (warning.code !== 'THIS_IS_UNDEFINED') {
+        // eslint-disable-next-line no-undef
         console.error(`(!) ${warning.message}`);
       }
     },

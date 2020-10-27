@@ -6,6 +6,8 @@ import {
   Action,
   Middleware,
   Dispatch,
+  Store,
+  AnyAction,
 } from 'redux';
 import {lazyReducerEnhancer} from 'pwa-helpers';
 import {connectRouter, navigate} from 'lit-redux-router';
@@ -58,18 +60,28 @@ const router: Middleware<unknown, AppState> = <T extends string>({
   return retVal;
 };
 
-const store = createStore(
-  <STATE = AppState>(state: STATE): STATE => state,
-  composeEnhancers(
-    lazyReducerEnhancer(combineReducers),
-    applyMiddleware(thunk.withExtraArgument(database()), logger, router)
-  )
-);
+let store: Store<any, AnyAction> = <Store<any, AnyAction>>{};
 
-connectRouter(store);
+const composeStore = () => {
+  if (!store.dispatch) {
+    const storeInternal = createStore(
+      <STATE = AppState>(state: STATE): STATE => state,
+      composeEnhancers(
+        lazyReducerEnhancer(combineReducers),
+        applyMiddleware(thunk.withExtraArgument(database()), logger, router)
+      )
+    );
 
-store.addReducers({
-  paint,
-});
+    connectRouter(storeInternal);
 
+    storeInternal.addReducers({
+      paint,
+    });
+    store = storeInternal;
+  }
+  return store;
+};
+
+export const initStore = () => (store = composeStore());
+initStore();
 export default store;
