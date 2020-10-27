@@ -60,7 +60,7 @@ const router: Middleware<unknown, AppState> = <T extends string>({
   return retVal;
 };
 
-let store: Store<any, AnyAction> = <Store<any, AnyAction>>{};
+let store: Store<AppState, AnyAction> = <Store<AppState, AnyAction>>{};
 
 const composeStore = () => {
   if (!store.dispatch) {
@@ -77,11 +77,12 @@ const composeStore = () => {
     storeInternal.addReducers({
       paint,
     });
-    store = storeInternal;
+    store = (storeInternal as unknown) as Store<AppState, AnyAction>;
   }
   return store;
 };
 
-export const initStore = () => (store = composeStore());
+export const initStore = (): Store<AppState, AnyAction> =>
+  (store = composeStore());
 initStore();
 export default store;
