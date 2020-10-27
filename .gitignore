@@ -10,3 +10,5 @@
 /.idea/
 *.tar.gz
 /coverage/
+/cypress/videos/*.mp4
+/cypress/screenshots/*.*

@@ -17,6 +17,16 @@ steps:
 
 - script: |
     npm install
+  displayName: 'npm install'
+
+- script: |
     npm run bundle
-    npm run test:all
-  displayName: 'npm install and build and test'
+  displayName: 'npm bundle'
+
+- script: |
+    npm run test:coverage
+  displayName: 'npm test'
+
+- script: |
+    npm run test:cy
+  displayName: 'npm cypress'

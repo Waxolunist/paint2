@@ -31,7 +31,7 @@
     "test:cy": "start-server-and-test serve:nowatch tcp:8000 test:cy:run",
     "test:cy:run": "cypress run",
     "test:cy:open": "cypress open",
-    "test:all": "npm run test && npm run test:cy",
+    "test:all": "npm run test:coverage && npm run test:cy",
     "docker:build": "npm run bundle && docker build . -t waxolunist/paint2:latest",
     "docker:run": "docker run -p 8000:8043 waxolunist/paint2:latest"
   },
