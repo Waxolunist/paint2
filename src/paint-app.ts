@@ -1,6 +1,4 @@
 import {customElement, LitElement, html, TemplateResult} from 'lit-element';
-import './store';
-import {connect} from 'pwa-helpers/connect-mixin';
 import store, {AppState} from './store';
 import {initialLoad, ThunkDispatch} from './ducks/paint';
 
@@ -22,7 +20,7 @@ declare global {
 }
 
 @customElement('paint-app')
-export class PaintApp extends connect(store)(LitElement) {
+export class PaintApp extends LitElement {
   connectedCallback(): void {
     super.connectedCallback();
     (store.dispatch as ThunkDispatch)(initialLoad());

@@ -1,6 +1,6 @@
 export interface Painting {
   id?: number;
-  dataUrl: string;
+  dataUrl?: string;
   readonly blobUrl: string;
   freeMemory: () => void;
   cleanState: () => Promise<void>;
@@ -8,7 +8,7 @@ export interface Painting {
 
 export class PaintingImpl implements Painting {
   id?: number;
-  dataUrl =
+  dataUrl? =
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
   #blobUrl: string;
 
@@ -24,7 +24,7 @@ export class PaintingImpl implements Painting {
 
   async cleanState(): Promise<void> {
     this.freeMemory();
-    const response = await fetch(this.dataUrl);
+    const response = await fetch(this.dataUrl!);
     this.#blobUrl = URL.createObjectURL(await response.blob());
     delete this.dataUrl;
   }

@@ -2,18 +2,17 @@ import {fixture, html, oneEvent} from '@open-wc/testing';
 import {firePointerEvent} from '../../test/pointerevents';
 import {NewPaintButton} from './new-paint-button';
 
-const expect = chai.expect;
 describe('new-paint-button', () => {
   it('is defined', () => {
     const el = document.createElement('paint-new-paint-button');
-    expect(el).to.be.an.instanceof(NewPaintButton);
+    expect(el).toBeInstanceOf(NewPaintButton);
   });
 
   it('renders correctly', async () => {
     const element = await fixture(
       html`<paint-new-paint-button></paint-new-paint-button>`
     );
-    expect(element).shadowDom.to.equalSnapshot();
+    expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
   });
 
   it('renders correctly after pointerdown', async () => {
@@ -21,7 +20,7 @@ describe('new-paint-button', () => {
       html`<paint-new-paint-button></paint-new-paint-button>`
     );
     await firePointerEvent(element, ['down']);
-    expect(element).shadowDom.to.equalSnapshot();
+    expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
   });
 
   it('renders correctly after pointerdown and up', async () => {
@@ -29,7 +28,7 @@ describe('new-paint-button', () => {
       html`<paint-new-paint-button></paint-new-paint-button>`
     );
     await firePointerEvent(element, ['down', 'up']);
-    expect(element).shadowDom.to.equalSnapshot();
+    expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
   });
 
   it('fires event after pointer up', async () => {
@@ -41,6 +40,6 @@ describe('new-paint-button', () => {
       'up',
     ]);
     const {detail} = await oneEvent(el, 'paint-clicked');
-    expect(detail).to.be.not.undefined;
+    expect(detail).not.toBeUndefined();
   });
 });

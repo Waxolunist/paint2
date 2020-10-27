@@ -62,14 +62,16 @@ export class IconButton extends LitElement {
   private pointerDown(e: PointerEvent) {
     e.stopPropagation();
     this.button!.classList.add('clicked');
-    this.button!.setPointerCapture(e.pointerId);
+    if (process?.env?.NODE_ENV !== 'test')
+      this.button!.setPointerCapture(e.pointerId);
   }
 
   @eventOptions({capture: true, passive: true})
   private pointerUp(e: PointerEvent) {
     e.stopPropagation();
     this.button!.classList.remove('clicked');
-    this.button!.releasePointerCapture(e.pointerId);
+    if (process?.env?.NODE_ENV !== 'test')
+      this.button!.releasePointerCapture(e.pointerId);
     this.dispatchEvent(
       new CustomEvent('icon-clicked', {
         bubbles: true,

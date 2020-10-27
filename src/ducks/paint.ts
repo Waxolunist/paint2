@@ -10,6 +10,7 @@ import {AnyAction, Reducer} from 'redux';
 import {ThunkDispatch as TDispatch, ThunkAction as TAction} from 'redux-thunk';
 import {PaintingDatabase} from '../database';
 import {AppState} from '../store';
+import {removePaintingFromArray} from './paint-utils';
 
 /*** types ***/
 const STORE = '@paint/STORE';
@@ -168,11 +169,6 @@ const paintingsArray = (paintings: Painting[]): Painting[] => {
     ).values(),
   ];
 };
-
-const removePaintingFromArray = (
-  id: number | string,
-  paintings: Painting[]
-): Painting[] => paintings.filter((p) => p.id != id);
 
 const paintReducer: Reducer<PaintState, AnyAction> = (
   state = initialState,

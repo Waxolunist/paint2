@@ -1,30 +1,23 @@
-import {IconButton} from './paint-icon-button';
 import {fixture, html, oneEvent} from '@open-wc/testing';
 import {firePointerEvent} from '../../test/pointerevents';
+import {PaintButton} from './paint-button';
 
-describe('paint-icon-button', () => {
+describe('paint-button', () => {
   it('is defined', () => {
-    const el = document.createElement('paint-icon-button');
-    expect(el).toBeInstanceOf(IconButton);
+    const el = document.createElement('paint-paint-button');
+    expect(el).toBeInstanceOf(PaintButton);
   });
 
   it('renders correctly', async () => {
     const element = await fixture(
-      html`<paint-icon-button></paint-icon-button>`
-    );
-    expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
-  });
-
-  it('renders correctly when active and with slot', async () => {
-    const element = await fixture(
-      html`<paint-icon-button active>Foo</paint-icon-button>`
+      html`<paint-paint-button></paint-paint-button>`
     );
     expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
   });
 
   it('renders correctly after pointerdown', async () => {
     const element = await fixture(
-      html`<paint-icon-button></paint-icon-button>`
+      html`<paint-paint-button></paint-paint-button>`
     );
     await firePointerEvent(element, ['down']);
     expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
@@ -32,16 +25,16 @@ describe('paint-icon-button', () => {
 
   it('renders correctly after pointerdown and up', async () => {
     const element = await fixture(
-      html`<paint-icon-button></paint-icon-button>`
+      html`<paint-paint-button></paint-paint-button>`
     );
     await firePointerEvent(element, ['down', 'up']);
     expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
   });
 
   it('fires event after pointer up', async () => {
-    const el = await fixture(html`<paint-icon-button></paint-icon-button>`);
+    const el = await fixture(html`<paint-paint-button></paint-paint-button>`);
     firePointerEvent(el, ['down', 'up']);
-    const {detail} = await oneEvent(el, 'icon-clicked');
+    const {detail} = await oneEvent(el, 'paint-clicked');
     expect(detail).not.toBeUndefined();
   });
 });

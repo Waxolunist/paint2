@@ -8,7 +8,7 @@
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "downlevelIteration": true,
-    "removeComments": false,
+    "removeComments": true,
     "isolatedModules": false,
     "noEmit": false,
     "noEmitOnError": false,
@@ -18,12 +18,15 @@
     "noFallthroughCasesInSwitch": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
     "plugins": [
       {
         "name": "ts-lit-plugin",
         "strict": true
       }
-    ]
+    ],
+    "inlineSourceMap": true
   },
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
