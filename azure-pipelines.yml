@@ -22,15 +22,18 @@ steps:
 
 - task: Npm@1
   inputs:
-    command: 'run bundle'
+    command: 'custom'
+    customCommand: 'run bundle'
   displayName: 'npm bundle'
 
 - task: Npm@1
   inputs:
-    command: 'run test:coverage'
+    command: 'custom'
+    customCommand: 'run test:coverage'
   displayName: 'npm test'
 
 - task: Npm@1
   inputs:
-    command: 'run test:cy'    
+    command: 'custom'
+    customCommand: 'run test:cy'    
   displayName: 'npm cypress'
