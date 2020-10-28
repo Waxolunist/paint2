@@ -1,5 +1,5 @@
 import {logPerformance} from './paint-perf';
-import {defaultMemory} from './paint-memory';
+import {defaultMemory, PaintCommand, PaintMemory} from './paint-memory';
 import {CanvasPainter} from './paint-painter';
 
 console.log('Paint Area Worker initialized');
@@ -8,15 +8,14 @@ const postStrokes = () => self.postMessage({strokes: painter.getStrokes()});
 
 let painter: CanvasPainter;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const processCommand = ({data}: {data: any}) => {
+const processCommand = ({data}: {data: PaintMemory & PaintCommand}) => {
   switch (data.command) {
     case 'create':
       painter = new CanvasPainter({
         ...defaultMemory,
         ...data,
       });
-      painter.createCanvasContext(data.canvas);
+      painter.createCanvasContext(data.canvas!);
       break;
     case 'start':
       painter.startStroke(data);

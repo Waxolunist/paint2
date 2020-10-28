@@ -14,6 +14,13 @@ export interface PaintMemory {
   canvasContext?: OffscreenCanvasRenderingContext2D | CanvasRenderingContext2D;
 }
 
+export interface PaintCommand {
+  command: string;
+  coordinates: {pageX: number; pageY: number}[];
+  left: number;
+  top: number;
+}
+
 //*** Memory  */
 export const defaultMemory: PaintMemory = {
   canvas: undefined,

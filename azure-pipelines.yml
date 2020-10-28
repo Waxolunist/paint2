@@ -15,18 +15,22 @@ steps:
     versionSpec: '12.x'
   displayName: 'Install Node.js'
 
-- script: |
-    npm install
+- task: Npm@1
+  inputs:
+    command: 'install'
   displayName: 'npm install'
 
-- script: |
-    npm run bundle
+- task: Npm@1
+  inputs:
+    command: 'run bundle'
   displayName: 'npm bundle'
 
-- script: |
-    npm run test:coverage
+- task: Npm@1
+  inputs:
+    command: 'run test:coverage'
   displayName: 'npm test'
 
-- script: |
-    npm run test:cy
+- task: Npm@1
+  inputs:
+    command: 'run test:cy'    
   displayName: 'npm cypress'

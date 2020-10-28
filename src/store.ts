@@ -17,6 +17,7 @@ import {RouterState} from 'lit-redux-router/lib/reducer';
 import {PaintState} from './ducks/paint-model';
 import {Actions} from 'lit-redux-router/lib/actions';
 import database from './database';
+import {LazyStore} from 'pwa-helpers/lazy-reducer-enhancer';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare global {
@@ -30,8 +31,7 @@ export type AppState = {router: RouterState; paint: PaintState};
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?? compose;
 
 const logger = <S, T>({getState}: {getState: () => S}) => (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  next: (action: Action<T>) => any
+  next: (action: Action<T>) => unknown
 ) => (action: Action<T>) => {
   console.log('will dispatch', action);
   const returnValue = next(action);
@@ -45,8 +45,9 @@ const router: Middleware<unknown, AppState> = <T extends string>({
 }: {
   dispatch: Dispatch;
   getState: () => AppState;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-}) => (next: (action: Actions | Action<T>) => any) => (action: Action<T>) => {
+}) => (next: (action: Actions | Action<T>) => unknown) => (
+  action: Action<T>
+) => {
   const retVal = next(action);
   if (action.type.startsWith('@paint')) {
     const {router, paint} = getState();
@@ -64,8 +65,8 @@ let store: Store<AppState, AnyAction> = <Store<AppState, AnyAction>>{};
 
 const composeStore = () => {
   if (!store.dispatch) {
-    const storeInternal = createStore(
-      <STATE = AppState>(state: STATE): STATE => state,
+    const storeInternal = createStore<AppState, AnyAction, LazyStore, unknown>(
+      (state) => <AppState>state,
       composeEnhancers(
         lazyReducerEnhancer(combineReducers),
         applyMiddleware(thunk.withExtraArgument(database()), logger, router)
@@ -77,7 +78,7 @@ const composeStore = () => {
     storeInternal.addReducers({
       paint,
     });
-    store = (storeInternal as unknown) as Store<AppState, AnyAction>;
+    store = storeInternal;
   }
   return store;
 };
