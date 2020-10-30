@@ -75,7 +75,7 @@ export class ColorToolbar extends LitElement {
   }
 
   colorChange(code: string): () => void {
-    return () => {
+    return (): void => {
       this.activeColor = code;
       this.dispatchEvent(
         new CustomEvent('color-changed', {

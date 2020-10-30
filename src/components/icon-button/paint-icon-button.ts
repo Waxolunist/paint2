@@ -59,7 +59,7 @@ export class IconButton extends LitElement {
   }
 
   @eventOptions({capture: true, passive: true})
-  private pointerDown(e: PointerEvent) {
+  private pointerDown(e: PointerEvent): void {
     e.stopPropagation();
     this.button.classList.add('clicked');
     if (process?.env?.NODE_ENV !== 'test')
@@ -67,7 +67,7 @@ export class IconButton extends LitElement {
   }
 
   @eventOptions({capture: true, passive: true})
-  private pointerUp(e: PointerEvent) {
+  private pointerUp(e: PointerEvent): void {
     e.stopPropagation();
     this.button.classList.remove('clicked');
     if (process?.env?.NODE_ENV !== 'test')

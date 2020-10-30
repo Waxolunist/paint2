@@ -6,7 +6,8 @@ console.log('Paint Area Worker initialized');
 
 let painter: CanvasPainter;
 
-const postStrokes = () => self.postMessage({strokes: painter.getStrokes()});
+const postStrokes = (): void =>
+  self.postMessage({strokes: painter.getStrokes()});
 
 const processCommand = ({data}: {data: PaintMemory & PaintCommand}) => {
   switch (data.command) {

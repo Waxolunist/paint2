@@ -181,7 +181,7 @@ export class PaintArea extends LitElement {
     timer: (callback: () => void) => void
   ): (callback: () => void) => void {
     let queuedCallback: (() => void) | null;
-    return (callback) => {
+    return (callback: () => void): void => {
       if (!queuedCallback) {
         timer(() => {
           const cb = queuedCallback;
@@ -196,7 +196,7 @@ export class PaintArea extends LitElement {
   private throttledMove = this.throttle(requestAnimationFrame);
 
   @eventOptions({capture: true, passive: true})
-  private throttledPointerMove(e: PointerEvent) {
+  private throttledPointerMove(e: PointerEvent): void {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     if (PointerEvent.prototype.getCoalescedEvents) {

@@ -10,7 +10,7 @@ import {AnyAction, Reducer} from 'redux';
 import {ThunkDispatch as TDispatch, ThunkAction as TAction} from 'redux-thunk';
 import {PaintingDatabase} from '../database';
 import {AppState} from '../store';
-import {removePaintingFromArray} from './paint-utils';
+import {removePaintingFromArray, newSortedPaintingsArray} from './paint-utils';
 
 /*** types ***/
 const STORE = '@paint/STORE';
@@ -159,17 +159,6 @@ const initialState: PaintState = {
   activePainting: undefined,
 };
 
-const paintingsArray = (paintings: Painting[]): Painting[] => {
-  return [
-    ...new Map(
-      paintings
-        .filter((p) => p)
-        .map((p: Painting): [number | undefined, Painting] => [p.id, p])
-        .sort(([idA], [idB]) => idA! - idB!)
-    ).values(),
-  ];
-};
-
 const paintReducer: Reducer<PaintState, AnyAction> = (
   state = initialState,
   action: AnyAction
@@ -178,7 +167,7 @@ const paintReducer: Reducer<PaintState, AnyAction> = (
     case STORE:
       return {
         ...state,
-        paintings: paintingsArray([
+        paintings: newSortedPaintingsArray([
           ...state.paintings,
           ((<CRUDAction>action).payload as CRUDPayload).painting,
         ]),
@@ -192,7 +181,7 @@ const paintReducer: Reducer<PaintState, AnyAction> = (
     case NEW:
       return {
         ...state,
-        paintings: paintingsArray([
+        paintings: newSortedPaintingsArray([
           ...state.paintings,
           ((<CRUDAction>action).payload as CRUDPayload).painting,
         ]),

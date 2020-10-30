@@ -1,4 +1,4 @@
-import {removePaintingFromArray} from './paint-utils';
+import {removePaintingFromArray, newSortedPaintingsArray} from './paint-utils';
 import {Painting} from './paint-model';
 
 describe('paint events', () => {
@@ -8,6 +8,16 @@ describe('paint events', () => {
       const filteredArray = removePaintingFromArray(1, array);
       expect(filteredArray).toHaveLength(1);
       expect(filteredArray[0].id).toEqual(2);
+    });
+  });
+
+  describe('sort ops', () => {
+    it('creates a new sorted array', () => {
+      const array: Painting[] = [<Painting>{id: 2}, <Painting>{id: 1}];
+      const sortedArray = newSortedPaintingsArray(array);
+      expect(sortedArray).toHaveLength(2);
+      expect(sortedArray[0].id).toEqual(1);
+      expect(sortedArray).not.toEqual(array);
     });
   });
 });
