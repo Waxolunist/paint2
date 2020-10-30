@@ -35,6 +35,12 @@ steps:
 - task: Npm@1
   inputs:
     command: 'custom'
+    customCommand: 'run lint:warningson'
+  displayName: 'npm lint'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
     customCommand: 'run bundle'
   displayName: 'npm bundle'
 

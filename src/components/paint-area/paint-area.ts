@@ -186,7 +186,7 @@ export class PaintArea extends LitElement {
         timer(() => {
           const cb = queuedCallback;
           queuedCallback = null;
-          cb!();
+          cb?.();
         });
       }
       queuedCallback = callback;

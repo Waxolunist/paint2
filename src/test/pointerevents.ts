@@ -6,7 +6,7 @@ export const firePointerEvent = async (
   querySelector = ':first-child',
   pointerId = 1
 ): Promise<void> => {
-  const fire = (event: string, cb: (() => void) | undefined) =>
+  const fire = (event: string, cb: (() => void) | undefined): number =>
     setTimeout(() => {
       el.shadowRoot!.querySelector(querySelector)!.dispatchEvent(
         new PointerEvent(`pointer${event}`, {pointerId}) as Event

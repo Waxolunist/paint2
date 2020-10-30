@@ -13,7 +13,7 @@
   "rules": {
     "no-unexpected-multiline": "off",
     "@typescript-eslint/indent": "off",
-    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-function-return-type": ["warn"],
     "@typescript-eslint/no-non-null-assertion": ["warn"],
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["warn"],
