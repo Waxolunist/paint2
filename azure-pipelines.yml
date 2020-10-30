@@ -23,6 +23,18 @@ steps:
 - task: Npm@1
   inputs:
     command: 'custom'
+    customCommand: 'audit'
+  displayName: 'npm audit'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'outdated'
+  displayName: 'npm outdated'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
     customCommand: 'run bundle'
   displayName: 'npm bundle'
 
