@@ -3,7 +3,6 @@ import typescript from '@rollup/plugin-typescript';
 import copy from 'rollup-plugin-copy';
 import workerLoader from 'rollup-plugin-web-worker-loader';
 import {generateSW} from 'rollup-plugin-workbox';
-import sourcemaps from 'rollup-plugin-sourcemaps';
 import del from 'rollup-plugin-delete';
 
 export default [
@@ -43,7 +42,6 @@ export default [
         swDest: 'bundle/sw.js',
         globDirectory: 'bundle',
       }),
-      sourcemaps(),
     ],
   },
 ];

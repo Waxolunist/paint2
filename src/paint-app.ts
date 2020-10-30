@@ -1,4 +1,12 @@
-import {customElement, LitElement, html, TemplateResult} from 'lit-element';
+import {
+  customElement,
+  LitElement,
+  html,
+  TemplateResult,
+  css,
+  CSSResult,
+  property,
+} from 'lit-element';
 import store, {AppState} from './store';
 import {initialLoad, ThunkDispatch} from './ducks/paint';
 
@@ -21,6 +29,9 @@ declare global {
 
 @customElement('paint-app')
 export class PaintApp extends LitElement {
+  @property({type: String, reflect: true})
+  ready = '';
+
   connectedCallback(): void {
     super.connectedCallback();
     (store.dispatch as ThunkDispatch)(initialLoad());
@@ -35,6 +46,23 @@ export class PaintApp extends LitElement {
         console.log('Ignore this error: ' + err.message);
       });
     });
+  }
+
+  firstUpdated(): void {
+    this.ready = 'ready';
+  }
+
+  static get styles(): CSSResult[] {
+    // language=CSS
+    return [
+      css`
+        :host {
+          height: 100vh;
+          width: 100vw;
+          display: block;
+        }
+      `,
+    ];
   }
 
   render(): TemplateResult {

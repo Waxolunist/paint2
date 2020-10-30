@@ -10,7 +10,6 @@ module.exports = {
   http2: true,
   nodeResolve: false,
   appIndex: 'index.html',
-  moduleDirs: ['./src'],
   compatibility: 'none',
   rootDir: './bundle',
   sslKey: './certs/key.pem',
