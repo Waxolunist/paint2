@@ -17,12 +17,12 @@ export class CanvasPainter {
   createCanvasContext = (canvas: OffscreenCanvas | HTMLCanvasElement): void => {
     this._.canvas = canvas;
     this._.canvasContext = canvas.getContext('2d')!;
-    this._.canvasContext!.lineCap = 'round';
-    this._.canvasContext!.lineJoin = 'round';
-    this._.canvasContext!.shadowOffsetX = 1;
-    this._.canvasContext!.shadowOffsetY = 1;
-    this._.canvasContext!.shadowBlur = 2;
-    this._.canvasContext!.translate(0.5, 0.5);
+    this._.canvasContext.lineCap = 'round';
+    this._.canvasContext.lineJoin = 'round';
+    this._.canvasContext.shadowOffsetX = 1;
+    this._.canvasContext.shadowOffsetY = 1;
+    this._.canvasContext.shadowBlur = 2;
+    this._.canvasContext.translate(0.5, 0.5);
     this.setDrawStyle();
     this.draw(true);
   };

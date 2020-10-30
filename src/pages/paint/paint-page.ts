@@ -20,10 +20,10 @@ import {ThunkDispatch, storeData, unloadData} from '../../ducks/paint';
 @customElement('paint-paint-page')
 export class PaintPage extends connect(store)(LitElement) {
   @query('#paint-area-container')
-  private areaContainer?: HTMLElement;
+  private areaContainer!: HTMLElement;
 
   @query('#paint-area')
-  private area?: PaintArea;
+  private area!: PaintArea;
 
   @property({type: Number, reflect: false})
   width = 0;
@@ -57,7 +57,7 @@ export class PaintPage extends connect(store)(LitElement) {
   }
 
   calcAspectRatio(): void {
-    const {height, width} = this.areaContainer!.getBoundingClientRect();
+    const {height, width} = this.areaContainer.getBoundingClientRect();
     if (this.isLandscape({height, width})) {
       const scale = Math.min(width / 297, height / 210);
       this.height = (210 * scale) | 0;
@@ -148,11 +148,11 @@ export class PaintPage extends connect(store)(LitElement) {
   }
 
   private navigateBack(): void {
-    this.area!.getStrokes().then((strokes) => {
+    this.area.getStrokes().then((strokes) => {
       (store.dispatch as ThunkDispatch)(
         storeData({
           id: this.paintingId,
-          dataUrl: this.area!.toImage(),
+          dataUrl: this.area.toImage(),
           strokes,
         })
       );

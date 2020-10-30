@@ -14,7 +14,7 @@ import {AnimatedStyles, ShadowStyles} from '../../styles/shared-styles';
 @customElement('paint-paint-button')
 export class PaintButton extends LitElement {
   @query('.paint-button')
-  private button?: HTMLElement;
+  private button!: HTMLElement;
 
   @property({type: String})
   imageUrl?: string;
@@ -100,17 +100,17 @@ export class PaintButton extends LitElement {
   @eventOptions({capture: false, passive: true})
   private pointerDown(e: PointerEvent) {
     e.stopPropagation();
-    this.button!.classList.add('clicked');
+    this.button.classList.add('clicked');
     if (process?.env?.NODE_ENV !== 'test')
-      this.button!.setPointerCapture(e.pointerId);
+      this.button.setPointerCapture(e.pointerId);
   }
 
   @eventOptions({capture: false, passive: true})
   private pointerUp(e: PointerEvent) {
     e.stopPropagation();
-    this.button!.classList.remove('clicked');
+    this.button.classList.remove('clicked');
     if (process?.env?.NODE_ENV !== 'test')
-      this.button!.releasePointerCapture(e.pointerId);
+      this.button.releasePointerCapture(e.pointerId);
     this.dispatchEvent(
       new CustomEvent('paint-clicked', {
         bubbles: true,

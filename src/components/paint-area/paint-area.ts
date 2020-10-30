@@ -19,7 +19,7 @@ import {TemplateResult} from 'lit-element';
 @customElement('paint-area')
 export class PaintArea extends LitElement {
   @query('#canvas')
-  private canvas?: HTMLCanvasElement;
+  private canvas!: HTMLCanvasElement;
 
   @property({type: String})
   paintingId = '';
@@ -84,15 +84,15 @@ export class PaintArea extends LitElement {
   }
 
   private cloneCanvas(): void {
-    const canvasClone = this.canvas!.cloneNode(true) as HTMLCanvasElement;
-    const canvasParent = this.canvas!.parentNode;
-    canvasParent!.removeChild(this.canvas!);
-    canvasParent!.appendChild(canvasClone);
+    const canvasClone = this.canvas.cloneNode(true) as HTMLCanvasElement;
+    const canvasParent = this.canvas.parentNode;
+    canvasParent?.removeChild(this.canvas);
+    canvasParent?.appendChild(canvasClone);
   }
 
   private initWorker(): void {
     if (this.#workerSupported) {
-      const offscreenCanvas = this.canvas!.transferControlToOffscreen();
+      const offscreenCanvas = this.canvas.transferControlToOffscreen();
       this.#worker?.postMessage(
         {
           command: 'create',
@@ -106,7 +106,7 @@ export class PaintArea extends LitElement {
         [offscreenCanvas]
       );
     } else {
-      this.#painter?.createCanvasContext(this.canvas!);
+      this.#painter?.createCanvasContext(this.canvas);
     }
   }
 
@@ -143,8 +143,8 @@ export class PaintArea extends LitElement {
   @eventOptions({capture: true, passive: true})
   private pointerDown(e: PointerEvent) {
     this.#pointerActive = true;
-    this.canvas!.setPointerCapture(e.pointerId);
-    this.#canvasClientBoundingRect = this.canvas!.getBoundingClientRect();
+    this.canvas.setPointerCapture(e.pointerId);
+    this.#canvasClientBoundingRect = this.canvas.getBoundingClientRect();
     const message = this.createMessage(
       'start',
       e,
@@ -158,7 +158,7 @@ export class PaintArea extends LitElement {
   @eventOptions({capture: true, passive: true})
   private pointerUp(e: PointerEvent) {
     this.#pointerActive = false;
-    this.canvas!.releasePointerCapture(e.pointerId);
+    this.canvas.releasePointerCapture(e.pointerId);
     const message = this.createMessage('stop');
     this.#worker?.postMessage(message);
     this.#painter?.stopStroke();
@@ -209,7 +209,7 @@ export class PaintArea extends LitElement {
   }
 
   toImage(): string {
-    return this.canvas!.toDataURL('image/png');
+    return this.canvas.toDataURL('image/png');
   }
 
   async getStrokes(): Promise<Stroke[]> {

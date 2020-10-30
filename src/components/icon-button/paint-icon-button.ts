@@ -41,7 +41,7 @@ export class IconButton extends LitElement {
   }
 
   @query('.icon-button')
-  private button?: HTMLElement;
+  private button!: HTMLElement;
 
   @property({type: Boolean})
   active = false;
@@ -61,17 +61,17 @@ export class IconButton extends LitElement {
   @eventOptions({capture: true, passive: true})
   private pointerDown(e: PointerEvent) {
     e.stopPropagation();
-    this.button!.classList.add('clicked');
+    this.button.classList.add('clicked');
     if (process?.env?.NODE_ENV !== 'test')
-      this.button!.setPointerCapture(e.pointerId);
+      this.button.setPointerCapture(e.pointerId);
   }
 
   @eventOptions({capture: true, passive: true})
   private pointerUp(e: PointerEvent) {
     e.stopPropagation();
-    this.button!.classList.remove('clicked');
+    this.button.classList.remove('clicked');
     if (process?.env?.NODE_ENV !== 'test')
-      this.button!.releasePointerCapture(e.pointerId);
+      this.button.releasePointerCapture(e.pointerId);
     this.dispatchEvent(
       new CustomEvent('icon-clicked', {
         bubbles: true,
