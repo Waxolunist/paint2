@@ -1,5 +1,14 @@
 type pointerevents = 'down' | 'up';
 
+const getElement = (el: Element, querySelector: string): HTMLElement | null =>
+  el.shadowRoot!.querySelector(querySelector);
+
+const dispatchEvent = (
+  el: Element,
+  querySelector: string,
+  event: Event
+): boolean | undefined => getElement(el, querySelector)?.dispatchEvent(event);
+
 export const firePointerEvent = async (
   el: Element,
   events: Array<pointerevents> | pointerevents = 'down',
@@ -8,7 +17,9 @@ export const firePointerEvent = async (
 ): Promise<void> => {
   const fire = (event: string, cb: (() => void) | undefined): number =>
     setTimeout(() => {
-      el.shadowRoot!.querySelector(querySelector)!.dispatchEvent(
+      dispatchEvent(
+        el,
+        querySelector,
         new PointerEvent(`pointer${event}`, {pointerId}) as Event
       );
       if (cb) cb();
@@ -22,5 +33,20 @@ export const firePointerEvent = async (
         fire(e, idx === arr.length - 1 ? resolve : undefined)
       );
     }
+  });
+};
+
+export const fireClickEvent = async (
+  el: Element,
+  querySelector = ':first-child'
+): Promise<void> => {
+  const fire = (cb: (() => void) | undefined): number =>
+    setTimeout(() => {
+      dispatchEvent(el, querySelector, new MouseEvent('click'));
+      if (cb) cb();
+    });
+
+  return new Promise((resolve) => {
+    fire(resolve);
   });
 };

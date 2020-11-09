@@ -44,7 +44,7 @@ export class OverviewPage extends connect(store)(LitElement) {
       :host {
         display: block;
         background-color: #91b5ff;
-        padding: 1.5em;
+        padding: 1.5em 0;
         /* prettier-ignore */
         min-width: calc((var(--painting-width) / var(--painting-scalefactor) + var(--painting-margin)) * 2);
       }

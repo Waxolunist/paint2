@@ -10,7 +10,10 @@ import {AnyAction, Reducer} from 'redux';
 import {ThunkDispatch as TDispatch, ThunkAction as TAction} from 'redux-thunk';
 import {PaintingDatabase} from '../database';
 import {AppState} from '../store';
-import {removePaintingFromArray, newSortedPaintingsArray} from './paint-utils';
+import {
+  removePaintingFromArray,
+  newSortedDeduplicatedPaintingsArray,
+} from './paint-utils';
 
 /*** types ***/
 const STORE = '@paint/STORE';
@@ -167,7 +170,7 @@ const paintReducer: Reducer<PaintState, AnyAction> = (
     case STORE:
       return {
         ...state,
-        paintings: newSortedPaintingsArray([
+        paintings: newSortedDeduplicatedPaintingsArray([
           ...state.paintings,
           ((<CRUDAction>action).payload as CRUDPayload).painting,
         ]),
@@ -181,7 +184,7 @@ const paintReducer: Reducer<PaintState, AnyAction> = (
     case NEW:
       return {
         ...state,
-        paintings: newSortedPaintingsArray([
+        paintings: newSortedDeduplicatedPaintingsArray([
           ...state.paintings,
           ((<CRUDAction>action).payload as CRUDPayload).painting,
         ]),

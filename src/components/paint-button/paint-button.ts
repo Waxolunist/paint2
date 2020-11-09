@@ -86,6 +86,7 @@ export class PaintButton extends LitElement {
         class="paint-button shadow animated elevate elevate-1 elevated-3"
         @pointerdown="${this.pointerDown}"
         @pointerup="${this.pointerUp}"
+        @click="${this.clicked}"
       >
         ${this.imageUrl
           ? html`<img class="content" src="${this.imageUrl}"></img>`
@@ -98,19 +99,22 @@ export class PaintButton extends LitElement {
   }
 
   @eventOptions({capture: false, passive: true})
-  private pointerDown(e: PointerEvent) {
-    e.stopPropagation();
+  private pointerDown(e: PointerEvent): void {
     this.button.classList.add('clicked');
     if (process?.env?.NODE_ENV !== 'test')
       this.button.setPointerCapture(e.pointerId);
   }
 
   @eventOptions({capture: false, passive: true})
-  private pointerUp(e: PointerEvent) {
-    e.stopPropagation();
+  private pointerUp(e: PointerEvent): void {
     this.button.classList.remove('clicked');
     if (process?.env?.NODE_ENV !== 'test')
       this.button.releasePointerCapture(e.pointerId);
+  }
+
+  @eventOptions({capture: false, passive: true})
+  private clicked(e: MouseEvent): void {
+    e.stopPropagation();
     this.dispatchEvent(
       new CustomEvent('paint-clicked', {
         bubbles: true,

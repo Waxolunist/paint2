@@ -1,4 +1,7 @@
-import {removePaintingFromArray, newSortedPaintingsArray} from './paint-utils';
+import {
+  removePaintingFromArray,
+  newSortedDeduplicatedPaintingsArray,
+} from './paint-utils';
 import {Painting} from './paint-model';
 
 describe('paint events', () => {
@@ -14,7 +17,19 @@ describe('paint events', () => {
   describe('sort ops', () => {
     it('creates a new sorted array', () => {
       const array: Painting[] = [<Painting>{id: 2}, <Painting>{id: 1}];
-      const sortedArray = newSortedPaintingsArray(array);
+      const sortedArray = newSortedDeduplicatedPaintingsArray(array);
+      expect(sortedArray).toHaveLength(2);
+      expect(sortedArray[0].id).toEqual(1);
+      expect(sortedArray).not.toEqual(array);
+    });
+
+    it('creates and deduplicates a new sorted array', () => {
+      const array: Painting[] = [
+        <Painting>{id: 2},
+        <Painting>{id: 1},
+        <Painting>{id: 1},
+      ];
+      const sortedArray = newSortedDeduplicatedPaintingsArray(array);
       expect(sortedArray).toHaveLength(2);
       expect(sortedArray[0].id).toEqual(1);
       expect(sortedArray).not.toEqual(array);

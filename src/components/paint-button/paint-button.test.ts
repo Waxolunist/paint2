@@ -1,5 +1,5 @@
 import {fixture, html, oneEvent} from '@open-wc/testing';
-import {firePointerEvent} from '../../test/pointerevents';
+import {firePointerEvent, fireClickEvent} from '../../test/pointerevents';
 import {PaintButton} from './paint-button';
 
 describe('paint-button', () => {
@@ -31,9 +31,9 @@ describe('paint-button', () => {
     expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
   });
 
-  it('fires event after pointer up', async () => {
+  it('fires event after click', async () => {
     const el = await fixture(html`<paint-paint-button></paint-paint-button>`);
-    firePointerEvent(el, ['down', 'up']);
+    fireClickEvent(el);
     const {detail} = await oneEvent(el, 'paint-clicked');
     expect(detail).not.toBeUndefined();
   });

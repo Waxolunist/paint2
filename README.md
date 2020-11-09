@@ -77,17 +77,18 @@ npm run serve:bundle
 
 # Build Docker image
 
-    npm run bundle && docker build -t waxolunist/paint:latest -t waxolunist/paint:latest .
-    docker save waxolunist/paint:latest | gzip > paint_latest.tar.gz
+    npm run bundle && docker build -t waxolunist/paint2:latest -t waxolunist/paint2:latest .
+    docker save waxolunist/paint2:latest | gzip > paint_latest.tar.gz
 
 Or tag and push
 
-     docker tag waxolunist/paint:latest registry.v-collaborate.com/christian.sterzl_gmail.com/waxolunist/paint:latest
-     docker push registry.v-collaborate.com/christian.sterzl_gmail.com/waxolunist/paint:latest
+     docker login registry.v-collaborate.com
+     docker tag waxolunist/paint2:latest registry.v-collaborate.com/{{ namespace }}/waxolunist/paint2:latest
+     docker push registry.v-collaborate.com/{{ namespace }}/waxolunist/paint2:latest
 
 Run it with:
 
-    docker run -p 8043:8043 --name paintforkids waxolunist/paint:latest 
+    docker run -p 8043:8043 --name paintforkids waxolunist/paint2:latest 
 
 ## Editing
 
