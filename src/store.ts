@@ -83,7 +83,10 @@ const composeStore = () => {
   return store;
 };
 
-export const initStore = (): Store<AppState, AnyAction> =>
-  (store = composeStore());
+export const initStore = (): Store<AppState, AnyAction> => {
+  const store = composeStore();
+  return store;
+};
+
 initStore();
 export default store;

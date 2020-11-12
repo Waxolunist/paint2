@@ -3,7 +3,46 @@ import typescript from '@rollup/plugin-typescript';
 import copy from 'rollup-plugin-copy';
 import workerLoader from 'rollup-plugin-web-worker-loader';
 import {generateSW} from 'rollup-plugin-workbox';
-import del from 'rollup-plugin-delete';
+
+const pluginsBase = [
+  resolve(),
+  workerLoader({inline: false, sourcemap: false}),
+  typescript({
+    sourceMap: true,
+    exclude: ['node_modules', '**/*.test.ts'],
+  }),
+  copy({
+    targets: [
+      // eslint-disable-next-line no-undef, @typescript-eslint/explicit-function-return-type
+      {
+        src: 'src/index.html',
+        dest: 'bundle',
+        transform: (contents) =>
+          contents
+            .toString()
+            .replaceAll(
+              'process.env.NODE_ENV',
+              `'${process.env.NODE_ENV || ''}'`
+            ),
+      },
+      {src: 'src/manifest.json', dest: 'bundle'},
+      {src: 'src/images', dest: 'bundle'},
+      {src: ['src/styles/*.css'], dest: 'bundle/styles'},
+    ],
+  }),
+];
+
+const pluginsProduction = [
+  ...pluginsBase,
+
+  generateSW({
+    swDest: 'bundle/sw.js',
+    globDirectory: 'bundle',
+  }),
+];
+
+// eslint-disable-next-line no-undef
+console.log(`Use rollupconfig for ${process.env.NODE_ENV}.`);
 
 export default [
   {
@@ -13,35 +52,16 @@ export default [
       format: 'esm',
       sourcemap: true,
     },
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    cache: false,
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/explicit-function-return-type
     onwarn(warning) {
       if (warning.code !== 'THIS_IS_UNDEFINED') {
         // eslint-disable-next-line no-undef
         console.error(`(!) ${warning.message}`);
       }
     },
-    plugins: [
-      del({
-        targets: './bundle/*',
-      }),
-      resolve(),
-      workerLoader({inline: false, sourcemap: false}),
-      typescript({
-        sourceMap: true,
-        exclude: ['node_modules', '**/*.test.ts'],
-      }),
-      copy({
-        targets: [
-          {src: 'src/index.html', dest: 'bundle'},
-          {src: 'src/manifest.json', dest: 'bundle'},
-          {src: 'src/images', dest: 'bundle'},
-          {src: ['src/styles/*.css'], dest: 'bundle/styles'},
-        ],
-      }),
-      generateSW({
-        swDest: 'bundle/sw.js',
-        globDirectory: 'bundle',
-      }),
-    ],
+    // eslint-disable-next-line no-undef
+    plugins:
+      process.env.NODE_ENV === 'production' ? pluginsProduction : pluginsBase,
   },
 ];

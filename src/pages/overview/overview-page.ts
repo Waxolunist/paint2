@@ -113,11 +113,11 @@ export class OverviewPage extends connect(store)(LitElement) {
     `;
   }
 
-  private newPainting() {
+  private newPainting(): void {
     (<ThunkDispatch>store.dispatch)(newPainting());
   }
 
-  private openPainting = (id?: number | string) => (e: CustomEvent) => {
+  private openPainting = (id?: number | string) => (e: CustomEvent): void => {
     const domRect = (<HTMLElement>e.target).getBoundingClientRect();
     this.dispatchEvent(
       new CustomEvent('button-clicked', {
@@ -131,11 +131,11 @@ export class OverviewPage extends connect(store)(LitElement) {
     (<ThunkDispatch>store.dispatch)(loadData(id));
   };
 
-  private removePainting = (id?: number | string) => () => {
+  private removePainting = (id?: number | string) => (): void => {
     (<ThunkDispatch>store.dispatch)(removePainting(id));
   };
 
-  private sharePainting = (id?: number | string) => (e: CustomEvent) => {
+  private sharePainting = (id?: number | string) => (e: CustomEvent): void => {
     console.log(`${id}: ${e}`);
   };
 }

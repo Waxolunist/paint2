@@ -102,14 +102,17 @@
     <link rel="stylesheet" href="styles/global-vars.css" />
     <link rel="stylesheet" href="styles/body.css" />
     <script>
-      if ('serviceWorker' in navigator) {
+      window.process = {env: {NODE_ENV: process.env.NODE_ENV}};
+      if (
+        'serviceWorker' in navigator &&
+        process.env.NODE_ENV === 'production'
+      ) {
         window.addEventListener('load', function () {
           navigator.serviceWorker.register('sw.js', {
             scope: new URL(document.baseURI).pathname,
           });
         });
       }
-      window.process = {env: {NODE_ENV: 'production'}};
     </script>
   </head>
   <body>

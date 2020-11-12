@@ -13,6 +13,7 @@ import {AppState} from '../store';
 import {
   removePaintingFromArray,
   newSortedDeduplicatedPaintingsArray,
+  extractIdFromUrl,
 } from './paint-utils';
 
 /*** types ***/
@@ -32,7 +33,7 @@ interface CRUDAction extends AnyAction {
     | typeof NEW
     | typeof DELETE
     | typeof INIT;
-  payload?: CRUDPayload | Painting[] | number | string;
+  payload?: CRUDPayload | PaintState | number | string;
 }
 
 type PaintActionTypes = CRUDAction;
@@ -49,6 +50,25 @@ export type ThunkAction = TAction<
   Promise<PaintingDatabase>,
   PaintActionTypes
 >;
+
+const loadPainting = async (
+  database: PaintingDatabase,
+  paintings: Painting[],
+  id?: number | string
+): Promise<CRUDPayload | undefined> => {
+  const paintingIdToLoad = id || extractIdFromUrl();
+  const painting = paintings.find((p) => p.id == paintingIdToLoad);
+  if (painting) {
+    const rawData = await database.strokes.get(
+      parseInt(paintingIdToLoad as string)
+    );
+    return {
+      painting,
+      rawData: rawData,
+    };
+  }
+  return undefined;
+};
 
 export const storeData = ({
   id,
@@ -85,15 +105,11 @@ export const loadData = (id?: number | string): ThunkAction => async (
   if (id) {
     const db = await database;
     const {paint} = getState();
-    const painting = paint.paintings.find((p) => p.id == id);
-    if (painting) {
-      const rawData = await db.strokes.get(parseInt(id as string));
+    const payload = await loadPainting(db, paint.paintings, id);
+    if (payload) {
       return dispatch({
         type: LOAD,
-        payload: {
-          painting,
-          rawData: rawData,
-        },
+        payload,
       });
     }
   }
@@ -151,9 +167,13 @@ export const initialLoad = (): ThunkAction => async (
     (p) => new PaintingImpl(p.dataUrl, p.id)
   );
   await Promise.all(paintingsArray.map((p) => p.cleanState()));
+  const payload = await loadPainting(db, paintingsArray);
   return dispatch({
     type: INIT,
-    payload: paintingsArray,
+    payload: {
+      paintings: paintingsArray,
+      activePainting: payload,
+    },
   });
 };
 
@@ -202,7 +222,7 @@ const paintReducer: Reducer<PaintState, AnyAction> = (
     case INIT:
       return {
         ...state,
-        paintings: (<CRUDAction>action).payload as Painting[],
+        ...((<CRUDAction>action).payload as PaintState),
       };
     default:
       return state;

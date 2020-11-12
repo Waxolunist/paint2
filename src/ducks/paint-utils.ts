@@ -1,5 +1,10 @@
 import {Painting} from './paint-model';
 
+export const extractIdFromUrl = (): string | undefined => {
+  const match = window.location.pathname.match(/\/paint\/(\d+)/);
+  return match ? match[1] : undefined;
+};
+
 export const removePaintingFromArray = (
   id: number | string,
   paintings: Painting[]

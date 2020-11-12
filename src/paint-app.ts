@@ -8,7 +8,7 @@ import {
   property,
 } from 'lit-element';
 import store, {AppState} from './store';
-import {initialLoad, ThunkDispatch} from './ducks/paint';
+import {initialLoad, ThunkDispatch, loadFromUrl} from './ducks/paint';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare global {

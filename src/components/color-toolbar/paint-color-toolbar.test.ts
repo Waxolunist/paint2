@@ -1,7 +1,7 @@
 import {ColorToolbar} from './paint-color-toolbar';
 import {fixture, html, oneEvent} from '@open-wc/testing';
 import {colors} from './colors';
-import {firePointerEvent} from '../../test/pointerevents';
+import {fireClickEvent} from '../../test/pointerevents';
 
 describe('paint-color-toolbar', () => {
   it('is defined', () => {
@@ -35,7 +35,7 @@ describe('paint-color-toolbar', () => {
     const colorButton = el.shadowRoot!.querySelector(
       `paint-icon-button[data-color-code="${colors[1]}"]`
     )!;
-    firePointerEvent(colorButton, ['down', 'up']);
+    fireClickEvent(colorButton);
     const {detail} = await oneEvent(el, 'color-changed');
     expect(detail.code).toEqual(colors[1]);
     expect((<ColorToolbar>el).activeColor).toEqual(detail.code);

@@ -94,6 +94,9 @@ export class PaintPage extends connect(store)(LitElement) {
         padding-top: 5px;
         flex-direction: column;
         box-sizing: border-box;
+        position: fixed;
+        top: 0;
+        bottom: 0;
       }
 
       .back-button {
@@ -108,6 +111,7 @@ export class PaintPage extends connect(store)(LitElement) {
         align-items: stretch;
         flex-grow: 1;
         padding: 30px;
+        margin-left: 45px;
       }
 
       .paint-area-container {

@@ -1,6 +1,6 @@
 import {IconButton} from './paint-icon-button';
 import {fixture, html, oneEvent} from '@open-wc/testing';
-import {firePointerEvent} from '../../test/pointerevents';
+import {fireClickEvent, firePointerEvent} from '../../test/pointerevents';
 
 describe('paint-icon-button', () => {
   it('is defined', () => {
@@ -40,7 +40,7 @@ describe('paint-icon-button', () => {
 
   it('fires event after pointer up', async () => {
     const el = await fixture(html`<paint-icon-button></paint-icon-button>`);
-    firePointerEvent(el, ['down', 'up']);
+    fireClickEvent(el);
     const {detail} = await oneEvent(el, 'icon-clicked');
     expect(detail).not.toBeUndefined();
   });
