@@ -18,8 +18,8 @@ const pluginsBase = [
         src: 'src/index.html',
         dest: 'bundle',
         transform: (contents) =>
-          contents.toString().replaceAll(
-            'process.env.NODE_ENV',
+          contents.toString().replace(
+            new RegExp('process.env.NODE_ENV', 'g'),
             // eslint-disable-next-line no-undef
             `'${process.env.NODE_ENV || ''}'`
           ),
