@@ -11,7 +11,7 @@
   "module": "paint-app.js",
   "type": "module",
   "scripts": {
-    "postinstall": "ln -sf ../lit-analyzer/cli.js `npm bin`/lit-analyzer && ln -sf ../prettier/bin-prettier.js `npm bin`/prettier",
+    "postinstall": "postinstall.sh",
     "bundle": "npm run clean && NODE_ENV=production rollup -c",
     "bundle:tests": "npm run bundle && npm run test:all",
     "watch": "npm run clean && rollup -c && chokidar 'src/**/*.*' -c 'rollup -c'",
