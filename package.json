@@ -111,5 +111,9 @@
     "setupFilesAfterEnv": [
       "./setupEvents.cjs"
     ]
+  },
+  "engines": {
+    "node": ">= 12 <= 15",
+    "npm": ">= 6 <= 7"
   }
 }
