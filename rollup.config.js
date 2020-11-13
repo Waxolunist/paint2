@@ -18,12 +18,11 @@ const pluginsBase = [
         src: 'src/index.html',
         dest: 'bundle',
         transform: (contents) =>
-          contents
-            .toString()
-            .replaceAll(
-              'process.env.NODE_ENV',
-              `'${process.env.NODE_ENV || ''}'`
-            ),
+          contents.toString().replaceAll(
+            'process.env.NODE_ENV',
+            // eslint-disable-next-line no-undef
+            `'${process.env.NODE_ENV || ''}'`
+          ),
       },
       {src: 'src/manifest.json', dest: 'bundle'},
       {src: 'src/images', dest: 'bundle'},
