@@ -11,7 +11,6 @@
   "module": "paint-app.js",
   "type": "module",
   "scripts": {
-    "postinstall": "postinstall.sh",
     "bundle": "npm run clean && NODE_ENV=production rollup -c",
     "bundle:tests": "npm run bundle && npm run test:all",
     "watch": "npm run clean && rollup -c && chokidar 'src/**/*.*' -c 'rollup -c'",
