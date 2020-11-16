@@ -32,7 +32,7 @@ export class PaintButton extends LitElement {
           min-width: 100px;
           height: 100%;
           min-height: 100px;
-          touch-action: none;
+          touch-action: auto;
           margin: 0;
         }
 
@@ -86,6 +86,7 @@ export class PaintButton extends LitElement {
         class="paint-button shadow animated elevate elevate-1 elevated-3"
         @pointerdown="${this.pointerDown}"
         @pointerup="${this.pointerUp}"
+        @pointercancel="${this.pointerUp}"
         @click="${this.clicked}"
       >
         ${this.imageUrl

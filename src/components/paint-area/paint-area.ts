@@ -12,7 +12,7 @@ import {
 import PaintWorker from 'web-worker:./paint.worker.ts';
 import store, {AppState} from '../../store';
 import {CanvasPainter} from './paint-painter';
-import {defaultMemory} from './paint-memory';
+import {defaultMemory, PaintCommand, PaintMemory} from './paint-memory';
 import {Stroke} from '../../ducks/paint-model';
 import {TemplateResult} from 'lit-element';
 
@@ -124,7 +124,7 @@ export class PaintArea extends LitElement {
     {pageX, pageY, buttons} = {pageX: 0, pageY: 0, buttons: 0},
     event: PointerEvent = <PointerEvent>{},
     {left, top} = {left: 0, top: 0}
-  ) {
+  ): PaintCommand & Pick<PaintMemory, 'erase' | 'color'> {
     const rawEvents = event.getCoalescedEvents
       ? event.getCoalescedEvents()
       : [];
@@ -141,7 +141,7 @@ export class PaintArea extends LitElement {
   }
 
   @eventOptions({capture: true, passive: true})
-  private pointerDown(e: PointerEvent) {
+  private pointerDown(e: PointerEvent): void {
     this.#pointerActive = true;
     this.canvas.setPointerCapture(e.pointerId);
     this.#canvasClientBoundingRect = this.canvas.getBoundingClientRect();
@@ -156,7 +156,7 @@ export class PaintArea extends LitElement {
   }
 
   @eventOptions({capture: true, passive: true})
-  private pointerUp(e: PointerEvent) {
+  private pointerUp(e: PointerEvent): void {
     this.#pointerActive = false;
     this.canvas.releasePointerCapture(e.pointerId);
     const message = this.createMessage('stop');
@@ -164,7 +164,7 @@ export class PaintArea extends LitElement {
     this.#painter?.stopStroke();
   }
 
-  private pointerMove(e: PointerEvent) {
+  private pointerMove(e: PointerEvent): void {
     if (this.#pointerActive) {
       const message = this.createMessage(
         'move',

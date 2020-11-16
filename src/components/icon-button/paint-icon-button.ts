@@ -52,6 +52,7 @@ export class IconButton extends LitElement {
         class="icon-button icon-wrapper shadow animated elevate elevate-2 elevated-3"
         @pointerdown="${this.pointerDown}"
         @pointerup="${this.pointerUp}"
+        @pointercancel="${this.pointerUp}"
         @click="${this.clicked}"
       >
         <slot></slot>
@@ -59,28 +60,26 @@ export class IconButton extends LitElement {
     `;
   }
 
-  @eventOptions({capture: true, passive: false})
+  @eventOptions({capture: true, passive: true})
   private pointerDown(e: PointerEvent): void {
     e.stopPropagation();
-    e.preventDefault();
     this.button.classList.add('clicked');
     if (process?.env?.NODE_ENV !== 'test')
       this.button.setPointerCapture(e.pointerId);
   }
 
-  @eventOptions({capture: true, passive: false})
+  @eventOptions({capture: true, passive: true})
   private pointerUp(e: PointerEvent): void {
     e.stopPropagation();
-    e.preventDefault();
     this.button.classList.remove('clicked');
     if (process?.env?.NODE_ENV !== 'test')
       this.button.releasePointerCapture(e.pointerId);
   }
 
   @eventOptions({capture: true, passive: false})
-  private clicked(e: PointerEvent): void {
-    e.stopPropagation();
+  private clicked(e: MouseEvent): void {
     e.preventDefault();
+    e.stopPropagation();
     this.dispatchEvent(
       new CustomEvent('icon-clicked', {
         bubbles: true,
