@@ -1,5 +1,7 @@
 # Paint for Kids
 
+[https://paint.v-collaborate.com]
+
 Paint for Kids is a free paint app, with no ads and no tracking code. No cookies or whatsoever are used to track you or the usage of the app. No data about users or devices are collected. I only count the number of downloads. It can be installed on most devices, by just adding it to the home screen. The app works offline.
 
 Main goal of this app is having fun with painting. Even little kids should have no problems using it and parents should not have any privacy concerns letting them. 
@@ -84,8 +86,8 @@ Or tag and push
 
      docker login registry.v-collaborate.com
      npm run bundle && docker build -t waxolunist/paint2:latest -t waxolunist/paint2:latest .
-     docker tag waxolunist/paint2:latest registry.v-collaborate.com/{{ namespace }}/waxolunist/paint2:latest
-     docker push registry.v-collaborate.com/{{ namespace }}/waxolunist/paint2:latest
+     docker tag waxolunist/paint2:latest registry.v-collaborate.com/christian.sterzl/waxolunist/paint2:latest
+     docker push registry.v-collaborate.com/christian.sterzl/waxolunist/paint2:latest
 
 Run it with:
 
@@ -133,6 +135,7 @@ See [Get started](https://lit-element.polymer-project.org/guide/start) on the Li
 - [x] save to image folder (via share)
 - [x] test if share is really possible, error popup if not (first construct files, then call share)
 - [x] safari comp.
+- [ ] version string in about page (rollup?)
 - [ ] loading animations
 - [ ] PWA context menus / shortcuts
 - [ ] lighthouse analysis 
@@ -144,11 +147,14 @@ See [Get started](https://lit-element.polymer-project.org/guide/start) on the Li
 - [ ] Popup for filename?
 - [ ] store image in worker (worker to indexdb)?
 - [ ] store image on pointer up?
+- [ ] 2-finger painting on devices without PointerEvent.prototype.getCoalescedEvents (keep last event per finger)
+- [ ] links on about page, open in browser
 
 Dev
 - [ ] uglify / minimize
 - [ ] better watching
 - [ ] npm 7 
+- [ ] source maps on server for debugging
 
 Server
 - [ ] Server fallback page
