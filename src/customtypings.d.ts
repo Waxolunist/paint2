@@ -15,3 +15,10 @@ interface LitRouteElement {
   /** @attr */
   component: string;
 }
+
+interface ShareData {
+  text?: string;
+  title?: string;
+  url?: string;
+  files?: File[];
+}

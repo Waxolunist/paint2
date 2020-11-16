@@ -1,6 +1,7 @@
 import {
   removePaintingFromArray,
   newSortedDeduplicatedPaintingsArray,
+  toFileExtension,
 } from './paint-utils';
 import {Painting} from './paint-model';
 import {extractIdFromUrl} from './paint-utils';
@@ -58,6 +59,14 @@ describe('paint utils', () => {
     it('extract id from pathname', () => {
       setLocation('https://www.example.com/blablubbb/222');
       expect(extractIdFromUrl()).toBeUndefined();
+    });
+
+    it('fileext to mimetype', () => {
+      expect(toFileExtension('image/png')).toEqual('png');
+    });
+
+    it('fileext to mimetype simple mime', () => {
+      expect(toFileExtension('png')).toEqual('png');
     });
   });
 });

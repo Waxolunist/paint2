@@ -6,10 +6,12 @@ export interface Painting {
   cleanState: () => Promise<void>;
 }
 
+export const defaultDataUrl =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+
 export class PaintingImpl implements Painting {
   id?: number;
-  dataUrl? =
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+  dataUrl? = defaultDataUrl;
   #blobUrl: string;
 
   constructor(dataUrl?: string, id?: number | string) {

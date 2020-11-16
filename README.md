@@ -127,13 +127,22 @@ See [Get started](https://lit-element.polymer-project.org/guide/start) on the Li
 
 # Issues
 - [ ] about page
-- [ ] eraser
-- [ ] share function not programmed
-- [ ] save to image folder
-- [ ] store in worker
-- [ ] store on pointer up
-- [ ] iOS topBar colour adjustment
+- [x] eraser
+- [x] share function not programmed
+- [x] save to image folder (via share)
+- [x] test if share is really possible, error popup if not (first construct files, then call share)
+- [x] safari comp.
 - [ ] loading animations
 - [ ] PWA context menus / shortcuts
-- [x] lighthouse analysis 
-- [x] TWA
+- [ ] lighthouse analysis 
+- [ ] TWA
+- [ ] iOS topBar colour adjustment
+- [ ] sort with drag and drop
+- [ ] Multifileshare?
+- [ ] Popup for filename?
+- [ ] store image in worker (worker to indexdb)?
+- [ ] store image on pointer up?
+
+Server
+- [ ] Store file on server (share url)
+- [ ] Better gzipping (brtl)

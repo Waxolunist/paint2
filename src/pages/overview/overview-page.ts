@@ -13,7 +13,7 @@ import '../../components/icon-button/paint-icon-button';
 import {closeIcon, shareIcon} from './icons';
 import store from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
-import {Painting, PaintState} from '../../ducks/paint-model';
+import {Painting, PaintState, defaultDataUrl} from '../../ducks/paint-model';
 import {repeat} from 'lit-html/directives/repeat';
 import {
   loadData,
@@ -22,6 +22,7 @@ import {
   removePainting,
 } from '../../ducks/paint';
 import {RouterState} from 'lit-redux-router/lib/reducer';
+import {toFileExtension, dataURLtoBlob} from '../../ducks/paint-utils';
 
 @customElement('paint-overview-page')
 export class OverviewPage extends connect(store)(LitElement) {
@@ -47,6 +48,7 @@ export class OverviewPage extends connect(store)(LitElement) {
         padding: 1.5em 0;
         /* prettier-ignore */
         min-width: calc((var(--painting-width) / var(--painting-scalefactor) + var(--painting-margin)) * 2);
+        position: relative;
       }
 
       .paintings {
@@ -63,6 +65,19 @@ export class OverviewPage extends connect(store)(LitElement) {
         width: calc(var(--painting-width) / var(--painting-scalefactor));
         height: calc(var(--painting-height) / var(--painting-scalefactor));
         position: relative;
+      }
+
+      .about {
+        position: absolute;
+        bottom: -2em;
+        padding: 1em;
+        font-size: large;
+        font-family: monospace;
+        font-weight: bold;
+      }
+
+      .about a {
+        color: #ffffef;
       }
 
       @media screen and (max-width: 400px) {
@@ -100,7 +115,7 @@ export class OverviewPage extends connect(store)(LitElement) {
                 @icon-clicked="${this.removePainting(painting.id)}"
                 >${closeIcon}</paint-icon-button
               >
-              ${navigator.canShare
+              ${this.canShare()
                 ? html`<paint-icon-button
                     slot="addons"
                     @icon-clicked="${this.sharePainting(painting.id)}"
@@ -110,6 +125,7 @@ export class OverviewPage extends connect(store)(LitElement) {
             </paint-paint-button>`
         )}
       </div>
+      <div class="about"><a href="/about">About this app</a></div>
     `;
   }
 
@@ -135,7 +151,41 @@ export class OverviewPage extends connect(store)(LitElement) {
     (<ThunkDispatch>store.dispatch)(removePainting(id));
   };
 
-  private sharePainting = (id?: number | string) => (e: CustomEvent): void => {
-    console.log(`${id}: ${e}`);
+  private canShare = (): boolean | undefined => {
+    const blob = dataURLtoBlob(defaultDataUrl);
+    return (
+      navigator.canShare &&
+      navigator.canShare({
+        files: [
+          new File([blob], `test.${toFileExtension(blob.type)}`, {
+            type: blob.type,
+          }),
+        ],
+      })
+    );
+  };
+
+  private sharePainting = (id?: number | string) => async (): Promise<void> => {
+    const painting:
+      | Painting
+      | undefined = store.getState().paint.paintings.find((p) => p.id == id);
+    if (painting) {
+      const request = await fetch(painting.blobUrl);
+      const blob = await request.blob();
+      try {
+        await navigator.share({
+          files: [
+            new File([blob], `painting.${toFileExtension(blob.type)}`, {
+              type: blob.type,
+            }),
+          ],
+          title: 'My Painting',
+          text: `Look Ma' what I did.`,
+          url: 'myurl',
+        });
+      } catch (error) {
+        console.error('Sharing failed', error);
+      }
+    }
   };
 }

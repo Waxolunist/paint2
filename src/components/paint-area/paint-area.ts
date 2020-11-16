@@ -209,7 +209,18 @@ export class PaintArea extends LitElement {
   }
 
   toImage(): string {
-    return this.canvas.toDataURL('image/png');
+    const destinationCanvas: HTMLCanvasElement = document.createElement(
+      'canvas'
+    );
+    destinationCanvas.width = this.canvas.width;
+    destinationCanvas.height = this.canvas.height;
+
+    const destCtx = destinationCanvas.getContext('2d');
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    destCtx!.fillStyle = '#FFFFFF';
+    destCtx?.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    destCtx?.drawImage(this.canvas, 0, 0);
+    return destinationCanvas.toDataURL('image/png');
   }
 
   async getStrokes(): Promise<Stroke[]> {

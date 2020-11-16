@@ -39,6 +39,8 @@ const logger = <S, T>({getState}: {getState: () => S}) => (
   return returnValue;
 };
 
+const knownRoutes = ['/', '/about'];
+
 const router: Middleware<unknown, AppState> = <T extends string>({
   dispatch,
   getState,
@@ -54,7 +56,10 @@ const router: Middleware<unknown, AppState> = <T extends string>({
     const activePaintingId = paint.activePainting?.painting?.id;
     if (activePaintingId && router.activeRoute === '/') {
       dispatch(navigate(`/paint/${activePaintingId}`));
-    } else if (!activePaintingId && router.activeRoute !== '/') {
+    } else if (
+      !activePaintingId &&
+      knownRoutes.indexOf(router.activeRoute) < 0
+    ) {
       dispatch(navigate('/'));
     }
   }
