@@ -36,7 +36,7 @@ _database.on('populate', () => {
   console.log('populate');
   const paintingsFromLS = localStorage.getItem('paintings');
   if (paintingsFromLS) {
-    const paintings = JSON.parse(paintingsFromLS || '[]').map(
+    const paintings = (JSON.parse(paintingsFromLS || '[]') || []).map(
       (p: Painting) => p
     );
     localStorage.removeItem('paintings');

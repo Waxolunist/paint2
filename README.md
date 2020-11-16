@@ -83,6 +83,7 @@ npm run serve:bundle
 Or tag and push
 
      docker login registry.v-collaborate.com
+     npm run bundle && docker build -t waxolunist/paint2:latest -t waxolunist/paint2:latest .
      docker tag waxolunist/paint2:latest registry.v-collaborate.com/{{ namespace }}/waxolunist/paint2:latest
      docker push registry.v-collaborate.com/{{ namespace }}/waxolunist/paint2:latest
 
@@ -126,7 +127,7 @@ Prettier has not been configured to run when commiting files, but this can be ad
 See [Get started](https://lit-element.polymer-project.org/guide/start) on the LitElement site for more information.
 
 # Issues
-- [ ] about page
+- [x] about page
 - [x] eraser
 - [x] share function not programmed
 - [x] save to image folder (via share)
@@ -136,13 +137,20 @@ See [Get started](https://lit-element.polymer-project.org/guide/start) on the Li
 - [ ] PWA context menus / shortcuts
 - [ ] lighthouse analysis 
 - [ ] TWA
-- [ ] iOS topBar colour adjustment
+- [x] iOS topBar colour adjustment
+- [ ] iOS comp.
 - [ ] sort with drag and drop
 - [ ] Multifileshare?
 - [ ] Popup for filename?
 - [ ] store image in worker (worker to indexdb)?
 - [ ] store image on pointer up?
 
+Dev
+- [ ] uglify / minimize
+- [ ] better watching
+- [ ] npm 7 
+
 Server
+- [ ] Server fallback page
 - [ ] Store file on server (share url)
 - [ ] Better gzipping (brtl)
