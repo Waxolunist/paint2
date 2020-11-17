@@ -15,6 +15,7 @@ import {CanvasPainter} from './paint-painter';
 import {defaultMemory, PaintCommand, PaintMemory} from './paint-memory';
 import {Stroke} from '../../ducks/paint-model';
 import {TemplateResult} from 'lit-element';
+import {PointerEventCoalescor} from './pointer-event-coalescor';
 
 @customElement('paint-area')
 export class PaintArea extends LitElement {
@@ -41,12 +42,17 @@ export class PaintArea extends LitElement {
 
   #workerSupported = false;
 
+  #coalesceEventsSupported = false;
+
+  #pointerEventCoalescor = new PointerEventCoalescor();
+
   #painter?: CanvasPainter = undefined;
 
   connectedCallback(): void {
     super.connectedCallback();
     this.#workerSupported = !!HTMLCanvasElement.prototype
       .transferControlToOffscreen;
+    this.#coalesceEventsSupported = !!PointerEvent.prototype.getCoalescedEvents;
 
     if (this.#workerSupported && !this.#worker) {
       this.#worker = new PaintWorker();
@@ -119,23 +125,39 @@ export class PaintArea extends LitElement {
     }));
   }
 
+  private toPointerEventArray(
+    events: PointerEvent | PointerEvent[] = <PointerEvent>{}
+  ): PointerEvent[] {
+    if (Array.isArray(events)) {
+      return events;
+    }
+    return (
+      events.getCoalescedEvents?.() ?? [
+        {pageX: events.pageX, pageY: events.pageY},
+      ]
+    );
+  }
+
+  private getLastEvent(
+    events: PointerEvent | PointerEvent[] = <PointerEvent>{}
+  ): PointerEvent {
+    if (Array.isArray(events) && events.length) {
+      return events[events.length - 1];
+    }
+    return events as PointerEvent;
+  }
+
   private createMessage(
     command: string,
-    {pageX, pageY, buttons} = {pageX: 0, pageY: 0, buttons: 0},
-    event: PointerEvent = <PointerEvent>{},
+    events: PointerEvent | PointerEvent[] = <PointerEvent>{},
     {left, top} = {left: 0, top: 0}
   ): PaintCommand & Pick<PaintMemory, 'erase' | 'color'> {
-    const rawEvents = event.getCoalescedEvents
-      ? event.getCoalescedEvents()
-      : [];
     return {
       command,
-      coordinates: this.mapEvents(
-        rawEvents.length ? rawEvents : [{pageX, pageY}]
-      ),
+      coordinates: this.mapEvents(this.toPointerEventArray(events)),
       left,
       top,
-      erase: buttons === 32,
+      erase: this.getLastEvent(events).buttons === 32,
       color: this.colorCode,
     };
   }
@@ -147,7 +169,6 @@ export class PaintArea extends LitElement {
     this.#canvasClientBoundingRect = this.canvas.getBoundingClientRect();
     const message = this.createMessage(
       'start',
-      e,
       e,
       this.#canvasClientBoundingRect
     );
@@ -162,13 +183,15 @@ export class PaintArea extends LitElement {
     const message = this.createMessage('stop');
     this.#worker?.postMessage(message);
     this.#painter?.stopStroke();
+    if (!this.#coalesceEventsSupported) {
+      this.#pointerEventCoalescor.eventRemove(e);
+    }
   }
 
-  private pointerMove(e: PointerEvent): void {
+  private pointerMove(e: PointerEvent | PointerEvent[]): void {
     if (this.#pointerActive) {
       const message = this.createMessage(
         'move',
-        e,
         e,
         this.#canvasClientBoundingRect
       );
@@ -197,13 +220,13 @@ export class PaintArea extends LitElement {
 
   @eventOptions({capture: true, passive: true})
   private throttledPointerMove(e: PointerEvent): void {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    if (PointerEvent.prototype.getCoalescedEvents) {
+    if (this.#coalesceEventsSupported) {
       this.pointerMove(e);
     } else {
+      this.#pointerEventCoalescor.eventAdd(e);
       this.throttledMove(() => {
-        this.pointerMove(e);
+        this.pointerMove(this.#pointerEventCoalescor.getCoalescedEvents());
+        this.#pointerEventCoalescor.clear();
       });
     }
   }

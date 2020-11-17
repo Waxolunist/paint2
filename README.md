@@ -136,18 +136,18 @@ See [Get started](https://lit-element.polymer-project.org/guide/start) on the Li
 - [x] test if share is really possible, error popup if not (first construct files, then call share)
 - [x] safari comp.
 - [ ] version string in about page (rollup?)
-- [ ] loading animations
+- [ ] loading animations / skeletons / async image load on overview page
 - [ ] PWA context menus / shortcuts
 - [ ] lighthouse analysis 
 - [ ] TWA
 - [x] iOS topBar colour adjustment
-- [ ] iOS comp.
-- [ ] sort with drag and drop
+- [x] iOS comp.
+- [ ] sort with drag and drop?
 - [ ] Multifileshare?
 - [ ] Popup for filename?
 - [ ] store image in worker (worker to indexdb)?
 - [ ] store image on pointer up?
-- [ ] 2-finger painting on devices without PointerEvent.prototype.getCoalescedEvents (keep last event per finger)
+- [x] 2-finger painting on devices without PointerEvent.prototype.getCoalescedEvents
 - [ ] links on about page, open in browser
 
 Dev
@@ -160,3 +160,4 @@ Server
 - [ ] Server fallback page
 - [ ] Store file on server (share url)
 - [ ] Better gzipping (brtl)
+- [ ] reload on about page not working
