@@ -4,4 +4,4 @@ WORKDIR /srv/http
 ADD ./bundle ./
 
 EXPOSE 8043
-CMD [ "/goStatic", "-fallback", "/index.html" ]
+CMD ["-enable-health", "-enable-logging", "-fallback", "/index.html" ]

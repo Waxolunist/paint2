@@ -91,8 +91,10 @@ Or tag and push
 
 Run it with:
 
+    docker rm paintforkids
     docker run -p 8043:8043 --name paintforkids waxolunist/paint2:latest 
 
+    
 ## Editing
 
 If you use VS Code, we highly reccomend the [lit-plugin extension](https://marketplace.visualstudio.com/items?itemName=runem.lit-plugin), which enables some extremely useful features for lit-html templates:
@@ -142,6 +144,7 @@ See [Get started](https://lit-element.polymer-project.org/guide/start) on the Li
 - [ ] TWA
 - [x] iOS topBar colour adjustment
 - [x] iOS comp.
+- [ ] animation on colorbuttons on ios slow
 - [ ] sort with drag and drop?
 - [ ] Multifileshare?
 - [ ] Popup for filename?
@@ -149,6 +152,7 @@ See [Get started](https://lit-element.polymer-project.org/guide/start) on the Li
 - [ ] store image on pointer up?
 - [x] 2-finger painting on devices without PointerEvent.prototype.getCoalescedEvents
 - [ ] links on about page, open in browser
+- [ ] service worker update (show that there is an update)
 
 Dev
 - [ ] uglify / minimize / terser
@@ -160,4 +164,4 @@ Server
 - [ ] Server fallback page
 - [ ] Store file on server (share url)
 - [ ] Better gzipping (brtl)
-- [ ] reload on about page not working
+- [x] reload on about page not working
