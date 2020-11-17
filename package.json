@@ -110,7 +110,15 @@
     ],
     "setupFilesAfterEnv": [
       "./setupEvents.cjs"
-    ]
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 50,
+        "functions": 80,
+        "lines": 70,
+        "statements": 70
+      }
+    }
   },
   "engines": {
     "node": ">= 12 <= 15",
