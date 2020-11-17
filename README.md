@@ -151,7 +151,7 @@ See [Get started](https://lit-element.polymer-project.org/guide/start) on the Li
 - [ ] links on about page, open in browser
 
 Dev
-- [ ] uglify / minimize
+- [ ] uglify / minimize / terser
 - [ ] better watching
 - [ ] npm 7 
 - [ ] source maps on server for debugging
