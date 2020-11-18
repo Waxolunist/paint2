@@ -161,7 +161,7 @@ Dev
 - [ ] source maps on server for debugging
 
 Server
-- [ ] Server fallback page
-- [ ] Store file on server (share url)
+- [x] Server fallback page
+- [ ] Store file on server (share url)?
 - [ ] Better gzipping (brtl)
 - [x] reload on about page not working

@@ -3,6 +3,9 @@ import typescript from '@rollup/plugin-typescript';
 import copy from 'rollup-plugin-copy';
 import workerLoader from 'rollup-plugin-web-worker-loader';
 import {generateSW} from 'rollup-plugin-workbox';
+import {terser} from 'rollup-plugin-terser';
+import {constants} from 'zlib';
+import brotli from 'rollup-plugin-brotli';
 
 const pluginsBase = [
   resolve(),
@@ -33,10 +36,20 @@ const pluginsBase = [
 
 const pluginsProduction = [
   ...pluginsBase,
-
+  terser({
+    output: {
+      comments: false,
+    },
+  }),
   generateSW({
     swDest: 'bundle/sw.js',
     globDirectory: 'bundle',
+  }),
+  brotli({
+    options: {
+      mode: 0,
+      level: constants.BROTLI_MAX_QUALITY,
+    },
   }),
 ];
 
