@@ -55,3 +55,17 @@ steps:
     command: 'custom'
     customCommand: 'run test:cy'    
   displayName: 'npm cypress'
+
+- task: Docker@2
+  displayName: Login to Registry
+  inputs:
+    command: login
+    containerRegistry: dockerRegistryVcollaborate
+
+- task: Docker@2
+  displayName: Build and Push
+  inputs:
+    command: buildAndPush
+    repository: waxolunist/paint2
+    tags: |
+      latest

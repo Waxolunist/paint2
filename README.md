@@ -155,7 +155,7 @@ See [Get started](https://lit-element.polymer-project.org/guide/start) on the Li
 - [ ] service worker update (show that there is an update)
 
 Dev
-- [ ] uglify / minimize / terser
+- [x] uglify / minimize / terser
 - [ ] better watching
 - [ ] npm 7 
 - [ ] source maps on server for debugging
@@ -163,5 +163,6 @@ Dev
 Server
 - [x] Server fallback page
 - [ ] Store file on server (share url)?
-- [ ] Better gzipping (brtl)
+- [ ] Better gzipping (brtl) - change to nginx
 - [x] reload on about page not working
+- [ ] build and push docker image in dev azure
