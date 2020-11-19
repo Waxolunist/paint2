@@ -1,14 +1,19 @@
-# Node.js
-# Build a general Node.js project with npm.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+parameters:
+- name: releasetype
+  displayName: 'Release Type'
+  type: string
+  default: 
+  values:
+  - major
+  - minor
+  - patch
 
 trigger:
 - master
 
 stages:
-- stage: Builds
-
+- stage: Build
+  displayName: Build
   pool:
     vmImage: 'ubuntu-latest'
   dependsOn: []
@@ -96,14 +101,20 @@ stages:
           tags: |
             latest
 
-- stage: Deploy
-  displayName: Deploy stage
-  dependsOn: Builds
+- stage: Version
+  displayName: Version
+  pool:
+    vmImage: 'ubuntu-latest'
+  dependsOn: Build
+  condition: and(succeeded('Build'), not(eq(${{ releasetype }}, '')))
+
+- stage: QA
+  displayName: QA
+  dependsOn: [Build, Version]
+  condition: and(succeeded('Build'), succeeded('Version'))
   jobs:
   - deployment: Deploy
     displayName: Deploy job
-#    pool:
-#      vmImage:
     environment: Production
     strategy:
       runOnce:
