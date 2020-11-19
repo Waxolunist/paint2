@@ -96,20 +96,20 @@ stages:
           tags: |
             latest
 
-#- stage: Deploy
-#  displayName: Deploy stage
-#  dependsOn: Builds
-#  jobs:
-#  - deployment: Deploy
-#    displayName: Deploy job
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Builds
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy job
 #    pool:
 #      vmImage:
-#    environment: Production
-#    strategy:
-#      runOnce:
-#        deploy:
-#          steps:
-#          - task: DownloadPipelineArtifact@2
-#            inputs:
-#              artifactName: 'manifests'
-#              downloadPath: '$(System.ArtifactsDirectory)/manifests'
+    environment: Production
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: Bash@3
+              inputs:
+                targetType: 'inline'
+                script: echo test
