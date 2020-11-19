@@ -2,9 +2,9 @@ parameters:
 - name: releasetype
   displayName: 'Release Type'
   type: string
-  default: ''
+  default: none
   values:
-  - ''
+  - none
   - major
   - minor
   - patch
@@ -107,7 +107,7 @@ stages:
   pool:
     vmImage: 'ubuntu-latest'
   dependsOn: Build
-  condition: and(succeeded('Build'), not(eq(${{ releasetype }}, '')))
+  condition: and(succeeded('Build'), not(eq(${{ releasetype }}, 'none')))
 
 - stage: QA
   displayName: QA
