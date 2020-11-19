@@ -60,6 +60,7 @@ stages:
         inputs:
           codeCoverageTool: 'cobertura'
           summaryFileLocation: $(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml
+        displayName: 'publish coverage data'
 
       - task: Npm@1
         inputs:
@@ -93,20 +94,20 @@ stages:
           tags: |
             latest
 
-- stage: Deploy
-  displayName: Deploy stage
-  dependsOn: Build
-  jobs:
-  - deployment: Deploy
-    displayName: Deploy job
-    pool:
-      vmImage:
-    environment: Production
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: 'manifests'
-              downloadPath: '$(System.ArtifactsDirectory)/manifests'
+#- stage: Deploy
+#  displayName: Deploy stage
+#  dependsOn: Builds
+#  jobs:
+#  - deployment: Deploy
+#    displayName: Deploy job
+#    pool:
+#      vmImage:
+#    environment: Production
+#    strategy:
+#      runOnce:
+#        deploy:
+#          steps:
+#          - task: DownloadPipelineArtifact@2
+#            inputs:
+#              artifactName: 'manifests'
+#              downloadPath: '$(System.ArtifactsDirectory)/manifests'
