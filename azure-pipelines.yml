@@ -56,12 +56,6 @@ stages:
           customCommand: 'run test:coverage'
         displayName: 'npm test'
 
-      - task: PublishCodeCoverageResults@1
-        inputs:
-          codeCoverageTool: 'cobertura'
-          summaryFileLocation: $(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml
-        displayName: 'publish coverage data'
-
       - task: Npm@1
         inputs:
           command: 'custom'
@@ -72,6 +66,21 @@ stages:
         inputs:
           testResultsFormat: 'JUnit'
           testResultsFiles: 'coverage/junit.xml'
+          testRunTitle: 'jest'
+        displayName: 'publish test data jest'
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: 'coverage/cypress-junit.xml'
+          testRunTitle: 'cypress'
+        displayName: 'publish test data cypress'
+
+      - task: PublishCodeCoverageResults@1
+        inputs:
+          codeCoverageTool: 'cobertura'
+          summaryFileLocation: $(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml
+        displayName: 'publish coverage data'
 
       - task: Docker@2
         displayName: docker login

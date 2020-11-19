@@ -1,4 +1,9 @@
 {
   "baseUrl": "http://localhost:8000",
-  "includeShadowDom": true
+  "includeShadowDom": true,
+  "reporter": "junit",
+  "reporterOptions": {
+    "mochaFile": "coverage/cypress-junit.xml",
+    "toConsole": true
+  }
 }
