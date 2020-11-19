@@ -6,66 +6,70 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-latest'
+stages:
+- stage: Builds
+  pool:
+    vmImage: 'ubuntu-latest'
+  dependsOn: []
+  jobs:
+    - job: Build and Push
+      steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '14.x'
+        displayName: 'Install Node.js'
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '14.x'
-  displayName: 'Install Node.js'
+      - task: Npm@1
+        inputs:
+          command: 'install'
+        displayName: 'npm install'
 
-- task: Npm@1
-  inputs:
-    command: 'install'
-  displayName: 'npm install'
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'audit'
+        displayName: 'npm audit'
 
-- task: Npm@1
-  inputs:
-    command: 'custom'
-    customCommand: 'audit'
-  displayName: 'npm audit'
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'outdated'
+        displayName: 'npm outdated'
 
-- task: Npm@1
-  inputs:
-    command: 'custom'
-    customCommand: 'outdated'
-  displayName: 'npm outdated'
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run lint:warningson'
+        displayName: 'npm lint'
 
-- task: Npm@1
-  inputs:
-    command: 'custom'
-    customCommand: 'run lint:warningson'
-  displayName: 'npm lint'
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run bundle'
+        displayName: 'npm bundle'
 
-- task: Npm@1
-  inputs:
-    command: 'custom'
-    customCommand: 'run bundle'
-  displayName: 'npm bundle'
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run test:coverage'
+        displayName: 'npm test'
 
-- task: Npm@1
-  inputs:
-    command: 'custom'
-    customCommand: 'run test:coverage'
-  displayName: 'npm test'
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run test:cy'    
+        displayName: 'npm cypress'
 
-- task: Npm@1
-  inputs:
-    command: 'custom'
-    customCommand: 'run test:cy'    
-  displayName: 'npm cypress'
+      - task: Docker@2
+        displayName: docker login
+        inputs:
+          command: login
+          containerRegistry: dockerRegistryVcollaborate
 
-- task: Docker@2
-  displayName: docker login
-  inputs:
-    command: login
-    containerRegistry: dockerRegistryVcollaborate
-
-- task: Docker@2
-  displayName: docker build and push
-  inputs:
-    command: buildAndPush
-    repository: dev/waxolunist/paint2
-    tags: |
-      latest
+      - task: Docker@2
+        displayName: docker build and push
+        inputs:
+          command: buildAndPush
+          repository: dev/waxolunist/paint2
+          tags: |
+            latest
