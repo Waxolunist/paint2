@@ -68,17 +68,10 @@ stages:
           customCommand: 'run test:cy'    
         displayName: 'npm cypress'
 
-      #- task: PublishTestResults@2
-        #inputs:
-          #testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
-          #testResultsFiles: 'coverage/cobertura-coverage.xml' 
-          #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
-          #mergeTestResults: false # Optional
-          #failTaskOnFailedTests: false # Optional
-          #testRunTitle: # Optional
-          #buildPlatform: # Optional
-          #buildConfiguration: # Optional
-          #publishRunAttachments: true # Optional
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: 'coverage/junit.xml'
 
       - task: Docker@2
         displayName: docker login
