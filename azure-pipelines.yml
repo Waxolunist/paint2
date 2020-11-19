@@ -2,9 +2,9 @@ parameters:
 - name: releasetype
   displayName: 'Release Type'
   type: string
-  default: 
+  default: ''
   values:
-  - 
+  - ''
   - major
   - minor
   - patch
