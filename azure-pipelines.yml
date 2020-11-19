@@ -107,7 +107,7 @@ stages:
   pool:
     vmImage: 'ubuntu-latest'
   dependsOn: Build
-  condition: and(succeeded('Build'), not(eq(${{ parameters.releasetype }}, 'none')))
+  condition: and(succeeded('Build'), not(eq(${{ parameters.releasetype }}, none)))
 
 - stage: QA
   displayName: QA
