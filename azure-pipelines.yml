@@ -8,6 +8,7 @@ trigger:
 
 stages:
 - stage: Builds
+
   pool:
     vmImage: 'ubuntu-latest'
   dependsOn: []
@@ -55,11 +56,28 @@ stages:
           customCommand: 'run test:coverage'
         displayName: 'npm test'
 
+      - task: PublishCodeCoverageResults@1
+        inputs:
+          codeCoverageTool: 'cobertura'
+          summaryFileLocation: $(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml
+
       - task: Npm@1
         inputs:
           command: 'custom'
           customCommand: 'run test:cy'    
         displayName: 'npm cypress'
+
+      #- task: PublishTestResults@2
+        #inputs:
+          #testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
+          #testResultsFiles: 'coverage/cobertura-coverage.xml' 
+          #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
+          #mergeTestResults: false # Optional
+          #failTaskOnFailedTests: false # Optional
+          #testRunTitle: # Optional
+          #buildPlatform: # Optional
+          #buildConfiguration: # Optional
+          #publishRunAttachments: true # Optional
 
       - task: Docker@2
         displayName: docker login
@@ -74,3 +92,21 @@ stages:
           repository: dev/waxolunist/paint2
           tags: |
             latest
+
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy job
+    pool:
+      vmImage:
+    environment: Production
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              artifactName: 'manifests'
+              downloadPath: '$(System.ArtifactsDirectory)/manifests'
