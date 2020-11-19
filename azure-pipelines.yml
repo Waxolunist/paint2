@@ -12,7 +12,7 @@ stages:
     vmImage: 'ubuntu-latest'
   dependsOn: []
   jobs:
-    - job: Build and Push
+    - job: BuildAndPush
       steps:
       - task: NodeTool@0
         inputs:
