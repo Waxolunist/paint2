@@ -4,6 +4,7 @@ parameters:
   type: string
   default: 
   values:
+  - 
   - major
   - minor
   - patch
