@@ -112,7 +112,7 @@ stages:
 - stage: QA
   displayName: QA
   dependsOn: [Build, Version]
-  condition: succeeded('Build')
+  condition: and(succeeded('Build'), succeeded('Version'))
   jobs:
   - deployment: Deploy
     displayName: Deploy job
