@@ -93,7 +93,10 @@ stages:
           targetType: 'inline'
           script: |
             PAINT_VERSION=`npm version | grep paint2 | awk '{print $2}' | sed "s/[',]//g"`
+            echo "Paint 2 version: ${PAINT_VERSION}"
             echo "##vso[task.setvariable variable=PAINT2_VERSION]${PAINT_VERSION}"
+        displayName: 'set version vars'
+
 
       - task: Docker@2
         displayName: docker login
@@ -108,7 +111,7 @@ stages:
           repository: dev/waxolunist/paint2
           tags: |
             $(Build.BuildId)
-            $(PAINT_VERSION)
+            $(PAINT2_VERSION)
 
 - stage: Version
   displayName: Version
