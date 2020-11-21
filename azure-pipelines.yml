@@ -15,7 +15,8 @@ trigger:
 stages:
 - stage: Build
   displayName: Build
-  pool: Default
+  pool:
+    vmImage: 'ubuntu-latest'
   dependsOn: []
   jobs:
     - job: buildandpush
