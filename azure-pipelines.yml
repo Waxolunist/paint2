@@ -87,6 +87,13 @@ stages:
           summaryFileLocation: $(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml
         displayName: 'publish coverage data'
 
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
+            PAINT_VERSION=`npm version | grep paint2 | awk '{print $2}' | sed "s/[',]//g"`
+            echo "##vso[task.setvariable variable=PAINT2_VERSION]${PAINT_VERSION}"
+
       - task: Docker@2
         displayName: docker login
         inputs:
@@ -99,7 +106,8 @@ stages:
           command: buildAndPush
           repository: dev/waxolunist/paint2
           tags: |
-            latest
+            $(Build.BuildId)
+            $(PAINT_VERSION)
 
 - stage: Version
   displayName: Version
