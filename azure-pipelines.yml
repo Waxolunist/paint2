@@ -95,6 +95,12 @@ stages:
             PAINT_VERSION=`npm version | grep paint2 | awk '{print $2}' | sed "s/[',]//g"`
             echo "Paint 2 version: ${PAINT_VERSION}"
             echo "##vso[task.setvariable variable=PAINT2_VERSION]${PAINT_VERSION}"
+            SHORT_HASH=`git rev-parse --short=7 HEAD`  ## At least 7 digits, more if needed for uniqueness
+            echo ""
+            echo "Full git hash:  $(Build.SourceVersion)"
+            echo "Short git hash: ${SHORT_HASH}"
+            echo "##vso[task.setvariable variable=SHORT_HASH]$SHORT_HASH"
+        workingDirectory: $(Build.SourcesDirectory)
         displayName: 'set version vars'
 
 
@@ -110,7 +116,8 @@ stages:
           command: buildAndPush
           repository: dev/waxolunist/paint2
           tags: |
-            $(Build.BuildId)
+            build-$(Build.BuildId)
+            commit-$(SHORT_HASH)
             $(PAINT2_VERSION)
 
 - stage: Version
