@@ -100,7 +100,7 @@ stages:
             echo "Full git hash:  $(Build.SourceVersion)"
             echo "Short git hash: ${SHORT_HASH}"
             echo "##vso[task.setvariable variable=SHORT_HASH]$SHORT_HASH"
-        workingDirectory: $(Build.SourcesDirectory)
+          workingDirectory: $(Build.SourcesDirectory)
         displayName: 'set version vars'
 
 
