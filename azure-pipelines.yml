@@ -103,7 +103,6 @@ stages:
           workingDirectory: $(Build.SourcesDirectory)
         displayName: 'set version vars'
 
-
       - task: Docker@2
         displayName: docker login
         inputs:
@@ -120,26 +119,13 @@ stages:
             commit-$(SHORT_HASH)
             $(PAINT2_VERSION)
 
-- stage: Version
-  displayName: Version
-  pool:
-    vmImage: 'ubuntu-latest'
-  dependsOn: Build
-  condition: and(succeeded('Build'), not(eq('${{ parameters.releasetype }}', 'none')))
+      - task: ShellScript@2
+        inputs:
+          scriptPath: $(System.DefaultWorkingDirectory)/build_info.sh
+          args: 'build-$(Build.BuildId) commit-$(SHORT_HASH) $(PAINT2_VERSION)'
 
-- stage: QA
-  displayName: QA
-  dependsOn: [Build, Version]
-  condition: and(succeeded('Build'), succeeded('Version'))
-  jobs:
-  - deployment: Deploy
-    displayName: Deploy job
-    environment: Production
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-            - task: Bash@3
-              inputs:
-                targetType: 'inline'
-                script: echo test
+      - task: PublishBuildArtifacts@1
+        displayName: Publish Artifacts
+        inputs:
+          pathToPublish: $(System.DefaultWorkingDirectory)/build_info.txt
+          artifactName: buildinfo
