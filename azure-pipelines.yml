@@ -1,14 +1,3 @@
-parameters:
-- name: releasetype
-  displayName: 'Release Type'
-  type: string
-  default: none
-  values:
-  - none
-  - major
-  - minor
-  - patch
-
 trigger:
 - master
 
@@ -120,12 +109,13 @@ stages:
             $(PAINT2_VERSION)
 
       - task: ShellScript@2
+        displayName: create build artifact
         inputs:
           scriptPath: $(System.DefaultWorkingDirectory)/build_info.sh
           args: 'build-$(Build.BuildId) commit-$(SHORT_HASH) $(PAINT2_VERSION)'
 
       - task: PublishBuildArtifacts@1
-        displayName: Publish Artifacts
+        displayName: publish build artifact
         inputs:
           pathToPublish: $(System.DefaultWorkingDirectory)/build_info.txt
           artifactName: buildinfo
