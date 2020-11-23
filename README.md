@@ -2,7 +2,7 @@
 
 [![Build Status](https://dev.azure.com/christiansterzl/Paint%202/_apis/build/status/Bundle%20and%20test?branchName=master)](https://dev.azure.com/christiansterzl/Paint%202/_build/latest?definitionId=1&branchName=master)
 
-[https://paint.v-collaborate.com]
+[https://paint.v-collaborate.com](https://paint.v-collaborate.com)
 
 Paint for Kids is a free paint app, with no ads and no tracking code. No cookies or whatsoever are used to track you or the usage of the app. No data about users or devices are collected. I only count the number of downloads. It can be installed on most devices, by just adding it to the home screen. The app works offline.
 
