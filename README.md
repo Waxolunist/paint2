@@ -139,7 +139,7 @@ See [Get started](https://lit-element.polymer-project.org/guide/start) on the Li
 - [x] save to image folder (via share)
 - [x] test if share is really possible, error popup if not (first construct files, then call share)
 - [x] safari comp.
-- [ ] version string in about page (rollup?)
+- [x] version string in about page (rollup?)
 - [ ] loading animations / skeletons / async image load on overview page
 - [ ] PWA context menus / shortcuts
 - [ ] lighthouse analysis 
@@ -167,4 +167,4 @@ Server
 - [ ] Store file on server (share url)?
 - [ ] Better gzipping (brtl) - change to nginx
 - [x] reload on about page not working
-- [ ] build and push docker image in dev azure
+- [x] build and push docker image in dev azure
