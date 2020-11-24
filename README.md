@@ -151,7 +151,7 @@ See [Get started](https://lit-element.polymer-project.org/guide/start) on the Li
 - [ ] Multifileshare?
 - [ ] Popup for filename?
 - [ ] store image in worker (worker to indexdb)?
-- [ ] store image on pointer up?
+- [ ] store image on pointer up or navigate back (not only backbutton)?
 - [x] 2-finger painting on devices without PointerEvent.prototype.getCoalescedEvents
 - [ ] links on about page, open in browser
 - [ ] service worker update (show that there is an update)
