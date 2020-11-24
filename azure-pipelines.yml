@@ -39,11 +39,30 @@ stages:
           customCommand: 'run lint:warningson'
         displayName: 'npm lint'
 
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
+            PAINT_VERSION=`npm version | grep paint2 | awk '{print $2}' | sed "s/[',]//g"`
+            echo "Paint 2 version: ${PAINT_VERSION}"
+            echo "##vso[task.setvariable variable=PAINT2_VERSION]${PAINT_VERSION}"
+            SHORT_HASH=`git rev-parse --short=7 HEAD`  ## At least 7 digits, more if needed for uniqueness
+            echo ""
+            echo "Full git hash:  $(Build.SourceVersion)"
+            echo "Short git hash: ${SHORT_HASH}"
+            echo "##vso[task.setvariable variable=SHORT_HASH]$SHORT_HASH"
+          workingDirectory: $(Build.SourcesDirectory)
+        displayName: 'set version vars'
+
       - task: Npm@1
         inputs:
           command: 'custom'
           customCommand: 'run bundle'
         displayName: 'npm bundle'
+        env:
+          BUILDID: $(Build.BuildId)
+          COMMITID: $(SHORT_HASH)
+          PAINT_VERSION: $(PAINT2_VERSION)
 
       - task: Npm@1
         inputs:
@@ -76,21 +95,6 @@ stages:
           codeCoverageTool: 'cobertura'
           summaryFileLocation: $(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml
         displayName: 'publish coverage data'
-
-      - task: Bash@3
-        inputs:
-          targetType: 'inline'
-          script: |
-            PAINT_VERSION=`npm version | grep paint2 | awk '{print $2}' | sed "s/[',]//g"`
-            echo "Paint 2 version: ${PAINT_VERSION}"
-            echo "##vso[task.setvariable variable=PAINT2_VERSION]${PAINT_VERSION}"
-            SHORT_HASH=`git rev-parse --short=7 HEAD`  ## At least 7 digits, more if needed for uniqueness
-            echo ""
-            echo "Full git hash:  $(Build.SourceVersion)"
-            echo "Short git hash: ${SHORT_HASH}"
-            echo "##vso[task.setvariable variable=SHORT_HASH]$SHORT_HASH"
-          workingDirectory: $(Build.SourcesDirectory)
-        displayName: 'set version vars'
 
       - task: Docker@2
         displayName: docker login

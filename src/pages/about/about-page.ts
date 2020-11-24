@@ -49,6 +49,17 @@ export class AboutPage extends connect(store)(LitElement) {
             >
           </dd>
         </dl>
+        <h3>Version</h3>
+        <dl class="opsinfo">
+          <dt>Version</dt>
+          <dd>${window.process.env.VERSION}</dd>
+          <dt>Build</dt>
+          <dd>${window.process.env.BUILDID}</dd>
+          <dt>Commit</dt>
+          <dd>${window.process.env.COMMITID}</dd>
+          <dt>Environment</dt>
+          <dd>${window.process.env.NODE_ENV}</dd>
+        </dl>
         <p class="back-button">
           <paint-icon-button
             class="back-button"
@@ -91,6 +102,10 @@ export class AboutPage extends connect(store)(LitElement) {
 
       em {
         text-decoration: underline;
+      }
+
+      .opsinfo {
+        font-size: smaller;
       }
     `;
   }

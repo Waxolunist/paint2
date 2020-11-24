@@ -102,7 +102,14 @@
     <link rel="stylesheet" href="styles/global-vars.css" />
     <link rel="stylesheet" href="styles/body.css" />
     <script>
-      window.process = {env: {NODE_ENV: process.env.NODE_ENV}};
+      window.process = {
+        env: {
+          NODE_ENV: process.env.NODE_ENV,
+          COMMITID: process.env.COMMITID,
+          BUILDID: process.env.BUILDID,
+          VERSION: process.env.PAINT_VERSION,
+        },
+      };
       if (
         'serviceWorker' in navigator &&
         process.env.NODE_ENV === 'production'

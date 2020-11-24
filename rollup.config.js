@@ -21,11 +21,28 @@ const pluginsBase = [
         src: 'src/index.html',
         dest: 'bundle',
         transform: (contents) =>
-          contents.toString().replace(
-            new RegExp('process.env.NODE_ENV', 'g'),
-            // eslint-disable-next-line no-undef
-            `'${process.env.NODE_ENV || ''}'`
-          ),
+          contents
+            .toString()
+            .replace(
+              new RegExp('process.env.NODE_ENV', 'g'),
+              // eslint-disable-next-line no-undef
+              `'${process.env.NODE_ENV || ''}'`
+            )
+            .replace(
+              new RegExp('process.env.COMMITID', 'g'),
+              // eslint-disable-next-line no-undef
+              `'${process.env.COMMITID || ''}'`
+            )
+            .replace(
+              new RegExp('process.env.BUILDID', 'g'),
+              // eslint-disable-next-line no-undef
+              `'${process.env.BUILDID || ''}'`
+            )
+            .replace(
+              new RegExp('process.env.PAINT_VERSION', 'g'),
+              // eslint-disable-next-line no-undef
+              `'${process.env.PAINT_VERSION || ''}'`
+            ),
       },
       {src: 'src/manifest.json', dest: 'bundle'},
       {src: 'src/images', dest: 'bundle'},

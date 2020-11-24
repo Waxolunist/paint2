@@ -247,7 +247,7 @@ export class PaintArea extends LitElement {
   }
 
   async getStrokes(): Promise<Stroke[]> {
-    return new Promise((resolve) => {
+    return new Promise<Stroke[]>((resolve) => {
       if (this.#workerSupported) {
         this.#worker?.addEventListener(
           'message',
@@ -256,7 +256,7 @@ export class PaintArea extends LitElement {
         );
         this.#worker?.postMessage({command: 'strokes'});
       } else {
-        resolve(this.#painter?.getStrokes());
+        resolve(this.#painter?.getStrokes() ?? []);
       }
     });
   }
