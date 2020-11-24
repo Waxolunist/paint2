@@ -49,7 +49,6 @@ export class AboutPage extends connect(store)(LitElement) {
             >
           </dd>
         </dl>
-        <h3>Version</h3>
         <dl class="opsinfo">
           <dt>Version</dt>
           <dd>${window.process.env.VERSION}</dd>
