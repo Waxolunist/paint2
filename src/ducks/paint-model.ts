@@ -70,4 +70,5 @@ export interface CRUDPayload {
 export interface PaintState {
   paintings: Painting[];
   activePainting?: CRUDPayload;
+  initialized: boolean;
 }

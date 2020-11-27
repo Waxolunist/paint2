@@ -173,6 +173,7 @@ export const initialLoad = (): ThunkAction => async (
     payload: {
       paintings: paintingsArray,
       activePainting: payload,
+      initialized: true,
     },
   });
 };
@@ -180,6 +181,7 @@ export const initialLoad = (): ThunkAction => async (
 const initialState: PaintState = {
   paintings: [],
   activePainting: undefined,
+  initialized: false,
 };
 
 const paintReducer: Reducer<PaintState, AnyAction> = (

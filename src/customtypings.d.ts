@@ -14,6 +14,8 @@ interface LitRouteElement {
   resolve: () => void;
   /** @attr */
   component: string;
+  /** @attr */
+  loading?: string;
 }
 
 interface ShareData {

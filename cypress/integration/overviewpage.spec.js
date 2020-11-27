@@ -10,16 +10,21 @@ describe('Overview page', () => {
       cy.get('@paintApp')
         .should('be.visible')
         .and('have.attr', 'ready', 'ready');
-      cy.get('@paintApp').find('paint-overview-page').as('overviewPage');
-      cy.get('@overviewPage').should('be.visible');
-      cy.get('@overviewPage').find('.painting').as('paintings');
-      cy.get('@paintings').then(($paintings) => {
-        cy.wrap($paintings).should('be.length', 1).first().click();
-        cy.url().should('match', /paint\/1$/);
-        cy.get('@paintApp').find('.back-button').as('backButton');
-        cy.get('@backButton').should('be.length', 1);
-        cy.get('@backButton').click();
-        cy.get('@paintings').should('be.length', 2);
+
+      cy.get('@paintApp').within(() => {
+        cy.get('paint-overview-page').as('overviewPage');
+        cy.get('@overviewPage').should('be.visible');
+
+        cy.get('@overviewPage').find('.painting').as('paintings');
+        cy.get('@paintings').then(($paintings) => {
+          cy.wrap($paintings).should('be.length', 1).first().click();
+          cy.url().should('match', /paint\/1$/);
+          cy.get('@paintApp').find('.back-button').as('backButton');
+          cy.get('@paintApp').find('paint-area').should('be.visible');
+          cy.get('@backButton').should('be.length', 1);
+          cy.get('@backButton').click();
+          cy.get('@paintings').should('be.length', 2);
+        });
       });
     });
   });
