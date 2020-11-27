@@ -37,11 +37,6 @@ export class PaintPage extends connect(store)(LitElement) {
   @property({type: String})
   paintingId = '';
 
-  connectedCallback(): void {
-    super.connectedCallback();
-    console.log(`Load paint-page with id ${this.paintingId}`);
-  }
-
   firstUpdated(): void {
     this.calcAspectRatio();
   }
@@ -144,6 +139,7 @@ export class PaintPage extends connect(store)(LitElement) {
               width="${this.width}"
               height="${this.height}"
               colorCode="${this.colorCode}"
+              @stroke-painted="${this.storeStroke}"
             ></paint-area>
           </div>
         </div>
@@ -151,17 +147,20 @@ export class PaintPage extends connect(store)(LitElement) {
     `;
   }
 
-  private navigateBack(): void {
-    this.area.getStrokes().then((strokes) => {
-      (store.dispatch as ThunkDispatch)(
-        storeData({
-          id: this.paintingId,
-          dataUrl: this.area.toImage(),
-          strokes,
-        })
-      );
-      (store.dispatch as ThunkDispatch)(unloadData());
-    });
+  private async storeStroke(): Promise<void> {
+    const strokes = await this.area.getStrokes();
+    (store.dispatch as ThunkDispatch)(
+      storeData({
+        id: this.paintingId,
+        dataUrl: this.area.toImage(),
+        strokes,
+      })
+    );
+  }
+
+  private async navigateBack(): Promise<void> {
+    await this.storeStroke();
+    (store.dispatch as ThunkDispatch)(unloadData());
   }
 
   private colorChanged(e: CustomEvent): void {

@@ -34,30 +34,30 @@ export class PaintArea extends LitElement {
   @property()
   colorCode = '#000';
 
-  #worker?: Worker;
+  private worker?: Worker;
 
-  #pointerActive = false;
+  private pointerActive = false;
 
-  #canvasClientBoundingRect?: DOMRect;
+  private canvasClientBoundingRect?: DOMRect;
 
-  #workerSupported = false;
+  private workerSupported = false;
 
-  #coalesceEventsSupported = false;
+  private coalesceEventsSupported = false;
 
-  #pointerEventCoalescor = new PointerEventCoalescor();
+  private pointerEventCoalescor = new PointerEventCoalescor();
 
-  #painter?: CanvasPainter = undefined;
+  private painter?: CanvasPainter = undefined;
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.#workerSupported = !!HTMLCanvasElement.prototype
+    this.workerSupported = !!HTMLCanvasElement.prototype
       .transferControlToOffscreen;
-    this.#coalesceEventsSupported = !!PointerEvent.prototype.getCoalescedEvents;
+    this.coalesceEventsSupported = !!PointerEvent.prototype.getCoalescedEvents;
 
-    if (this.#workerSupported && !this.#worker) {
-      this.#worker = new PaintWorker();
+    if (this.workerSupported && !this.worker) {
+      this.worker = new PaintWorker();
     } else {
-      this.#painter = new CanvasPainter({
+      this.painter = new CanvasPainter({
         ...defaultMemory,
         ...{
           measurePerformance: false,
@@ -74,7 +74,7 @@ export class PaintArea extends LitElement {
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
-    this.#worker?.terminate();
+    this.worker?.terminate();
     console.log('disconnected');
   }
 
@@ -97,9 +97,9 @@ export class PaintArea extends LitElement {
   }
 
   private initWorker(): void {
-    if (this.#workerSupported) {
+    if (this.workerSupported) {
       const offscreenCanvas = this.canvas.transferControlToOffscreen();
-      this.#worker?.postMessage(
+      this.worker?.postMessage(
         {
           command: 'create',
           canvas: offscreenCanvas,
@@ -112,7 +112,7 @@ export class PaintArea extends LitElement {
         [offscreenCanvas]
       );
     } else {
-      this.#painter?.createCanvasContext(this.canvas);
+      this.painter?.createCanvasContext(this.canvas);
     }
   }
 
@@ -164,39 +164,45 @@ export class PaintArea extends LitElement {
 
   @eventOptions({capture: true, passive: true})
   private pointerDown(e: PointerEvent): void {
-    this.#pointerActive = true;
+    this.pointerActive = true;
     this.canvas.setPointerCapture(e.pointerId);
-    this.#canvasClientBoundingRect = this.canvas.getBoundingClientRect();
+    this.canvasClientBoundingRect = this.canvas.getBoundingClientRect();
     const message = this.createMessage(
       'start',
       e,
-      this.#canvasClientBoundingRect
+      this.canvasClientBoundingRect
     );
-    this.#worker?.postMessage(message);
-    this.#painter?.startStroke(message);
+    this.worker?.postMessage(message);
+    this.painter?.startStroke(message);
   }
 
   @eventOptions({capture: true, passive: true})
   private pointerUp(e: PointerEvent): void {
-    this.#pointerActive = false;
+    this.pointerActive = false;
     this.canvas.releasePointerCapture(e.pointerId);
     const message = this.createMessage('stop');
-    this.#worker?.postMessage(message);
-    this.#painter?.stopStroke();
-    if (!this.#coalesceEventsSupported) {
-      this.#pointerEventCoalescor.eventRemove(e);
+    this.worker?.postMessage(message);
+    this.painter?.stopStroke();
+    if (!this.coalesceEventsSupported) {
+      this.pointerEventCoalescor.eventRemove(e);
     }
+    this.dispatchEvent(
+      new CustomEvent('stroke-painted', {
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   private pointerMove(e: PointerEvent | PointerEvent[]): void {
-    if (this.#pointerActive) {
+    if (this.pointerActive) {
       const message = this.createMessage(
         'move',
         e,
-        this.#canvasClientBoundingRect
+        this.canvasClientBoundingRect
       );
-      this.#worker?.postMessage(message);
-      this.#painter?.moveStroke(message);
+      this.worker?.postMessage(message);
+      this.painter?.moveStroke(message);
     }
   }
 
@@ -220,13 +226,13 @@ export class PaintArea extends LitElement {
 
   @eventOptions({capture: true, passive: true})
   private throttledPointerMove(e: PointerEvent): void {
-    if (this.#coalesceEventsSupported) {
+    if (this.coalesceEventsSupported) {
       this.pointerMove(e);
     } else {
-      this.#pointerEventCoalescor.eventAdd(e);
+      this.pointerEventCoalescor.eventAdd(e);
       this.throttledMove(() => {
-        this.pointerMove(this.#pointerEventCoalescor.getCoalescedEvents());
-        this.#pointerEventCoalescor.clear();
+        this.pointerMove(this.pointerEventCoalescor.getCoalescedEvents());
+        this.pointerEventCoalescor.clear();
       });
     }
   }
@@ -248,15 +254,15 @@ export class PaintArea extends LitElement {
 
   async getStrokes(): Promise<Stroke[]> {
     return new Promise<Stroke[]>((resolve) => {
-      if (this.#workerSupported) {
-        this.#worker?.addEventListener(
+      if (this.workerSupported) {
+        this.worker?.addEventListener(
           'message',
           (e) => resolve(e.data.strokes),
           {once: true}
         );
-        this.#worker?.postMessage({command: 'strokes'});
+        this.worker?.postMessage({command: 'strokes'});
       } else {
-        resolve(this.#painter?.getStrokes() ?? []);
+        resolve(this.painter?.getStrokes() ?? []);
       }
     });
   }

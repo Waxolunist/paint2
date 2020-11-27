@@ -3,6 +3,7 @@
   "short_name": "Paint",
   "description": "Paint for Kids (no ads, no tracking)",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "theme_color": "#e3ecff",
   "background_color": "#e3ecff",

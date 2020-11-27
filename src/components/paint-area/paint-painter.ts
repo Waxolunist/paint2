@@ -91,18 +91,20 @@ export class CanvasPainter {
       this._.color = color;
     }
 
-    this._.secondLastPoint = this._.lastPoint;
-    const point = (this._.lastPoint = calculatePoint(
-      coordinates[0].pageX,
-      coordinates[0].pageY,
-      left,
-      top
-    ));
-    this._.points.push(point);
+    if (coordinates.length > 0) {
+      this._.secondLastPoint = this._.lastPoint;
+      const point = (this._.lastPoint = calculatePoint(
+        coordinates[0].pageX,
+        coordinates[0].pageY,
+        left,
+        top
+      ));
+      this._.points.push(point);
 
-    if (this._.paintImmediate) {
-      this._.canvasContext!.beginPath();
-      this._.canvasContext!.moveTo(point.x, point.y);
+      if (this._.paintImmediate) {
+        this._.canvasContext!.beginPath();
+        this._.canvasContext!.moveTo(point.x, point.y);
+      }
     }
   };
 
