@@ -141,6 +141,8 @@ See [Get started](https://lit-element.polymer-project.org/guide/start) on the Li
 - [x] safari comp.
 - [x] version string in about page (rollup?)
 - [ ] loading animations / skeletons / async image load on overview page
+- [ ] delete animation
+- [ ] don't scroll to top on back navigation
 - [ ] PWA context menus / shortcuts
 - [ ] lighthouse analysis 
 - [ ] TWA

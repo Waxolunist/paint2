@@ -9,8 +9,7 @@ import {
 } from 'lit-element';
 import store, {AppState} from './store';
 import {initialLoad, ThunkDispatch} from './ducks/paint';
-import {connect} from 'pwa-helpers/connect-mixin';
-import {PaintState} from './ducks/paint-model';
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare global {
   interface Window {
@@ -29,7 +28,7 @@ declare global {
 }
 
 @customElement('paint-app')
-export class PaintApp extends connect(store)(LitElement) {
+export class PaintApp extends LitElement {
   @property({type: String, reflect: true})
   ready = '';
 
@@ -49,12 +48,8 @@ export class PaintApp extends connect(store)(LitElement) {
     });
   }
 
-  stateChanged({paint}: {paint: PaintState}): void {
-    if (paint.initialized) {
-      customElements
-        .whenDefined('paint-overview-page')
-        .then(() => (this.ready = 'ready'));
-    }
+  firstUpdated(): void {
+    this.ready = 'ready';
   }
 
   static get styles(): CSSResult[] {
@@ -77,7 +72,6 @@ export class PaintApp extends connect(store)(LitElement) {
           path="/"
           component="paint-overview-page"
           .resolve="${() => import('./pages/overview/overview-page')}"
-          loading="span"
         ></lit-route>
         <lit-route
           path="/paint/:paintingId"

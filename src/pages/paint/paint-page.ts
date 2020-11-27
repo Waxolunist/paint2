@@ -7,6 +7,7 @@ import {
   query,
   CSSResult,
   TemplateResult,
+  internalProperty,
 } from 'lit-element';
 import {arrowBack} from './icons';
 import '../../components/icon-button/paint-icon-button';
@@ -16,6 +17,7 @@ import store from '../../store';
 import {PaintArea} from '../../components/paint-area/paint-area';
 import {connect} from 'pwa-helpers/connect-mixin';
 import {ThunkDispatch, storeData, unloadData} from '../../ducks/paint';
+import {PaintState} from '../../ducks/paint-model';
 
 @customElement('paint-paint-page')
 export class PaintPage extends connect(store)(LitElement) {
@@ -36,6 +38,9 @@ export class PaintPage extends connect(store)(LitElement) {
 
   @property({type: String})
   paintingId = '';
+
+  @internalProperty()
+  private paintingLoaded = false;
 
   firstUpdated(): void {
     this.calcAspectRatio();
@@ -134,17 +139,24 @@ export class PaintPage extends connect(store)(LitElement) {
         </div>
         <div class="paint-wrapper">
           <div id="paint-area-container" class="paint-area-container">
-            <paint-area
-              id="paint-area"
-              width="${this.width}"
-              height="${this.height}"
-              colorCode="${this.colorCode}"
-              @stroke-painted="${this.storeStroke}"
-            ></paint-area>
+            ${this.paintingLoaded
+              ? html`<paint-area
+                  id="paint-area"
+                  width="${this.width}"
+                  height="${this.height}"
+                  colorCode="${this.colorCode}"
+                  @stroke-painted="${this.storeStroke}"
+                ></paint-area>`
+              : html``}
           </div>
         </div>
       </div>
     `;
+  }
+
+  stateChanged({paint}: {paint: PaintState}): void {
+    this.paintingLoaded =
+      paint.activePainting?.painting.id === parseInt(this.paintingId);
   }
 
   private async storeStroke(): Promise<void> {
