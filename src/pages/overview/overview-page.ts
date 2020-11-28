@@ -21,8 +21,8 @@ import {
   ThunkDispatch,
   removePainting,
 } from '../../ducks/paint';
-import {RouterState} from 'lit-redux-router/lib/reducer';
 import {toFileExtension, dataURLtoBlob} from '../../ducks/paint-utils';
+import {RouterState} from 'lit-redux-router/lib/reducer';
 
 @customElement('paint-overview-page')
 export class OverviewPage extends connect(store)(LitElement) {
@@ -36,7 +36,7 @@ export class OverviewPage extends connect(store)(LitElement) {
     router: RouterState;
     paint: PaintState;
   }): void {
-    if (router.routes['/'].active) this.paintings = paint.paintings;
+    if (router.routes['/']?.active) this.paintings = paint.paintings;
   }
 
   static get styles(): CSSResult {
@@ -111,13 +111,17 @@ export class OverviewPage extends connect(store)(LitElement) {
               imageUrl="${painting.blobUrl}"
             >
               <paint-icon-button
+                role="button"
                 slot="addons"
+                class="delete"
                 @icon-clicked="${this.removePainting(painting.id)}"
                 >${closeIcon}</paint-icon-button
               >
               ${this.canShare()
                 ? html`<paint-icon-button
                     slot="addons"
+                    role="button"
+                    class="share"
                     @icon-clicked="${this.sharePainting(painting.id)}"
                     >${shareIcon}</paint-icon-button
                   >`

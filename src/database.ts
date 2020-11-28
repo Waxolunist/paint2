@@ -33,7 +33,6 @@ const _database = new PaintingDatabase();
 _database.paintings.mapToClass(PaintingImpl);
 
 _database.on('populate', () => {
-  console.log('populate');
   const paintingsFromLS = localStorage.getItem('paintings');
   if (paintingsFromLS) {
     const paintings = (JSON.parse(paintingsFromLS || '[]') || []).map(
@@ -51,7 +50,9 @@ export const database = async (): Promise<PaintingDatabase> => {
       console.log(`DB successful opened. Version ${_database.verno}`);
       return _database;
     } catch (err) {
-      console.error('Failed to open db: ' + (err.stack || err));
+      if (window.process.env.NODE_ENV === 'production') {
+        console.error('Failed to open db: ' + (err.stack || err));
+      }
     }
   }
   return _database;

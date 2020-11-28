@@ -4,7 +4,7 @@ describe('Overview page', () => {
     request.onsuccess = () => done();
   });
 
-  it('click on new painting and back', () => {
+  it('click on new painting and back and delete one', () => {
     cy.visit('/').then(() => {
       cy.get('paint-app').as('paintApp');
       cy.get('@paintApp')
@@ -21,9 +21,15 @@ describe('Overview page', () => {
           cy.url().should('match', /paint\/1$/);
           cy.get('@paintApp').find('.back-button').as('backButton');
           cy.get('@paintApp').find('paint-area').should('be.visible');
-          cy.get('@backButton').should('be.length', 1);
-          cy.get('@backButton').click();
+          cy.get('@backButton').should('be.length', 1).click();
           cy.get('@paintings').should('be.length', 2);
+          cy.get('@overviewPage').then(($overviewPage) => {
+            cy.wrap($overviewPage)
+              .find('.delete[role="button"]')
+              .first()
+              .click();
+            cy.get('@paintings').should('be.length', 1);
+          });
         });
       });
     });

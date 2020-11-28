@@ -163,7 +163,7 @@ export class PaintPage extends connect(store)(LitElement) {
     const strokes = await this.area.getStrokes();
     (store.dispatch as ThunkDispatch)(
       storeData({
-        id: this.paintingId,
+        id: parseInt(this.paintingId),
         dataUrl: this.area.toImage(),
         strokes,
       })

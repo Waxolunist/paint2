@@ -114,7 +114,8 @@
       "cypress"
     ],
     "setupFilesAfterEnv": [
-      "./setupEvents.cjs"
+      "./setupEvents.cjs",
+      "fake-indexeddb/auto"
     ],
     "reporters": [
       "default",
@@ -146,10 +147,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 3,
-        "functions": 15,
-        "lines": 9,
-        "statements": 9
+        "branches": 10,
+        "functions": 27,
+        "lines": 24,
+        "statements": 23
       }
     }
   },

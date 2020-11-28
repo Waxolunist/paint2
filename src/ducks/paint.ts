@@ -75,26 +75,37 @@ export const storeData = ({
   dataUrl,
   strokes,
 }: {
-  id?: string;
+  id: number;
   dataUrl: string;
   strokes: Stroke[];
-}): ThunkAction => async (dispatch, getState, database) => {
+}): ThunkAction => async (
+  dispatch,
+  getState,
+  database: Promise<PaintingDatabase>
+) => {
   getState()
     .paint.paintings.find((p) => p.id == id)
     ?.freeMemory();
   const db = await database;
   const painting = new PaintingImpl(dataUrl, id);
-  const paintingId = await db.paintings.put(painting);
-  await painting.cleanState();
-  const rawData = new PaintingRawData(paintingId, strokes);
-  await db.strokes.put(rawData);
-  return dispatch({
-    type: STORE,
-    payload: {
-      painting,
-      rawData,
-    },
-  });
+  const rawData = new PaintingRawData(id, strokes);
+  try {
+    await db.transaction('rw', db.paintings, db.strokes, async () => {
+      const updated = await db.paintings.update(id, painting);
+      if (updated) {
+        await Promise.all([painting.cleanState(), db.strokes.put(rawData)]);
+      }
+    });
+    return dispatch({
+      type: STORE,
+      payload: {
+        painting,
+        rawData,
+      },
+    });
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 export const loadData = (id?: number | string): ThunkAction => async (
@@ -138,22 +149,28 @@ export const newPainting = (): ThunkAction => async (
 export const removePainting = (id?: number | string): ThunkAction => async (
   dispatch,
   getState,
-  database
+  database: Promise<PaintingDatabase>
 ) => {
-  if (id) {
-    const painting = getState().paint.paintings.find((p) => p.id == id);
-    painting?.freeMemory();
-    const db = await database;
-    await Promise.all([
-      db.paintings.delete(parseInt(id as string)),
-      db.strokes.delete(parseInt(id as string)),
-    ]);
-    return dispatch({
-      type: DELETE,
-      payload: id,
-    });
+  try {
+    if (id) {
+      const painting = getState().paint.paintings.find((p) => p.id == id);
+      painting?.freeMemory();
+      const db = await database;
+      await db.transaction('rw', db.paintings, db.strokes, async () => {
+        await Promise.all([
+          db.paintings.delete(parseInt(id as string)),
+          db.strokes.delete(parseInt(id as string)),
+        ]);
+      });
+      return dispatch({
+        type: DELETE,
+        payload: id,
+      });
+    }
+    return undefined;
+  } catch (e) {
+    console.error(e);
   }
-  return undefined;
 };
 
 export const initialLoad = (): ThunkAction => async (
