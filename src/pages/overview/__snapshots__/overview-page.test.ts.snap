@@ -60,3 +60,74 @@ exports[`overview-page renders correctly 1`] = `
       }
     </style>"
 `;
+
+exports[`overview-page renders correctly with paintings 1`] = `
+"<!---->
+      <div class=\\"paintings\\">
+        <paint-new-paint-button class=\\"painting\\"></paint-new-paint-button>
+        <!----><paint-paint-button class=\\"painting\\" imageurl=\\"\\">
+              <paint-icon-button role=\\"button\\" slot=\\"addons\\" class=\\"delete\\"><!----><svg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 352 512\\">
+  <path d=\\"M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z\\"></path>
+</svg><!----></paint-icon-button>
+              
+            </paint-paint-button><!----><!----><paint-paint-button class=\\"painting\\" imageurl=\\"\\">
+              <paint-icon-button role=\\"button\\" slot=\\"addons\\" class=\\"delete\\"><!----><svg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 352 512\\">
+  <path d=\\"M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z\\"></path>
+</svg><!----></paint-icon-button>
+              
+            </paint-paint-button><!---->
+      </div>
+      <div class=\\"about\\"><a href=\\"/about\\">About this app</a></div>
+    <!----><style>
+      :host {
+        display: block;
+        background-color: #91b5ff;
+        padding: 1.5em 0;
+        /* prettier-ignore */
+        min-width: calc((var(--painting-width) / var(--painting-scalefactor) + var(--painting-margin)) * 2);
+        position: relative;
+      }
+
+      .paintings {
+        display: grid;
+        grid-gap: var(--painting-margin);
+        grid-template-columns: repeat(
+          auto-fit,
+          calc(var(--painting-width) / var(--painting-scalefactor))
+        );
+        justify-content: center;
+      }
+
+      .painting {
+        width: calc(var(--painting-width) / var(--painting-scalefactor));
+        height: calc(var(--painting-height) / var(--painting-scalefactor));
+        position: relative;
+      }
+
+      .about {
+        position: absolute;
+        bottom: -2em;
+        padding: 1em;
+        font-size: large;
+        font-family: monospace;
+        font-weight: bold;
+      }
+
+      .about a {
+        color: #ffffef;
+      }
+
+      @media screen and (max-width: 400px) {
+        :host {
+          padding: 1.5em 0;
+          --painting-margin: 1em;
+        }
+
+        .paintings {
+          --painting-scalefactor: 1.3;
+          grid-column-gap: 1.3em;
+          grid-row-gap: 1.3em;
+        }
+      }
+    </style>"
+`;
