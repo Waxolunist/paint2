@@ -87,9 +87,9 @@ npm run serve:bundle
 Or tag and push
 
      docker login registry.v-collaborate.com
-     npm run bundle && docker build -t waxolunist/paint2:latest -t waxolunist/paint2:latest .
-     docker tag waxolunist/paint2:latest registry.v-collaborate.com/christian.sterzl/waxolunist/paint2:latest
-     docker push registry.v-collaborate.com/christian.sterzl/waxolunist/paint2:latest
+     npm run bundle && docker build -t waxolunist/paint2:latest .
+     docker tag waxolunist/paint2:latest registry.v-collaborate.com/dev/waxolunist/paint2:latest
+     docker push registry.v-collaborate.com/dev/waxolunist/paint2:latest
 
 Run it with:
 
@@ -162,11 +162,11 @@ Dev
 - [x] uglify / minimize / terser
 - [ ] better watching
 - [ ] npm 7 
-- [ ] source maps on server for debugging
+- [x] source maps on server for debugging
 
 Server
 - [x] Server fallback page
 - [ ] Store file on server (share url)?
-- [ ] Better gzipping (brtl) - change to nginx
+- [x] Better gzipping (brtl) - change to nginx
 - [x] reload on about page not working
 - [x] build and push docker image in dev azure

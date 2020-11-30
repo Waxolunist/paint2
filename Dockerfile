@@ -1,7 +1,5 @@
-FROM pierrezemb/gostatic:latest
+FROM fholzer/nginx-brotli:v1.19.1
 
-WORKDIR /srv/http
-ADD ./bundle ./
-
-EXPOSE 8043
-CMD ["-enable-health", "-enable-logging", "-fallback", "/index.html" ]
+COPY ./bundle /usr/share/nginx/html
+COPY ./nginx/*.conf /etc/nginx/conf.d/
+RUN rm -f /etc/nginx/conf.d/default.conf

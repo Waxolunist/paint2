@@ -47,6 +47,7 @@ const pluginsBase = [
       {src: 'src/manifest.json', dest: 'bundle'},
       {src: 'src/images', dest: 'bundle'},
       {src: ['src/styles/*.css'], dest: 'bundle/styles'},
+      {src: 'src', dest: 'bundle'},
     ],
   }),
 ];

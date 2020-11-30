@@ -106,6 +106,7 @@ export const storeData = ({
   } catch (e) {
     console.error(e);
   }
+  return undefined;
 };
 
 export const loadData = (id?: number | string): ThunkAction => async (
@@ -171,6 +172,7 @@ export const removePainting = (id?: number | string): ThunkAction => async (
   } catch (e) {
     console.error(e);
   }
+  return undefined;
 };
 
 export const initialLoad = (): ThunkAction => async (
