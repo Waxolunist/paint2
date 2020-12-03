@@ -166,6 +166,7 @@ Dev
 - [ ] better watching
 - [ ] npm 7 
 - [x] source maps on server for debugging
+- [ ] inspect esbuild and @web/dev-server
 
 Server
 - [x] Server fallback page
