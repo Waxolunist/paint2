@@ -5,6 +5,7 @@ import {Snackbar} from '@material/mwc-snackbar';
 
 declare global {
   interface HTMLElementEventMap {
+    'MDCSnackbar:opened': CustomEvent<unknown>;
     'MDCSnackbar:closed': CustomEvent<{reason: string}>;
   }
 }
@@ -20,7 +21,7 @@ const snackbarTemplate = (): TemplateResult => html`
   </mwc-snackbar>
 `;
 
-const renderSnackbar = async (
+export const renderSnackbar = async (
   renderRootId = 'snackbar'
 ): Promise<Snackbar | null> => {
   await Promise.all([
@@ -34,7 +35,7 @@ const renderSnackbar = async (
   snackbar?.addEventListener(
     'MDCSnackbar:closed',
     (event: CustomEvent<{reason: string}>) => {
-      if (event.detail.reason) window.location.reload();
+      if (event.detail.reason === 'action') window.location.reload();
     }
   );
   return snackbar;

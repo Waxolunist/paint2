@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`overview-page renders correctly 1`] = `
+"<!---->
+  <mwc-snackbar labeltext=\\"A new version is available. Press REFRESH to get the new version.\\" timeoutms=\\"-1\\" stacked=\\"\\">
+    <mwc-button slot=\\"action\\">REFRESH</mwc-button>
+    <mwc-icon-button icon=\\"close\\" slot=\\"dismiss\\"></mwc-icon-button>
+  </mwc-snackbar>
+<!---->"
+`;
