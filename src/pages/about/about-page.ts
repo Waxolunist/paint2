@@ -23,7 +23,8 @@ export class AboutPage extends connect(store)(LitElement) {
           tracking code. No cookies or whatsoever are used to track you or the
           usage of the app. No data about users or devices are collected. I only
           count the number of downloads. It can be installed on most devices, by
-          just adding it to the home screen. The app works offline.
+          just adding it to the home screen. The app works offline. It is
+          mulittouch compatible.
         </p>
         <p>
           Main goal of this app is having fun with painting. Even little kids
