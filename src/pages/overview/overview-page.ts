@@ -258,7 +258,7 @@ export class OverviewPage extends connect(store)(LitElement) {
   };
 
   private animatePaintings = (): void => {
-    this.paintingButtons?.forEach((node) => {
+    this.paintingButtons?.forEach((node, index) => {
       const htmlel = node as HTMLElement;
       setTimeout(
         () =>
@@ -266,7 +266,7 @@ export class OverviewPage extends connect(store)(LitElement) {
             htmlel.style.transform = 'translate(0px, 0px)';
             htmlel.classList.add('animated');
           }),
-        200
+        Math.min(200 + index * 50, 700)
       );
     });
   };

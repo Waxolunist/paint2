@@ -101,6 +101,10 @@
 
     <link rel="stylesheet" href="styles/global-vars.css" />
     <link rel="stylesheet" href="styles/body.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <script>
       window.process = {
         env: {
@@ -110,21 +114,17 @@
           VERSION: process.env.PAINT_VERSION,
         },
       };
-      if (
-        'serviceWorker' in navigator &&
-        process.env.NODE_ENV === 'production'
-      ) {
-        window.addEventListener('load', function () {
-          navigator.serviceWorker.register('sw.js', {
-            scope: new URL(document.baseURI).pathname,
-          });
-        });
-      }
     </script>
   </head>
   <body>
     <noscript>This page requires javascript enabled to work properly.</noscript>
-    <paint-app />
+    <paint-app></paint-app>
+    <div id="snackbar"></div>
+    <script
+      type="module"
+      src="serviceworker/load-serviceworker.js"
+      crossorigin
+    ></script>
     <script type="module" src="paint-app.js" crossorigin></script>
   </body>
 </html>

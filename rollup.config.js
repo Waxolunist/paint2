@@ -2,12 +2,14 @@ import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import copy from 'rollup-plugin-copy';
 import workerLoader from 'rollup-plugin-web-worker-loader';
-import {generateSW} from 'rollup-plugin-workbox';
+import {injectManifest} from 'rollup-plugin-workbox';
 import {terser} from 'rollup-plugin-terser';
 import {constants} from 'zlib';
 import brotli from 'rollup-plugin-brotli';
+import multiInput from 'rollup-plugin-multi-input';
 
 const pluginsBase = [
+  multiInput(),
   resolve(),
   workerLoader({inline: false, sourcemap: false}),
   typescript({
@@ -48,6 +50,7 @@ const pluginsBase = [
       {src: 'src/images', dest: 'bundle'},
       {src: ['src/styles/*.css'], dest: 'bundle/styles'},
       {src: 'src', dest: 'bundle'},
+      {src: 'node_modules/workbox-sw/build/workbox-sw.js', dest: 'bundle'},
     ],
   }),
 ];
@@ -59,9 +62,11 @@ const pluginsProduction = [
       comments: false,
     },
   }),
-  generateSW({
-    swDest: 'bundle/sw.js',
+  injectManifest({
+    swSrc: 'src/serviceworker/sw.js',
+    swDest: 'bundle/serviceworker/sw.js',
     globDirectory: 'bundle',
+    mode: 'production',
   }),
   brotli({
     options: {
@@ -76,7 +81,7 @@ console.log(`Use rollupconfig for ${process.env.NODE_ENV}.`);
 
 export default [
   {
-    input: 'src/paint-app.ts',
+    input: ['src/paint-app.ts', 'src/serviceworker/load-serviceworker.ts'],
     output: {
       dir: './bundle',
       format: 'esm',

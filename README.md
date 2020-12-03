@@ -141,7 +141,10 @@ See [Get started](https://lit-element.polymer-project.org/guide/start) on the Li
 - [x] safari comp.
 - [x] version string in about page (rollup?)
 - [ ] loading animations / skeletons / async image load on overview page
-- [ ] delete animation
+- [x] delete animation
+- [ ] painting scale / wobble animation on delete
+- [ ] active animation
+- [ ] back animation
 - [ ] don't scroll to top on back navigation
 - [ ] PWA context menus / shortcuts
 - [ ] lighthouse analysis 
@@ -156,7 +159,7 @@ See [Get started](https://lit-element.polymer-project.org/guide/start) on the Li
 - [x] store image on pointer up or navigate back (not only backbutton)?
 - [x] 2-finger painting on devices without PointerEvent.prototype.getCoalescedEvents
 - [x] links on about page, open in browser
-- [ ] service worker update (show that there is an update)
+- [x] service worker update (show that there is an update)
 
 Dev
 - [x] uglify / minimize / terser
