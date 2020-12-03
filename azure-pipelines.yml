@@ -93,7 +93,7 @@ stages:
       - task: PublishCodeCoverageResults@1
         inputs:
           codeCoverageTool: 'cobertura'
-          summaryFileLocation: $(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml
+          summaryFileLocation: 'coverage/cobertura-coverage.xml'
         displayName: 'publish coverage data'
 
       - task: Docker@2
