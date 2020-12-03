@@ -54,6 +54,7 @@ const pluginsBase = [
         src: 'node_modules/workbox-sw/build/workbox-sw.js',
         dest: 'bundle/serviceworker',
       },
+      {src: ['src/utils/logger.js'], dest: 'bundle/utils'},
     ],
   }),
 ];

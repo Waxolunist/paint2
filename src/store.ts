@@ -33,9 +33,11 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?? compose;
 const logger = <S, T>({getState}: {getState: () => S}) => (
   next: (action: Action<T>) => unknown
 ) => (action: Action<T>) => {
+  console.groupCollapsed(`store dispatch ${action.type}`);
   console.log('will dispatch', action);
   const returnValue = next(action);
   console.log('state after dispatch', getState());
+  console.groupEnd();
   return returnValue;
 };
 
