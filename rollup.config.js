@@ -50,7 +50,10 @@ const pluginsBase = [
       {src: 'src/images', dest: 'bundle'},
       {src: ['src/styles/*.css'], dest: 'bundle/styles'},
       {src: 'src', dest: 'bundle'},
-      {src: 'node_modules/workbox-sw/build/workbox-sw.js', dest: 'bundle'},
+      {
+        src: 'node_modules/workbox-sw/build/workbox-sw.js',
+        dest: 'bundle/serviceworker',
+      },
     ],
   }),
 ];
