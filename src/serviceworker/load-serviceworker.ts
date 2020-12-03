@@ -42,7 +42,7 @@ export const renderSnackbar = async (
 };
 
 if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
-  const wb = new Workbox('/serviceworker/sw.js', {
+  const wb = new Workbox('/sw.js', {
     scope: new URL(document.baseURI).pathname,
   });
 

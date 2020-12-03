@@ -66,8 +66,8 @@ const pluginsProduction = [
     },
   }),
   injectManifest({
-    swSrc: 'src/serviceworker/sw.js',
-    swDest: 'bundle/serviceworker/sw.js',
+    swSrc: 'src/sw.js',
+    swDest: 'bundle/sw.js',
     globDirectory: 'bundle',
     mode: 'production',
   }),
