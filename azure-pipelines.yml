@@ -97,11 +97,6 @@ stages:
           summaryFileLocation: 'coverage/cobertura-coverage.xml'
         displayName: 'publish coverage data'
 
-- stage: AndroidApp
-  pool:
-    vmImage: 'ubuntu-latest'
-  dependsOn: ['BuildWeb']
-  jobs:
     - job: buildtwa
       displayName: Build TWA
       steps:
@@ -135,11 +130,6 @@ stages:
           workingDirectory: $(System.DefaultWorkingDirectory)
           displayName: Copy assetlinks
   
-- stage: Docker
-  pool:
-    vmImage: 'ubuntu-latest'
-  dependsOn: ['BuildWeb', 'AndroidApp']
-  jobs:
     - job: builddocker
       displayName: Build Docker
       steps:
