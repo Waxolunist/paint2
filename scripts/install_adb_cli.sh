@@ -2,7 +2,7 @@
 
 DEFAULT_SYSTEM="linux"
 # Possible values: mac | linux | win
-SYSTEM=${1:-DEFAULTVALUE}    
+SYSTEM=${1:-DEFAULT_SYSTEM}    
 
 # Download from https://developer.android.com/studio#command-tools
 mkdir -p .tools

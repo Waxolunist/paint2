@@ -121,7 +121,7 @@ stages:
         - task: ShellScript@2
           displayName: configure bubblewrap
           inputs:
-            scriptPath: $(System.DefaultWorkingDirectory)/scripts/config_bubblewrap_linux.sh
+            scriptPath: $(System.DefaultWorkingDirectory)/scripts/config_bubblewrap.sh
             cwd: $(System.DefaultWorkingDirectory)
 
 # TODO install bubblewrap
