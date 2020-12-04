@@ -14,4 +14,3 @@
 /cypress/screenshots/*.*
 build_info.txt
 /.tools/
-/android/

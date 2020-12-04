@@ -1,5 +1,6 @@
 trigger:
 - master
+- feature/*
 
 stages:
 - stage: BuildWeb
@@ -96,6 +97,50 @@ stages:
           summaryFileLocation: 'coverage/cobertura-coverage.xml'
         displayName: 'publish coverage data'
 
+- stage: AndroidApp
+  pool:
+    vmImage: 'ubuntu-latest'
+  dependsOn: ['BuildWeb']
+  jobs:
+    - job: buildtwa
+      displayName: Build TWA
+      steps:
+        - task: JavaToolInstaller@0
+          displayName: install java 8
+          inputs:
+            versionSpec: '8'
+            jdkArchitectureOption: 'x64'
+            jdkSourceOption: 'PreInstalled'
+        
+        - task: ShellScript@2
+          displayName: install adb commandline tools
+          inputs:
+            scriptPath: $(System.DefaultWorkingDirectory)/scripts/install_adb_cli.sh
+            cwd: $(System.DefaultWorkingDirectory)
+
+        - task: ShellScript@2
+          displayName: configure bubblewrap
+          inputs:
+            scriptPath: $(System.DefaultWorkingDirectory)/scripts/config_bubblewrap_linux.sh
+            cwd: $(System.DefaultWorkingDirectory)
+
+# TODO install bubblewrap
+# bublewrap init / build
+
+        - script: |
+            mkdir -p bundle/.well-known
+            cp android/assetlinks.json bundle/.well-known/assetlinks.json
+          workingDirectory: $(System.DefaultWorkingDirectory)
+          displayName: Copy assetlinks
+  
+- stage: Docker
+  pool:
+    vmImage: 'ubuntu-latest'
+  dependsOn: ['BuildWeb', 'AndroidApp']
+  jobs:
+    - job: builddocker
+      displayName: Build Docker
+      steps:
       - task: Docker@2
         displayName: docker login
         inputs:
@@ -124,23 +169,4 @@ stages:
         inputs:
           pathToPublish: $(System.DefaultWorkingDirectory)/build_info.txt
           artifactName: buildinfo
-- stage: AndroidApp
-  pool:
-    vmImage: 'ubuntu-latest'
-  dependsOn: ['BuildWeb']
-  jobs:
-    - job: buildtwa
-      displayName: Build TWA
-      steps:
-        - task: JavaToolInstaller@0
-          displayName: install java 8
-          inputs:
-            versionSpec: '8'
-            jdkArchitectureOption: 'x64'
-            jdkSourceOption: 'PreInstalled'
-        
-        - task: ShellScript@2
-          displayName: install adb commandline tools
-          inputs:
-            scriptPath: $(System.DefaultWorkingDirectory)/scripts/install_adb_cli.sh
-            cwd: $(System.DefaultWorkingDirectory)
+

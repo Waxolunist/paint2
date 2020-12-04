@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.v_collaborate.paint.twa",
+      "sha256_cert_fingerprints": [
+        "6C:B3:22:02:28:0F:F7:6F:5C:4B:11:34:B2:60:DF:21:17:04:54:A6:15:BD:D4:06:8D:CD:08:10:E1:BB:B6:C0"
+      ]
+    }
+  }
+]
