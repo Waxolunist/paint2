@@ -2,8 +2,8 @@
 
 DEFAULT_SYSTEM="linux"
 # Possible values: mac | linux | win
-SYSTEM=${1:-DEFAULT_SYSTEM}    
-
+SYSTEM=${1:-$DEFAULT_SYSTEM}    
+echo "Download commandline tools for ${SYSTEM}."
 # Download from https://developer.android.com/studio#command-tools
 mkdir -p .tools
 cd .tools

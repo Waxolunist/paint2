@@ -7,4 +7,4 @@ then
 fi
 ANDROID_CLI_HOME="${CWD}/.tools"
 
-echo "{\"jdkPath\":\"${JDK8_HOME:-JAVA_HOME}\",\"androidSdkPath\":\"${ANDROID_CLI_HOME}\"}" > "${HOME}/.bubblewrap/config.json"
+echo "{\"jdkPath\":\"${JDK8_HOME:-$JAVA_HOME}\",\"androidSdkPath\":\"${ANDROID_CLI_HOME}\"}" > "${HOME}/.bubblewrap/config.json"
