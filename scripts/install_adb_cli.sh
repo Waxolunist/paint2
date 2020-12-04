@@ -10,4 +10,4 @@ cd .tools
 curl https://dl.google.com/android/repository/commandlinetools-${SYSTEM}-6858069_latest.zip --output commandlinetools.zip
 unzip -u commandlinetools.zip
 rm -rf tools
-mv cmdline-tools tools
+cp -R cmdline-tools tools

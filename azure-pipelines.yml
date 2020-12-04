@@ -116,15 +116,11 @@ stages:
           scriptPath: $(System.DefaultWorkingDirectory)/scripts/config_bubblewrap.sh
           cwd: $(System.DefaultWorkingDirectory)
 
-      - script: |
-          yes | .tools/tools/bin/sdkmanager --sdk_root=.tools --licenses    
-        displayName: accept android licenses
-        workingDirectory: $(System.DefaultWorkingDirectory)
-
-      - script: |
-          `npm bin`/bubblewrap build
-        displayName: build android app
-        workingDirectory: $(System.DefaultWorkingDirectory)/android
+      - task: ShellScript@2
+        displayName: build app
+        inputs:
+          scriptPath: $(System.DefaultWorkingDirectory)/scripts/build_app.sh
+          cwd: $(System.DefaultWorkingDirectory)
 
       - script: |
           mkdir -p bundle/.well-known
