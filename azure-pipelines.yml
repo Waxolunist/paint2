@@ -117,7 +117,7 @@ stages:
           cwd: $(System.DefaultWorkingDirectory)
 
       - script: |
-          `npm bin`/bubblewrap build
+          yes | `npm bin`/bubblewrap build
         displayName: build android app
         workingDirectory: $(System.DefaultWorkingDirectory)/android
 
