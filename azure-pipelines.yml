@@ -132,9 +132,13 @@ stages:
       displayName: Build TWA
       steps:
         - task: JavaToolInstaller@0
+          displayName: install java 8
           inputs:
             versionSpec: '8'
             jdkArchitectureOption: 'x64'
             jdkSourceOption: 'PreInstalled'
-            #curl https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip --output commandlinetools-linux-6858069_latest.zip
-            #unzip
+        
+        - task: ShellScript@2
+          displayName: install adb commandline tools
+          inputs:
+            scriptPath: $(System.DefaultWorkingDirectory)/install_adb_cli.sh

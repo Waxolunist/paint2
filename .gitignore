@@ -13,3 +13,4 @@
 /cypress/videos/*.mp4
 /cypress/screenshots/*.*
 build_info.txt
+/.tools/
