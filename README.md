@@ -132,6 +132,24 @@ Prettier has not been configured to run when commiting files, but this can be ad
 
 See [Get started](https://lit-element.polymer-project.org/guide/start) on the LitElement site for more information.
 
+# TWA
+
+see [TWA](https://developers.google.com/web/android/trusted-web-activity/quick-start)
+
+When jdk8 is installed correctly, install android tools by executing
+
+    scripts/install_adb_cli.sh mac
+
+Alternatively you can also install "win" or "linux" versions. Default is "linux".
+
+Then configure bubblewrap. For Macs I prepared the script
+
+    scripts/config_bubblewrap_mac.sh
+
+After that start by building
+
+    bubblewrap build
+
 # Issues
 - [x] about page
 - [x] eraser

@@ -115,8 +115,9 @@ stages:
       - task: ShellScript@2
         displayName: create build artifact
         inputs:
-          scriptPath: $(System.DefaultWorkingDirectory)/build_info.sh
+          scriptPath: $(System.DefaultWorkingDirectory)/scripts/build_info.sh
           args: 'build-$(Build.BuildId) commit-$(SHORT_HASH) $(PAINT2_VERSION)'
+          cwd: $(System.DefaultWorkingDirectory)
 
       - task: PublishBuildArtifacts@1
         displayName: publish build artifact
@@ -141,4 +142,5 @@ stages:
         - task: ShellScript@2
           displayName: install adb commandline tools
           inputs:
-            scriptPath: $(System.DefaultWorkingDirectory)/install_adb_cli.sh
+            scriptPath: $(System.DefaultWorkingDirectory)/scripts/install_adb_cli.sh
+            cwd: $(System.DefaultWorkingDirectory)
