@@ -120,7 +120,7 @@ stages:
         displayName: build app
         inputs:
           scriptPath: $(System.DefaultWorkingDirectory)/scripts/build_app.sh
-          cwd: $(System.DefaultWorkingDirectory)
+          cwd: $(System.DefaultWorkingDirectory)/android
 
       - script: |
           mkdir -p bundle/.well-known
