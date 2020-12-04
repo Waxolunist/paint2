@@ -97,42 +97,36 @@ stages:
           summaryFileLocation: 'coverage/cobertura-coverage.xml'
         displayName: 'publish coverage data'
 
-    - job: buildtwa
-      displayName: Build TWA
-      steps:
-        - task: JavaToolInstaller@0
-          displayName: install java 8
-          inputs:
-            versionSpec: '8'
-            jdkArchitectureOption: 'x64'
-            jdkSourceOption: 'PreInstalled'
-        
-        - task: ShellScript@2
-          displayName: install adb commandline tools
-          inputs:
-            scriptPath: $(System.DefaultWorkingDirectory)/scripts/install_adb_cli.sh
-            cwd: $(System.DefaultWorkingDirectory)
+      - task: JavaToolInstaller@0
+        displayName: install java 8
+        inputs:
+          versionSpec: '8'
+          jdkArchitectureOption: 'x64'
+          jdkSourceOption: 'PreInstalled'
+      
+      - task: ShellScript@2
+        displayName: install adb commandline tools
+        inputs:
+          scriptPath: $(System.DefaultWorkingDirectory)/scripts/install_adb_cli.sh
+          cwd: $(System.DefaultWorkingDirectory)
 
-        - task: ShellScript@2
-          displayName: configure bubblewrap
-          inputs:
-            scriptPath: $(System.DefaultWorkingDirectory)/scripts/config_bubblewrap.sh
-            cwd: $(System.DefaultWorkingDirectory)
+      - task: ShellScript@2
+        displayName: configure bubblewrap
+        inputs:
+          scriptPath: $(System.DefaultWorkingDirectory)/scripts/config_bubblewrap.sh
+          cwd: $(System.DefaultWorkingDirectory)
 
-        - script: |
-            `npm bin`/bubblewrap build
-          displayName: build android app
-          workingDirectory: $(System.DefaultWorkingDirectory)/android
+      - script: |
+          `npm bin`/bubblewrap build
+        displayName: build android app
+        workingDirectory: $(System.DefaultWorkingDirectory)/android
 
-        - script: |
-            mkdir -p bundle/.well-known
-            cp android/assetlinks.json bundle/.well-known/assetlinks.json
-          workingDirectory: $(System.DefaultWorkingDirectory)
-          displayName: Copy assetlinks
-  
-    - job: builddocker
-      displayName: Build Docker
-      steps:
+      - script: |
+          mkdir -p bundle/.well-known
+          cp android/assetlinks.json bundle/.well-known/assetlinks.json
+        workingDirectory: $(System.DefaultWorkingDirectory)
+        displayName: Copy assetlinks
+
       - task: Docker@2
         displayName: docker login
         inputs:
