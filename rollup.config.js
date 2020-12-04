@@ -70,7 +70,6 @@ const pluginsProduction = [
     swSrc: 'src/sw.js',
     swDest: 'bundle/sw.js',
     globDirectory: 'bundle',
-    mode: 'production',
   }),
   brotli({
     options: {
