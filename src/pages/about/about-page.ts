@@ -33,6 +33,11 @@ export class AboutPage extends connect(store)(LitElement) {
         </p>
         <p>Use a touch screen compatible pen for the best user experience.</p>
         <p>
+          Half of the revenue will go to charity. Twice a year I will publish
+          here the revenue numbers, my expenses and which charity facilities I
+          support.
+        </p>
+        <p>
           If you have any issues with the app or want to see new features, just
           create an github issue please.
         </p>

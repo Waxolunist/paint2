@@ -2,7 +2,7 @@ trigger:
 - master
 
 stages:
-- stage: Build
+- stage: BuildWeb
   displayName: Build
   pool:
     vmImage: 'ubuntu-latest'
@@ -123,3 +123,18 @@ stages:
         inputs:
           pathToPublish: $(System.DefaultWorkingDirectory)/build_info.txt
           artifactName: buildinfo
+- stage: AndroidApp
+  pool:
+    vmImage: 'ubuntu-latest'
+  dependsOn: ['BuildWeb']
+  jobs:
+    - job: buildtwa
+      displayName: Build TWA
+      steps:
+        - task: JavaToolInstaller@0
+          inputs:
+            versionSpec: '8'
+            jdkArchitectureOption: 'x64'
+            jdkSourceOption: 'PreInstalled'
+            #curl https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip --output commandlinetools-linux-6858069_latest.zip
+            #unzip

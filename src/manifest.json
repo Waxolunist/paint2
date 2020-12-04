@@ -54,5 +54,37 @@
       "sizes": "512x512",
       "type": "image/png"
     }
+  ],
+  "screenshots": [
+    {
+      "src": "images/screenshots/android/Screenshot_1.png",
+      "type": "image/png",
+      "sizes": "864×1824"
+    },
+    {
+      "src": "images/screenshots/android/Screenshot_2.png",
+      "type": "image/png",
+      "sizes": "864×1824"
+    },
+    {
+      "src": "images/screenshots/android/Screenshot_3.png",
+      "type": "image/png",
+      "sizes": "864×1824"
+    },
+    {
+      "src": "images/screenshots/android/Screenshot_4.png",
+      "type": "image/png",
+      "sizes": "864×1824"
+    },
+    {
+      "src": "images/screenshots/android/Screenshot_5.png",
+      "type": "image/png",
+      "sizes": "864×1824"
+    },
+    {
+      "src": "images/screenshots/android/Screenshot_6.png",
+      "type": "image/png",
+      "sizes": "864×1824"
+    }
   ]
 }
