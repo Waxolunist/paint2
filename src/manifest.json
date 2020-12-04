@@ -86,5 +86,12 @@
       "type": "image/png",
       "sizes": "864×1824"
     }
-  ]
+  ],
+  "categories": ["art-and-design", "education", "kids"],
+  "serviceworker": {
+    "src": "./sw.js",
+    "scope": "/",
+    "type": "",
+    "update_via_cache": "none"
+  }
 }
