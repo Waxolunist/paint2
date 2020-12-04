@@ -117,7 +117,12 @@ stages:
           cwd: $(System.DefaultWorkingDirectory)
 
       - script: |
-          yes | `npm bin`/bubblewrap build
+          yes | .tools/tools/bin/sdkmanager --sdk_root=.tools --licenses    
+        displayName: accept android licenses
+        workingDirectory: $(System.DefaultWorkingDirectory)
+
+      - script: |
+          `npm bin`/bubblewrap build
         displayName: build android app
         workingDirectory: $(System.DefaultWorkingDirectory)/android
 
