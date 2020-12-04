@@ -9,3 +9,5 @@ ANDROID_CLI_HOME="${CWD}/.tools"
 
 mkdir -p "${HOME}/.bubblewrap"
 echo "{\"jdkPath\":\"${JDK8_HOME:-$JAVA_HOME}\",\"androidSdkPath\":\"${ANDROID_CLI_HOME}\"}" > "${HOME}/.bubblewrap/config.json"
+
+cat "${HOME}/.bubblewrap/config.json"
