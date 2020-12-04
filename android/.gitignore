@@ -3,4 +3,3 @@
 *.apk
 *.aab
 build*
-gradle*

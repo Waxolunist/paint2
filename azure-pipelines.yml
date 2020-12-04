@@ -124,8 +124,10 @@ stages:
             scriptPath: $(System.DefaultWorkingDirectory)/scripts/config_bubblewrap.sh
             cwd: $(System.DefaultWorkingDirectory)
 
-# TODO install bubblewrap
-# bublewrap init / build
+        - script: |
+            `npm bin`/bubblewrap build
+          displayName: build android app
+          workingDirectory: $(System.DefaultWorkingDirectory)/android
 
         - script: |
             mkdir -p bundle/.well-known
