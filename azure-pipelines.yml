@@ -160,11 +160,12 @@ stages:
             jdkArchitectureOption: 'x64'
             jdkSourceOption: 'PreInstalled'
         
-        - task: ShellScript@2
+        - task: Bash@3
           displayName: install adb commandline tools
           inputs:
-            scriptPath: $(System.DefaultWorkingDirectory)/scripts/install_adb_cli.sh
-            cwd: $(System.DefaultWorkingDirectory)
+            targetType: 'filePath'
+            filePath: $(System.DefaultWorkingDirectory)/scripts/install_adb_cli.sh
+            workingDirectory: $(System.DefaultWorkingDirectory)
 
         - task: ShellScript@2
           displayName: configure bubblewrap
