@@ -97,31 +97,6 @@ stages:
           summaryFileLocation: 'coverage/cobertura-coverage.xml'
         displayName: 'publish coverage data'
 
-      - task: JavaToolInstaller@0
-        displayName: install java 8
-        inputs:
-          versionSpec: '8'
-          jdkArchitectureOption: 'x64'
-          jdkSourceOption: 'PreInstalled'
-      
-      - task: ShellScript@2
-        displayName: install adb commandline tools
-        inputs:
-          scriptPath: $(System.DefaultWorkingDirectory)/scripts/install_adb_cli.sh
-          cwd: $(System.DefaultWorkingDirectory)
-
-      - task: ShellScript@2
-        displayName: configure bubblewrap
-        inputs:
-          scriptPath: $(System.DefaultWorkingDirectory)/scripts/config_bubblewrap.sh
-          cwd: $(System.DefaultWorkingDirectory)
-
-      - task: ShellScript@2
-        displayName: build app
-        inputs:
-          scriptPath: $(System.DefaultWorkingDirectory)/scripts/build_app.sh
-          cwd: $(System.DefaultWorkingDirectory)/android
-
       - script: |
           mkdir -p bundle/.well-known
           cp android/assetlinks.json bundle/.well-known/assetlinks.json
@@ -157,3 +132,47 @@ stages:
           pathToPublish: $(System.DefaultWorkingDirectory)/build_info.txt
           artifactName: buildinfo
 
+- stage: AndroidApp
+  displayName: Android App
+  pool:
+    vmImage: 'ubuntu-latest'
+  dependsOn: []
+  jobs:
+    - job: buildapp
+      displayName: Build Android App
+      steps:
+        - task: NodeTool@0
+          inputs:
+            versionSpec: '14.x'
+          displayName: 'Install Node.js'
+
+        - task: Npm@1
+          inputs:
+            command: 'custom'
+            customCommand: 'install @bubblewrap/cli'
+          displayName: 'install bubblewrap'
+
+        - task: JavaToolInstaller@0
+          displayName: install java 8
+          inputs:
+            versionSpec: '8'
+            jdkArchitectureOption: 'x64'
+            jdkSourceOption: 'PreInstalled'
+        
+        - task: ShellScript@2
+          displayName: install adb commandline tools
+          inputs:
+            scriptPath: $(System.DefaultWorkingDirectory)/scripts/install_adb_cli.sh
+            cwd: $(System.DefaultWorkingDirectory)
+
+        - task: ShellScript@2
+          displayName: configure bubblewrap
+          inputs:
+            scriptPath: $(System.DefaultWorkingDirectory)/scripts/config_bubblewrap.sh
+            cwd: $(System.DefaultWorkingDirectory)
+
+        - task: ShellScript@2
+          displayName: build app
+          inputs:
+            scriptPath: $(System.DefaultWorkingDirectory)/scripts/build_app.sh
+            cwd: $(System.DefaultWorkingDirectory)/android
