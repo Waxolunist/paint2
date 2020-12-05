@@ -119,12 +119,13 @@ stages:
             commit-$(SHORT_HASH)
             $(PAINT2_VERSION)
 
-      - task: ShellScript@2
-        displayName: create build artifact
+      - task: Bash@3
+        displayName: create build artifact  
         inputs:
-          scriptPath: $(System.DefaultWorkingDirectory)/scripts/build_info.sh
-          args: 'build-$(Build.BuildId) commit-$(SHORT_HASH) $(PAINT2_VERSION)'
-          cwd: $(System.DefaultWorkingDirectory)
+          targetType: 'filePath'
+          filePath: $(System.DefaultWorkingDirectory)/scripts/build_info.sh
+          workingDirectory: $(System.DefaultWorkingDirectory)
+          arguments: 'build-$(Build.BuildId) commit-$(SHORT_HASH) $(PAINT2_VERSION)'
 
       - task: PublishBuildArtifacts@1
         displayName: publish build artifact
