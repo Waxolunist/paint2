@@ -103,6 +103,20 @@ stages:
         workingDirectory: $(System.DefaultWorkingDirectory)
         displayName: Copy assetlinks
 
+      - task: Bash@3
+        displayName: create build artifact  
+        inputs:
+          targetType: 'filePath'
+          filePath: $(System.DefaultWorkingDirectory)/scripts/build_info.sh
+          workingDirectory: $(System.DefaultWorkingDirectory)
+          arguments: 'build-$(Build.BuildId) commit-$(SHORT_HASH) $(PAINT2_VERSION)'
+
+      - task: PublishBuildArtifacts@1
+        displayName: publish build artifact
+        inputs:
+          pathToPublish: $(System.DefaultWorkingDirectory)/build_info.txt
+          artifactName: buildinfo
+
       - task: Docker@2
         displayName: docker login
         inputs:
@@ -118,20 +132,6 @@ stages:
             build-$(Build.BuildId)
             commit-$(SHORT_HASH)
             $(PAINT2_VERSION)
-
-      - task: Bash@3
-        displayName: create build artifact  
-        inputs:
-          targetType: 'filePath'
-          filePath: $(System.DefaultWorkingDirectory)/scripts/build_info.sh
-          workingDirectory: $(System.DefaultWorkingDirectory)
-          arguments: 'build-$(Build.BuildId) commit-$(SHORT_HASH) $(PAINT2_VERSION)'
-
-      - task: PublishBuildArtifacts@1
-        displayName: publish build artifact
-        inputs:
-          pathToPublish: $(System.DefaultWorkingDirectory)/build_info.txt
-          artifactName: buildinfo
 
 - stage: AndroidApp
   displayName: Android App
