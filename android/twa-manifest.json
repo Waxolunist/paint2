@@ -3,7 +3,7 @@
   "host": "paint.v-collaborate.com",
   "name": "Paint for Kids",
   "launcherName": "Paint",
-  "display": "fullscreen",
+  "display": "standalone",
   "themeColor": "#E3ECFF",
   "navigationColor": "#000000",
   "navigationColorDark": "#000000",
