@@ -165,9 +165,11 @@ stages:
           inputs:
             scriptPath: $(System.DefaultWorkingDirectory)/scripts/config_bubblewrap.sh
             cwd: $(System.DefaultWorkingDirectory)
-
-        - task: Npm@1
+            
+        - task: Bash@3
           inputs:
-            command: 'custom'
-            customCommand: 'run twa:build'
+            targetType: 'inline'
+            script: |
+              npm run twa:build
+            workingDirectory: $(Build.SourcesDirectory)
           displayName: 'build app'
