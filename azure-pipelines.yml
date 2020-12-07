@@ -1,5 +1,6 @@
 trigger:
 - master
+- feature/*
 
 stages:
 - stage: BuildWeb
@@ -96,6 +97,26 @@ stages:
           summaryFileLocation: 'coverage/cobertura-coverage.xml'
         displayName: 'publish coverage data'
 
+      - script: |
+          mkdir -p bundle/.well-known
+          cp android/assetlinks.json bundle/.well-known/assetlinks.json
+        workingDirectory: $(System.DefaultWorkingDirectory)
+        displayName: Copy assetlinks
+
+      - task: Bash@3
+        displayName: create build artifact  
+        inputs:
+          targetType: 'filePath'
+          filePath: $(System.DefaultWorkingDirectory)/scripts/build_info.sh
+          workingDirectory: $(System.DefaultWorkingDirectory)
+          arguments: 'build-$(Build.BuildId) commit-$(SHORT_HASH) $(PAINT2_VERSION)'
+
+      - task: PublishBuildArtifacts@1
+        displayName: publish build artifact
+        inputs:
+          pathToPublish: $(System.DefaultWorkingDirectory)/build_info.txt
+          artifactName: buildinfo
+
       - task: Docker@2
         displayName: docker login
         inputs:
@@ -112,33 +133,64 @@ stages:
             commit-$(SHORT_HASH)
             $(PAINT2_VERSION)
 
-      - task: ShellScript@2
-        displayName: create build artifact
-        inputs:
-          scriptPath: $(System.DefaultWorkingDirectory)/build_info.sh
-          args: 'build-$(Build.BuildId) commit-$(SHORT_HASH) $(PAINT2_VERSION)'
-
-      - task: PublishBuildArtifacts@1
-        displayName: publish build artifact
-        inputs:
-          pathToPublish: $(System.DefaultWorkingDirectory)/build_info.txt
-          artifactName: buildinfo
 - stage: AndroidApp
+  displayName: Android App
   pool:
     vmImage: 'ubuntu-latest'
-  dependsOn: ['BuildWeb']
+  dependsOn: []
   jobs:
-    - job: buildtwa
-      displayName: Build TWA
+    - job: buildapp
+      displayName: Build Android App
       steps:
+        - task: NodeTool@0
+          inputs:
+            versionSpec: '14.x'
+          displayName: 'Install Node.js'
+
+        - task: Npm@1
+          inputs:
+            command: 'custom'
+            customCommand: 'install @bubblewrap/cli'
+          displayName: 'install bubblewrap'
+
         - task: JavaToolInstaller@0
           displayName: install java 8
           inputs:
             versionSpec: '8'
             jdkArchitectureOption: 'x64'
             jdkSourceOption: 'PreInstalled'
-        
+
         - task: ShellScript@2
-          displayName: install adb commandline tools
+          displayName: configure bubblewrap
           inputs:
-            scriptPath: $(System.DefaultWorkingDirectory)/install_adb_cli.sh
+            scriptPath: $(System.DefaultWorkingDirectory)/scripts/config_bubblewrap.sh
+            cwd: $(System.DefaultWorkingDirectory)
+
+        - task: Bash@3
+          inputs:
+            targetType: 'inline'
+            script: |
+              npm run twa:build
+            workingDirectory: $(Build.SourcesDirectory)
+          displayName: 'build app'
+          env:
+            BUBBLEWRAP_KEY_PASSWORD: $(BUBBLEWRAP_KEY_PASSWORD)
+            BUBBLEWRAP_KEYSTORE_PASSWORD: $(BUBBLEWRAP_KEYSTORE_PASSWORD)
+
+        - task: PublishBuildArtifacts@1
+          displayName: publish apk signed
+          inputs:
+            pathToPublish: $(System.DefaultWorkingDirectory)/android/app-release-signed.apk
+            artifactName: app-release-signed.apk
+
+        - task: PublishBuildArtifacts@1
+          displayName: publish apk unsigned
+          inputs:
+            pathToPublish: $(System.DefaultWorkingDirectory)/android/app-release-unsigned-aligned.apk
+            artifactName: app-release-unsigned-aligned.apk
+
+        - task: PublishBuildArtifacts@1
+          displayName: publish release bundle
+          inputs:
+            pathToPublish: $(System.DefaultWorkingDirectory)/android/app-release-bundle.aab
+            artifactName: app-release-bundle.aab

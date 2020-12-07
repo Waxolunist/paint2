@@ -35,7 +35,8 @@
     "test:cy:open": "cypress open",
     "test:all": "npm run test:coverage && npm run test:cy",
     "docker:build": "npm run bundle && docker build . -t waxolunist/paint2:latest",
-    "docker:run": "docker run -p 8000:8043 waxolunist/paint2:latest"
+    "docker:run": "docker run -p 8000:8043 waxolunist/paint2:latest",
+    "twa:build": "cd android && bubblewrap build --skipPwaValidation"
   },
   "pre-commit": [
     "format:check",
@@ -76,7 +77,7 @@
     "cypress": "^6.0.1",
     "deepmerge": "^4.2.2",
     "es-dev-server": "^1.60.1",
-    "eslint": "^7.14.0",
+    "eslint": "^7.15.0",
     "eslint-plugin-cypress": "^2.11.2",
     "fake-indexeddb": "^3.1.2",
     "jest": "^26.6.3",
@@ -89,7 +90,7 @@
     "regenerator-runtime": "^0.13.7",
     "rewire": "^5.0.0",
     "rimraf": "^3.0.2",
-    "rollup": "^2.34.1",
+    "rollup": "^2.34.2",
     "rollup-plugin-brotli": "^3.0.1",
     "rollup-plugin-copy": "^3.3.0",
     "rollup-plugin-delete": "^2.0.0",

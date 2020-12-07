@@ -1,0 +1,32 @@
+{
+  "packageId": "com.v_collaborate.paint.twa",
+  "host": "paint.v-collaborate.com",
+  "name": "Paint for Kids",
+  "launcherName": "Paint",
+  "display": "standalone",
+  "themeColor": "#E3ECFF",
+  "navigationColor": "#000000",
+  "navigationColorDark": "#000000",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#E3ECFF",
+  "enableNotifications": false,
+  "startUrl": "/",
+  "iconUrl": "https://paint.v-collaborate.com/images/manifest/android-chrome-512x512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./android.keystore",
+    "alias": "android"
+  },
+  "appVersionName": "1",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://paint.v-collaborate.com/manifest.json",
+  "fallbackType": "customtabs",
+  "features": {},
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "appVersion": "1"
+}
+
