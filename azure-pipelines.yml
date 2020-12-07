@@ -159,13 +159,6 @@ stages:
             versionSpec: '8'
             jdkArchitectureOption: 'x64'
             jdkSourceOption: 'PreInstalled'
-        
-        - task: Bash@3
-          displayName: install adb commandline tools
-          inputs:
-            targetType: 'filePath'
-            filePath: $(System.DefaultWorkingDirectory)/scripts/install_adb_cli.sh
-            workingDirectory: $(System.DefaultWorkingDirectory)
 
         - task: ShellScript@2
           displayName: configure bubblewrap
@@ -173,8 +166,8 @@ stages:
             scriptPath: $(System.DefaultWorkingDirectory)/scripts/config_bubblewrap.sh
             cwd: $(System.DefaultWorkingDirectory)
 
-        - task: ShellScript@2
-          displayName: build app
+        - task: Npm@1
           inputs:
-            scriptPath: $(System.DefaultWorkingDirectory)/scripts/build_app.sh
-            cwd: $(System.DefaultWorkingDirectory)/android
+            command: 'custom'
+            customCommand: 'run twa:build'
+          displayName: 'build app'
