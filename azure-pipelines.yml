@@ -165,7 +165,7 @@ stages:
           inputs:
             scriptPath: $(System.DefaultWorkingDirectory)/scripts/config_bubblewrap.sh
             cwd: $(System.DefaultWorkingDirectory)
-            
+
         - task: Bash@3
           inputs:
             targetType: 'inline'
@@ -173,3 +173,6 @@ stages:
               npm run twa:build
             workingDirectory: $(Build.SourcesDirectory)
           displayName: 'build app'
+          env:
+            BUBBLEWRAP_KEY_PASSWORD: $(BUBBLEWRAP_KEY_PASSWORD)
+            BUBBLEWRAP_KEYSTORE_PASSWORD: $(BUBBLEWRAP_KEYSTORE_PASSWORD)
