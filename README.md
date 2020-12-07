@@ -142,13 +142,13 @@ When jdk8 is installed correctly, install android tools by executing
 
 Alternatively you can also install "win" or "linux" versions. Default is "linux".
 
-Then configure bubblewrap. For Macs I prepared the script
+Then configure bubblewrap. I prepared the script
 
-    scripts/config_bubblewrap_mac.sh
+    scripts/config_bubblewrap.sh
 
 After that start by building
 
-    bubblewrap build
+    npm run twa:build
 
 # Issues
 - [x] about page

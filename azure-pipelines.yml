@@ -176,3 +176,21 @@ stages:
           env:
             BUBBLEWRAP_KEY_PASSWORD: $(BUBBLEWRAP_KEY_PASSWORD)
             BUBBLEWRAP_KEYSTORE_PASSWORD: $(BUBBLEWRAP_KEYSTORE_PASSWORD)
+
+        - task: PublishBuildArtifacts@1
+          displayName: publish apk signed
+          inputs:
+            pathToPublish: $(System.DefaultWorkingDirectory)/android/app-release-signed.apk
+            artifactName: app-release-signed.apk
+
+        - task: PublishBuildArtifacts@1
+          displayName: publish apk unsigned
+          inputs:
+            pathToPublish: $(System.DefaultWorkingDirectory)/android/app-release-unsigned-aligned.apk
+            artifactName: app-release-unsigned-aligned.apk
+
+        - task: PublishBuildArtifacts@1
+          displayName: publish release bundle
+          inputs:
+            pathToPublish: $(System.DefaultWorkingDirectory)/android/app-release-bundle.aab
+            artifactName: app-release-bundle.aab
