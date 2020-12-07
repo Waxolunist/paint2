@@ -36,7 +36,7 @@
     "test:all": "npm run test:coverage && npm run test:cy",
     "docker:build": "npm run bundle && docker build . -t waxolunist/paint2:latest",
     "docker:run": "docker run -p 8000:8043 waxolunist/paint2:latest",
-    "twa:build": "bubblewrap build --skipPwaValidation"
+    "twa:build": "cd android && bubblewrap build --skipPwaValidation"
   },
   "pre-commit": [
     "format:check",
