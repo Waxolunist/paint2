@@ -158,6 +158,7 @@ After that start by building
 - [x] test if share is really possible, error popup if not (first construct files, then call share)
 - [x] safari comp.
 - [x] version string in about page (rollup?)
+- [ ] make app better usable in fullscreen (currently standalone optimized)
 - [ ] loading animations / skeletons / async image load on overview page
 - [x] delete animation
 - [ ] painting scale / wobble animation on delete
@@ -166,7 +167,7 @@ After that start by building
 - [ ] don't scroll to top on back navigation
 - [ ] PWA context menus / shortcuts
 - [ ] lighthouse analysis 
-- [ ] TWA
+- [x] TWA
 - [x] iOS topBar colour adjustment
 - [x] iOS comp.
 - [ ] animation on colorbuttons on ios slow

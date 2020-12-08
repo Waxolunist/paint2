@@ -84,6 +84,11 @@ export class PaintApp extends LitElement {
           .resolve="${() => import('./pages/about/about-page')}"
         ></lit-route>
         <lit-route
+          path="/privacy"
+          component="paint-privacy-page"
+          .resolve="${() => import('./pages/privacy/privacy-page')}"
+        ></lit-route>
+        <lit-route
           component="paint-error404-page"
           .resolve="${() => import('./pages/errors/404-page')}"
         ></lit-route>
