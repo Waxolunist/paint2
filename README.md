@@ -167,6 +167,7 @@ After that start by building
 - [ ] don't scroll to top on back navigation
 - [ ] PWA context menus / shortcuts
 - [ ] lighthouse analysis 
+- [ ] performance with content-visibility (overflow problem)
 - [x] TWA
 - [x] iOS topBar colour adjustment
 - [x] iOS comp.
