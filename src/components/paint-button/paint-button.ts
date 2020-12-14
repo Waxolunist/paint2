@@ -27,7 +27,7 @@ export class PaintButton extends LitElement {
       css`
         :host {
           display: block;
-          background-color: white;
+          background-color: transparent;
           width: auto;
           min-width: 100px;
           height: 100%;
@@ -75,6 +75,7 @@ export class PaintButton extends LitElement {
           border: var(--painting-button-border, none);
           box-sizing: border-box;
           padding: 5px;
+          position: relative;
         }
       `,
     ];

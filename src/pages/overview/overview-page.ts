@@ -96,6 +96,12 @@ export class OverviewPage extends connect(store)(LitElement) {
           position: relative;
           transition-property: transform;
           will-change: transform;
+          padding: 40px;
+          content-visibility: auto;
+          contain-intrinsic-size: calc(
+              var(--painting-height) / var(--painting-scalefactor)
+            )
+            calc(var(--painting-width) / var(--painting-scalefactor));
         }
 
         .painting.translate {
