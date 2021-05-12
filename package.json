@@ -25,7 +25,7 @@
     "analyze": "wca analyze \"src/**/*.ts\" --outFile build/custom-elements.json",
     "start": "npm run serve",
     "serve": "es-dev-server --config es-dev-server.config.cjs --watch --open",
-    "serve:nowatch": "es-dev-server --config es-dev-server.config.cjs > /dev/null",
+    "serve:nowatch": "npm run clean && rollup -c && es-dev-server --config es-dev-server.config.cjs > /dev/null",
     "serve:bundle": "npm run bundle && es-dev-server --config es-dev-server.build.cjs",
     "test": "jest",
     "test:update-snapshots": "jest --updateSnapshot",

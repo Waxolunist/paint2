@@ -44,6 +44,7 @@ export class ColorToolbar extends LitElement {
           height: var(--icon-size);
           margin-top: 3px;
           margin-left: 7px;
+          min-height: var(--icon-size);
         }
 
         .color-option[active] {
