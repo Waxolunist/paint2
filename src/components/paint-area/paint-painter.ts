@@ -159,15 +159,17 @@ export class CanvasPainter {
     }
   };
 
-  render = (drawAll = true): (() => void) => () => {
-    if (drawAll) {
-      this.clearCanvas();
-      for (let i = 0, len = this._.strokes.length; i < len; ++i) {
-        this.drawStroke(this._.strokes[i]);
+  render =
+    (drawAll = true): (() => void) =>
+    () => {
+      if (drawAll) {
+        this.clearCanvas();
+        for (let i = 0, len = this._.strokes.length; i < len; ++i) {
+          this.drawStroke(this._.strokes[i]);
+        }
       }
-    }
-    this.drawStroke(this._);
-  };
+      this.drawStroke(this._);
+    };
 
   draw = (drawAll = true): number =>
     requestAnimationFrame(this.render(drawAll));

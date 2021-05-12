@@ -181,20 +181,19 @@ export class OverviewPage extends connect(store)(LitElement) {
     (<ThunkDispatch>store.dispatch)(loadData(id));
   };
 
-  private removePainting = (
-    id?: number | string
-  ) => async (): Promise<void> => {
-    this.currentPaintingClientRects = [];
-    this.paintingButtons?.forEach((node, index) => {
-      this.currentPaintingClientRects.push({
-        id: this.paintings[index].id ?? 0,
-        index: index,
-        clientRect: (node as HTMLElement).getBoundingClientRect(),
+  private removePainting =
+    (id?: number | string) => async (): Promise<void> => {
+      this.currentPaintingClientRects = [];
+      this.paintingButtons?.forEach((node, index) => {
+        this.currentPaintingClientRects.push({
+          id: this.paintings[index].id ?? 0,
+          index: index,
+          clientRect: (node as HTMLElement).getBoundingClientRect(),
+        });
       });
-    });
-    this.removeAnimatedClass();
-    (<ThunkDispatch>store.dispatch)(removePainting(id));
-  };
+      this.removeAnimatedClass();
+      (<ThunkDispatch>store.dispatch)(removePainting(id));
+    };
 
   private canShare = (): boolean | undefined => {
     const blob = dataURLtoBlob(defaultDataUrl);
@@ -211,9 +210,9 @@ export class OverviewPage extends connect(store)(LitElement) {
   };
 
   private sharePainting = (id?: number | string) => async (): Promise<void> => {
-    const painting:
-      | Painting
-      | undefined = store.getState().paint.paintings.find((p) => p.id == id);
+    const painting: Painting | undefined = store
+      .getState()
+      .paint.paintings.find((p) => p.id == id);
     if (painting) {
       const request = await fetch(painting.blobUrl);
       const blob = await request.blob();

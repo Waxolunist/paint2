@@ -43,7 +43,7 @@ describe('paint utils', () => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       delete global.window.location;
-      global.window.location = (new URL(url) as unknown) as Location;
+      global.window.location = new URL(url) as unknown as Location;
     };
 
     it('extract id from pathname', () => {

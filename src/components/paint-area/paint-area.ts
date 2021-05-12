@@ -50,8 +50,8 @@ export class PaintArea extends LitElement {
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.workerSupported = !!HTMLCanvasElement.prototype
-      .transferControlToOffscreen;
+    this.workerSupported =
+      !!HTMLCanvasElement.prototype.transferControlToOffscreen;
     this.coalesceEventsSupported = !!PointerEvent.prototype.getCoalescedEvents;
 
     if (this.workerSupported && !this.worker) {
@@ -238,9 +238,8 @@ export class PaintArea extends LitElement {
   }
 
   toImage(): string {
-    const destinationCanvas: HTMLCanvasElement = document.createElement(
-      'canvas'
-    );
+    const destinationCanvas: HTMLCanvasElement =
+      document.createElement('canvas');
     destinationCanvas.width = this.canvas.width;
     destinationCanvas.height = this.canvas.height;
 

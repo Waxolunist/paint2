@@ -30,6 +30,12 @@ To build the JavaScript version of your component:
 npm run bundle
 ```
 
+To run
+
+```bash
+npm run serve
+```
+
 To watch files and rebuild when the files are modified, run the following command in a separate shell:
 
 ```bash

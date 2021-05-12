@@ -70,132 +70,120 @@ const loadPainting = async (
   return undefined;
 };
 
-export const storeData = ({
-  id,
-  dataUrl,
-  strokes,
-}: {
-  id: number;
-  dataUrl: string;
-  strokes: Stroke[];
-}): ThunkAction => async (
-  dispatch,
-  getState,
-  database: Promise<PaintingDatabase>
-) => {
-  getState()
-    .paint.paintings.find((p) => p.id == id)
-    ?.freeMemory();
-  const db = await database;
-  const painting = new PaintingImpl(dataUrl, id);
-  const rawData = new PaintingRawData(id, strokes);
-  try {
-    await db.transaction('rw', db.paintings, db.strokes, async () => {
-      const updated = await db.paintings.update(id, painting);
-      if (updated) {
-        await Promise.all([painting.cleanState(), db.strokes.put(rawData)]);
-      }
-    });
-    return dispatch({
-      type: STORE,
-      payload: {
-        painting,
-        rawData,
-      },
-    });
-  } catch (e) {
-    console.error(e);
-  }
-  return undefined;
-};
-
-export const loadData = (id?: number | string): ThunkAction => async (
-  dispatch,
-  getState,
-  database
-) => {
-  if (id) {
+export const storeData =
+  ({
+    id,
+    dataUrl,
+    strokes,
+  }: {
+    id: number;
+    dataUrl: string;
+    strokes: Stroke[];
+  }): ThunkAction =>
+  async (dispatch, getState, database: Promise<PaintingDatabase>) => {
+    getState()
+      .paint.paintings.find((p) => p.id == id)
+      ?.freeMemory();
     const db = await database;
-    const {paint} = getState();
-    const payload = await loadPainting(db, paint.paintings, id);
-    if (payload) {
-      return dispatch({
-        type: LOAD,
-        payload,
+    const painting = new PaintingImpl(dataUrl, id);
+    const rawData = new PaintingRawData(id, strokes);
+    try {
+      await db.transaction('rw', db.paintings, db.strokes, async () => {
+        const updated = await db.paintings.update(id, painting);
+        if (updated) {
+          await Promise.all([painting.cleanState(), db.strokes.put(rawData)]);
+        }
       });
+      return dispatch({
+        type: STORE,
+        payload: {
+          painting,
+          rawData,
+        },
+      });
+    } catch (e) {
+      console.error(e);
     }
-  }
-  return undefined;
-};
+    return undefined;
+  };
+
+export const loadData =
+  (id?: number | string): ThunkAction =>
+  async (dispatch, getState, database) => {
+    if (id) {
+      const db = await database;
+      const {paint} = getState();
+      const payload = await loadPainting(db, paint.paintings, id);
+      if (payload) {
+        return dispatch({
+          type: LOAD,
+          payload,
+        });
+      }
+    }
+    return undefined;
+  };
 
 export const unloadData = (): ThunkAction => async (dispatch) =>
   dispatch({type: UNLOAD});
 
-export const newPainting = (): ThunkAction => async (
-  dispatch,
-  _getState,
-  database
-) => {
-  const db = await database;
-  const painting = new PaintingImpl();
-  await db.paintings.put(painting);
-  return dispatch({
-    type: NEW,
-    payload: {
-      painting,
-    },
-  });
-};
+export const newPainting =
+  (): ThunkAction => async (dispatch, _getState, database) => {
+    const db = await database;
+    const painting = new PaintingImpl();
+    await db.paintings.put(painting);
+    return dispatch({
+      type: NEW,
+      payload: {
+        painting,
+      },
+    });
+  };
 
-export const removePainting = (id?: number | string): ThunkAction => async (
-  dispatch,
-  getState,
-  database: Promise<PaintingDatabase>
-) => {
-  try {
-    if (id) {
-      const painting = getState().paint.paintings.find((p) => p.id == id);
-      painting?.freeMemory();
-      const db = await database;
-      await db.transaction('rw', db.paintings, db.strokes, async () => {
-        await Promise.all([
-          db.paintings.delete(parseInt(id as string)),
-          db.strokes.delete(parseInt(id as string)),
-        ]);
-      });
-      return dispatch({
-        type: DELETE,
-        payload: id,
-      });
+export const removePainting =
+  (id?: number | string): ThunkAction =>
+  async (dispatch, getState, database: Promise<PaintingDatabase>) => {
+    try {
+      if (id) {
+        const painting = getState().paint.paintings.find((p) => p.id == id);
+        painting?.freeMemory();
+        const db = await database;
+        await db.transaction('rw', db.paintings, db.strokes, async () => {
+          await Promise.all([
+            db.paintings.delete(parseInt(id as string)),
+            db.strokes.delete(parseInt(id as string)),
+          ]);
+        });
+        return dispatch({
+          type: DELETE,
+          payload: id,
+        });
+      }
+      return undefined;
+    } catch (e) {
+      console.error(e);
     }
     return undefined;
-  } catch (e) {
-    console.error(e);
-  }
-  return undefined;
-};
+  };
 
-export const initialLoad = (): ThunkAction => async (
-  dispatch,
-  _getState,
-  database
-) => {
-  const db = await database;
-  const paintingsDB = await db.paintings.toArray();
-  const paintingsArray = paintingsDB.map(
-    (p) => new PaintingImpl(p.dataUrl, p.id)
-  );
-  await Promise.all(paintingsArray.map((p) => p.cleanState()));
-  const payload = await loadPainting(db, paintingsArray);
-  return dispatch({
-    type: INIT,
-    payload: {
-      paintings: paintingsArray,
-      activePainting: payload,
-      initialized: true,
-    },
-  });
-};
+export const initialLoad =
+  (): ThunkAction => async (dispatch, _getState, database) => {
+    const db = await database;
+    const paintingsDB = await db.paintings.toArray();
+    const paintingsArray = paintingsDB.map(
+      (p) => new PaintingImpl(p.dataUrl, p.id)
+    );
+    await Promise.all(paintingsArray.map((p) => p.cleanState()));
+    const payload = await loadPainting(db, paintingsArray);
+    return dispatch({
+      type: INIT,
+      payload: {
+        paintings: paintingsArray,
+        activePainting: payload,
+        initialized: true,
+      },
+    });
+  };
 
 const initialState: PaintState = {
   paintings: [],
