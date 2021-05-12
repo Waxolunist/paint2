@@ -172,7 +172,8 @@ After that start by building
 - [ ] don't scroll to top on back navigation
 - [ ] PWA context menus / shortcuts
 - [ ] lighthouse analysis 
-- [ ] TWA
+- [x] TWA
+- [ ] publish TWA
 - [x] iOS topBar colour adjustment
 - [x] iOS comp.
 - [ ] animation on colorbuttons on ios slow
