@@ -58,8 +58,8 @@ stages:
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'run bundle'
-        displayName: 'npm bundle'
+          customCommand: 'run bundle:test'
+        displayName: 'npm bundle:test'
         env:
           BUILDID: $(Build.BuildId)
           COMMITID: $(SHORT_HASH)
@@ -96,6 +96,16 @@ stages:
           codeCoverageTool: 'cobertura'
           summaryFileLocation: 'coverage/cobertura-coverage.xml'
         displayName: 'publish coverage data'
+
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run bundle'
+        displayName: 'npm bundle'
+        env:
+          BUILDID: $(Build.BuildId)
+          COMMITID: $(SHORT_HASH)
+          PAINT_VERSION: $(PAINT2_VERSION)
 
       - script: |
           mkdir -p bundle/.well-known

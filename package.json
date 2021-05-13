@@ -12,7 +12,7 @@
   "type": "module",
   "scripts": {
     "bundle": "npm run clean && NODE_ENV=production rollup -c",
-    "bundle:tests": "npm run bundle && npm run test:all",
+    "bundle:test": "npm run clean && NODE_ENV=test rollup -c",
     "watch": "npm run clean && rollup -c && chokidar 'src/**/*.*' -c 'rollup -c'",
     "clean": "rimraf bundle/* build/* coverage/*",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
@@ -25,7 +25,7 @@
     "analyze": "wca analyze \"src/**/*.ts\" --outFile build/custom-elements.json",
     "start": "npm run serve",
     "serve": "es-dev-server --config es-dev-server.config.cjs --watch --open",
-    "serve:nowatch": "npm run clean && rollup -c && es-dev-server --config es-dev-server.config.cjs > /dev/null",
+    "serve:nowatch": "npm run bundle:test && es-dev-server --config es-dev-server.config.cjs > /dev/null",
     "serve:bundle": "npm run bundle && es-dev-server --config es-dev-server.build.cjs",
     "test": "jest",
     "test:update-snapshots": "jest --updateSnapshot",
