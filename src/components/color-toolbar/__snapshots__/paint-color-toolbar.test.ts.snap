@@ -30,6 +30,7 @@ exports[`paint-color-toolbar renders correctly 1`] = `
           height: var(--icon-size);
           margin-top: 3px;
           margin-left: 7px;
+          min-height: var(--icon-size);
         }
 
         .color-option[active] {
@@ -72,6 +73,7 @@ exports[`paint-color-toolbar renders correctly with predefined active color 1`] 
           height: var(--icon-size);
           margin-top: 3px;
           margin-left: 7px;
+          min-height: var(--icon-size);
         }
 
         .color-option[active] {
