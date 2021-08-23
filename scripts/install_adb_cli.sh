@@ -8,7 +8,7 @@ echo "Download commandline tools for ${SYSTEM}."
 mkdir -p .tools
 cd .tools
 
-curl https://dl.google.com/android/repository/commandlinetools-${SYSTEM}-6858069_latest.zip --output commandlinetools.zip
+curl https://dl.google.com/android/repository/commandlinetools-${SYSTEM}-7302050_latest.zip --output commandlinetools.zip
 unzip -u commandlinetools.zip
 rm -rf tools
 cp -R cmdline-tools tools
