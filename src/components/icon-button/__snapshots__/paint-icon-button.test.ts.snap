@@ -40,24 +40,24 @@ exports[`paint-icon-button renders correctly 1`] = `
       0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
   }
 </style><style>
-        ::slotted(svg) {
-          width: calc(var(--icon-size) - 6px);
-          height: calc(var(--icon-size) - 6px);
-          padding-top: 3px;
-          display: block;
-          margin: auto;
-        }
+      ::slotted(svg) {
+        width: calc(var(--icon-size) - 6px);
+        height: calc(var(--icon-size) - 6px);
+        padding-top: 3px;
+        display: block;
+        margin: auto;
+      }
 
-        .icon-wrapper {
-          width: 100%;
-          height: 100%;
-          border-radius: var(--paint-icon-button-border-radius, 50%);
-          background-color: var(--paint-icon-button-background-color, white);
-          display: block;
-          transition-property: box-shadow, border-radius !important;
-          will-change: box-shadow, border-radius !important;
-        }
-      </style>"
+      .icon-wrapper {
+        width: 100%;
+        height: 100%;
+        border-radius: var(--paint-icon-button-border-radius, 50%);
+        background-color: var(--paint-icon-button-background-color, white);
+        display: block;
+        transition-property: box-shadow, border-radius !important;
+        will-change: box-shadow, border-radius !important;
+      }
+    </style>"
 `;
 
 exports[`paint-icon-button renders correctly after pointerdown 1`] = `
@@ -100,24 +100,24 @@ exports[`paint-icon-button renders correctly after pointerdown 1`] = `
       0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
   }
 </style><style>
-        ::slotted(svg) {
-          width: calc(var(--icon-size) - 6px);
-          height: calc(var(--icon-size) - 6px);
-          padding-top: 3px;
-          display: block;
-          margin: auto;
-        }
+      ::slotted(svg) {
+        width: calc(var(--icon-size) - 6px);
+        height: calc(var(--icon-size) - 6px);
+        padding-top: 3px;
+        display: block;
+        margin: auto;
+      }
 
-        .icon-wrapper {
-          width: 100%;
-          height: 100%;
-          border-radius: var(--paint-icon-button-border-radius, 50%);
-          background-color: var(--paint-icon-button-background-color, white);
-          display: block;
-          transition-property: box-shadow, border-radius !important;
-          will-change: box-shadow, border-radius !important;
-        }
-      </style>"
+      .icon-wrapper {
+        width: 100%;
+        height: 100%;
+        border-radius: var(--paint-icon-button-border-radius, 50%);
+        background-color: var(--paint-icon-button-background-color, white);
+        display: block;
+        transition-property: box-shadow, border-radius !important;
+        will-change: box-shadow, border-radius !important;
+      }
+    </style>"
 `;
 
 exports[`paint-icon-button renders correctly after pointerdown and up 1`] = `
@@ -160,24 +160,24 @@ exports[`paint-icon-button renders correctly after pointerdown and up 1`] = `
       0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
   }
 </style><style>
-        ::slotted(svg) {
-          width: calc(var(--icon-size) - 6px);
-          height: calc(var(--icon-size) - 6px);
-          padding-top: 3px;
-          display: block;
-          margin: auto;
-        }
+      ::slotted(svg) {
+        width: calc(var(--icon-size) - 6px);
+        height: calc(var(--icon-size) - 6px);
+        padding-top: 3px;
+        display: block;
+        margin: auto;
+      }
 
-        .icon-wrapper {
-          width: 100%;
-          height: 100%;
-          border-radius: var(--paint-icon-button-border-radius, 50%);
-          background-color: var(--paint-icon-button-background-color, white);
-          display: block;
-          transition-property: box-shadow, border-radius !important;
-          will-change: box-shadow, border-radius !important;
-        }
-      </style>"
+      .icon-wrapper {
+        width: 100%;
+        height: 100%;
+        border-radius: var(--paint-icon-button-border-radius, 50%);
+        background-color: var(--paint-icon-button-background-color, white);
+        display: block;
+        transition-property: box-shadow, border-radius !important;
+        will-change: box-shadow, border-radius !important;
+      }
+    </style>"
 `;
 
 exports[`paint-icon-button renders correctly when active and with slot 1`] = `
@@ -220,22 +220,22 @@ exports[`paint-icon-button renders correctly when active and with slot 1`] = `
       0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
   }
 </style><style>
-        ::slotted(svg) {
-          width: calc(var(--icon-size) - 6px);
-          height: calc(var(--icon-size) - 6px);
-          padding-top: 3px;
-          display: block;
-          margin: auto;
-        }
+      ::slotted(svg) {
+        width: calc(var(--icon-size) - 6px);
+        height: calc(var(--icon-size) - 6px);
+        padding-top: 3px;
+        display: block;
+        margin: auto;
+      }
 
-        .icon-wrapper {
-          width: 100%;
-          height: 100%;
-          border-radius: var(--paint-icon-button-border-radius, 50%);
-          background-color: var(--paint-icon-button-background-color, white);
-          display: block;
-          transition-property: box-shadow, border-radius !important;
-          will-change: box-shadow, border-radius !important;
-        }
-      </style>"
+      .icon-wrapper {
+        width: 100%;
+        height: 100%;
+        border-radius: var(--paint-icon-button-border-radius, 50%);
+        background-color: var(--paint-icon-button-background-color, white);
+        display: block;
+        transition-property: box-shadow, border-radius !important;
+        will-change: box-shadow, border-radius !important;
+      }
+    </style>"
 `;
