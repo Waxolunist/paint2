@@ -25,7 +25,7 @@ stages:
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'audit'
+          customCommand: 'audit --production'
         displayName: 'npm audit'
 
       - task: Npm@1
