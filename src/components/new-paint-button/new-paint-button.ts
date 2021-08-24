@@ -1,4 +1,5 @@
-import {css, customElement, html, CSSResult, TemplateResult} from 'lit-element';
+import {css, html, CSSResult, TemplateResult} from 'lit';
+import {customElement} from 'lit/decorators.js';
 import {imageIcon} from './icons';
 import {PaintButton} from '../paint-button/paint-button';
 

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`about-page renders correctly 1`] = `
-"<!---->
+"
       <section>
         <h2>Paints For Kids</h2>
         <p>
@@ -39,13 +39,13 @@ exports[`about-page renders correctly 1`] = `
         </dl>
         <dl class=\\"opsinfo\\">
           <dt>Version</dt>
-          <dd><!----><!----></dd>
+          <dd></dd>
           <dt>Build</dt>
-          <dd><!----><!----></dd>
+          <dd></dd>
           <dt>Commit</dt>
-          <dd><!----><!----></dd>
+          <dd></dd>
           <dt>Environment</dt>
-          <dd><!---->test<!----></dd>
+          <dd>test</dd>
         </dl>
         <p class=\\"back-button\\">
           <paint-icon-button class=\\"back-button\\">
@@ -55,7 +55,7 @@ exports[`about-page renders correctly 1`] = `
           </paint-icon-button>
         </p>
       </section>
-    <!----><style>
+    <style>
       :host {
         display: block;
         padding: 2em;

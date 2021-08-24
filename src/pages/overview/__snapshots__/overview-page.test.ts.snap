@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`overview-page renders correctly 1`] = `
-"<!---->
+"
       <div class=\\"paintings\\">
         <paint-new-paint-button class=\\"painting translate\\"></paint-new-paint-button>
         
       </div>
       <div class=\\"about\\"><a href=\\"/about\\">About this app</a></div>
-    <!----><style>
+    <style>
   .animated {
     transition-duration: 0.28s;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -73,23 +73,23 @@ exports[`overview-page renders correctly 1`] = `
 `;
 
 exports[`overview-page renders correctly with paintings 1`] = `
-"<!---->
+"
       <div class=\\"paintings\\">
         <paint-new-paint-button class=\\"painting translate\\"></paint-new-paint-button>
-        <!----><paint-paint-button class=\\"painting translate\\" style=\\"transform: translate(0px, 0px)\\" imageurl=\\"\\">
-              <paint-icon-button role=\\"button\\" slot=\\"addons\\" class=\\"delete\\"><!----><svg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 352 512\\">
+        <paint-paint-button class=\\"painting translate\\" style=\\"transform:translate(0px, 0px);\\" imageurl=\\"\\">
+              <paint-icon-button role=\\"button\\" slot=\\"addons\\" class=\\"delete\\"><svg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 352 512\\">
   <path d=\\"M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z\\"></path>
-</svg><!----></paint-icon-button>
+</svg></paint-icon-button>
               
-            </paint-paint-button><!----><!----><paint-paint-button class=\\"painting translate\\" style=\\"transform: translate(0px, 0px)\\" imageurl=\\"\\">
-              <paint-icon-button role=\\"button\\" slot=\\"addons\\" class=\\"delete\\"><!----><svg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 352 512\\">
+            </paint-paint-button><paint-paint-button class=\\"painting translate\\" style=\\"transform:translate(0px, 0px);\\" imageurl=\\"\\">
+              <paint-icon-button role=\\"button\\" slot=\\"addons\\" class=\\"delete\\"><svg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 352 512\\">
   <path d=\\"M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z\\"></path>
-</svg><!----></paint-icon-button>
+</svg></paint-icon-button>
               
-            </paint-paint-button><!---->
+            </paint-paint-button>
       </div>
       <div class=\\"about\\"><a href=\\"/about\\">About this app</a></div>
-    <!----><style>
+    <style>
   .animated {
     transition-duration: 0.28s;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

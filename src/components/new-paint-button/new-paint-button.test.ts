@@ -1,6 +1,7 @@
 import {fixture, html, oneEvent} from '@open-wc/testing';
 import {fireClickEvent, firePointerEvent} from '../../test/pointerevents';
 import {NewPaintButton} from './new-paint-button';
+import {cleanHTML} from '../../test/htmlutils';
 
 describe('new-paint-button', () => {
   it('is defined', () => {
@@ -12,7 +13,7 @@ describe('new-paint-button', () => {
     const element = await fixture(
       html`<paint-new-paint-button></paint-new-paint-button>`
     );
-    expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
+    expect(cleanHTML(element)).toMatchSnapshot();
   });
 
   it('renders correctly after pointerdown', async () => {
@@ -20,7 +21,7 @@ describe('new-paint-button', () => {
       html`<paint-new-paint-button></paint-new-paint-button>`
     );
     await firePointerEvent(element, ['down']);
-    expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
+    expect(cleanHTML(element)).toMatchSnapshot();
   });
 
   it('renders correctly after pointerdown and up', async () => {
@@ -28,7 +29,7 @@ describe('new-paint-button', () => {
       html`<paint-new-paint-button></paint-new-paint-button>`
     );
     await firePointerEvent(element, ['down', 'up']);
-    expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
+    expect(cleanHTML(element)).toMatchSnapshot();
   });
 
   it('fires event after pointer up', async () => {

@@ -1,13 +1,6 @@
-import {
-  css,
-  customElement,
-  html,
-  LitElement,
-  property,
-  CSSResult,
-  TemplateResult,
-} from 'lit-element';
-import {repeat} from 'lit-html/directives/repeat';
+import {css, html, LitElement, CSSResult, TemplateResult} from 'lit';
+import {customElement, property} from 'lit/decorators.js';
+import {repeat} from 'lit/directives/repeat.js';
 import {colors} from './colors';
 import '../icon-button/paint-icon-button';
 
@@ -16,47 +9,45 @@ export class ColorToolbar extends LitElement {
   @property({type: String, reflect: true})
   activeColor = colors[0];
 
-  static get styles(): CSSResult[] {
+  static styles: CSSResult[] = [
     // language=CSS
-    return [
-      css`
-        :host {
-          flex: 1;
-          align-self: stretch;
-          display: flex;
-          overflow: hidden;
-          position: relative;
-        }
+    css`
+      :host {
+        flex: 1;
+        align-self: stretch;
+        display: flex;
+        overflow: hidden;
+        position: relative;
+      }
 
-        .color-palette {
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          overflow-y: scroll;
-          width: 70px;
-        }
+      .color-palette {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        overflow-y: scroll;
+        width: 70px;
+      }
 
-        .color-option {
-          width: var(--icon-size);
-          height: var(--icon-size);
-          margin-top: 3px;
-          margin-left: 7px;
-          min-height: var(--icon-size);
-        }
+      .color-option {
+        width: var(--icon-size);
+        height: var(--icon-size);
+        margin-top: 3px;
+        margin-left: 7px;
+        min-height: var(--icon-size);
+      }
 
-        .color-option[active] {
-          --paint-icon-button-border-radius: 0;
-        }
+      .color-option[active] {
+        --paint-icon-button-border-radius: 0;
+      }
 
-        .color-option:last-child {
-          margin-bottom: 1em;
-        }
-      `,
-    ];
-  }
+      .color-option:last-child {
+        margin-bottom: 1em;
+      }
+    `,
+  ];
 
   render(): TemplateResult {
     return html`

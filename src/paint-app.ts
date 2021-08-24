@@ -1,12 +1,5 @@
-import {
-  customElement,
-  LitElement,
-  html,
-  TemplateResult,
-  css,
-  CSSResult,
-  property,
-} from 'lit-element';
+import {LitElement, html, TemplateResult, css, CSSResult} from 'lit';
+import {customElement, property} from 'lit/decorators.js';
 import store, {AppState} from './store';
 import {initialLoad, ThunkDispatch} from './ducks/paint';
 

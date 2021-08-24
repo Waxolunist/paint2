@@ -1,14 +1,5 @@
-import {
-  customElement,
-  LitElement,
-  html,
-  css,
-  property,
-  query,
-  CSSResult,
-  TemplateResult,
-  internalProperty,
-} from 'lit-element';
+import {LitElement, html, css, CSSResult, TemplateResult} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {arrowBack} from './icons';
 import '../../components/icon-button/paint-icon-button';
 import '../../components/color-toolbar/paint-color-toolbar';
@@ -39,7 +30,7 @@ export class PaintPage extends connect(store)(LitElement) {
   @property({type: String})
   paintingId = '';
 
-  @internalProperty()
+  @state()
   private paintingLoaded = false;
 
   firstUpdated(): void {

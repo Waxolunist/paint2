@@ -1,14 +1,5 @@
-import {
-  css,
-  customElement,
-  eventOptions,
-  html,
-  LitElement,
-  property,
-  query,
-  CSSResult,
-  TemplateResult,
-} from 'lit-element';
+import {css, html, LitElement, CSSResult, TemplateResult} from 'lit';
+import {customElement, eventOptions, property, query} from 'lit/decorators.js';
 import {AnimatedStyles, ShadowStyles} from '../../styles/shared-styles';
 
 @customElement('paint-paint-button')

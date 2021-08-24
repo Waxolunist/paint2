@@ -1,13 +1,6 @@
-import {
-  customElement,
-  LitElement,
-  html,
-  css,
-  property,
-  CSSResult,
-  TemplateResult,
-  queryAll,
-} from 'lit-element';
+import {LitElement, html, css, CSSResult, TemplateResult} from 'lit';
+import {customElement, property, queryAll} from 'lit/decorators.js';
+import {styleMap} from 'lit/directives/style-map.js';
 import '../../components/new-paint-button/new-paint-button';
 import '../../components/paint-button/paint-button';
 import '../../components/icon-button/paint-icon-button';
@@ -15,8 +8,8 @@ import {closeIcon, shareIcon} from './icons';
 import store from '../../store';
 import {connect} from 'pwa-helpers/connect-mixin';
 import {Painting, PaintState, defaultDataUrl} from '../../ducks/paint-model';
-import {repeat} from 'lit-html/directives/repeat';
-import {ifDefined} from 'lit-html/directives/if-defined';
+import {repeat} from 'lit/directives/repeat.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   loadData,
   newPainting,
@@ -26,20 +19,12 @@ import {
 import {toFileExtension, dataURLtoBlob} from '../../ducks/paint-utils';
 import {RouterState} from 'lit-redux-router/lib/reducer';
 import {AnimatedStyles} from '../../styles/shared-styles';
-import {directive, PropertyPart} from 'lit-html';
 
 interface PaintingAnimationData {
   id: number;
   index: number;
   clientRect: DOMRect;
 }
-
-const elementDirtyCheck = directive((value) => (part: PropertyPart): void => {
-  const {name, element} = part.committer;
-  if (value !== element[name as keyof Element]) {
-    part.setValue(value);
-  }
-});
 
 @customElement('paint-overview-page')
 export class OverviewPage extends connect(store)(LitElement) {
@@ -67,69 +52,68 @@ export class OverviewPage extends connect(store)(LitElement) {
     }
   }
 
-  static get styles(): CSSResult[] {
-    return [
-      AnimatedStyles,
-      css`
+  static styles: CSSResult[] = [
+    //language=CSS
+    AnimatedStyles,
+    css`
+      :host {
+        display: block;
+        background-color: #91b5ff;
+        padding: 1.5em 0;
+        /* prettier-ignore */
+        min-width: calc((var(--painting-width) / var(--painting-scalefactor) + var(--painting-margin)) * 2);
+        position: relative;
+      }
+
+      .paintings {
+        display: grid;
+        grid-gap: var(--painting-margin);
+        grid-template-columns: repeat(
+          auto-fit,
+          calc(var(--painting-width) / var(--painting-scalefactor))
+        );
+        justify-content: center;
+      }
+
+      .painting {
+        width: calc(var(--painting-width) / var(--painting-scalefactor));
+        height: calc(var(--painting-height) / var(--painting-scalefactor));
+        position: relative;
+        transition-property: transform;
+        will-change: transform;
+      }
+
+      .painting.translate {
+        transform: translate(0px, 0px);
+      }
+
+      .about {
+        position: absolute;
+        bottom: -2em;
+        padding: 1em;
+        font-size: large;
+        font-family: monospace;
+        font-weight: bold;
+      }
+
+      .about a {
+        color: #ffffef;
+      }
+
+      @media screen and (max-width: 400px) {
         :host {
-          display: block;
-          background-color: #91b5ff;
           padding: 1.5em 0;
-          /* prettier-ignore */
-          min-width: calc((var(--painting-width) / var(--painting-scalefactor) + var(--painting-margin)) * 2);
-          position: relative;
+          --painting-margin: 1em;
         }
 
         .paintings {
-          display: grid;
-          grid-gap: var(--painting-margin);
-          grid-template-columns: repeat(
-            auto-fit,
-            calc(var(--painting-width) / var(--painting-scalefactor))
-          );
-          justify-content: center;
+          --painting-scalefactor: 1.3;
+          grid-column-gap: 1.3em;
+          grid-row-gap: 1.3em;
         }
-
-        .painting {
-          width: calc(var(--painting-width) / var(--painting-scalefactor));
-          height: calc(var(--painting-height) / var(--painting-scalefactor));
-          position: relative;
-          transition-property: transform;
-          will-change: transform;
-        }
-
-        .painting.translate {
-          transform: translate(0px, 0px);
-        }
-
-        .about {
-          position: absolute;
-          bottom: -2em;
-          padding: 1em;
-          font-size: large;
-          font-family: monospace;
-          font-weight: bold;
-        }
-
-        .about a {
-          color: #ffffef;
-        }
-
-        @media screen and (max-width: 400px) {
-          :host {
-            padding: 1.5em 0;
-            --painting-margin: 1em;
-          }
-
-          .paintings {
-            --painting-scalefactor: 1.3;
-            grid-column-gap: 1.3em;
-            grid-row-gap: 1.3em;
-          }
-        }
-      `,
-    ];
-  }
+      }
+    `,
+  ];
 
   render(): TemplateResult {
     return html`
@@ -144,7 +128,7 @@ export class OverviewPage extends connect(store)(LitElement) {
             html`<paint-paint-button
               class="painting translate"
               data-id="${ifDefined(painting.id)}"
-              style="${elementDirtyCheck(
+              style="${styleMap(
                 this.calculateTranslateProperty(index, painting.id)
               )}"
               @paint-clicked="${this.openPainting(painting.id)}"
@@ -236,12 +220,15 @@ export class OverviewPage extends connect(store)(LitElement) {
   private paintingDeleted = (oldVal: Painting[] = []): boolean =>
     !!oldVal && oldVal.length > this.paintings.length;
 
-  private calculateTranslateProperty = (index: number, id?: number): string => {
+  private calculateTranslateProperty = (
+    index: number,
+    id?: number
+  ): {[name: string]: string} => {
     const dataWithIndexAndId = this.currentPaintingClientRects.find(
       (p) => p.index === index && p.id === id
     );
     if (dataWithIndexAndId || this.currentPaintingClientRects.length === 0) {
-      return 'transform: translate(0px, 0px)';
+      return {transform: 'translate(0px, 0px)'};
     }
     const dataWithIdIndex = this.currentPaintingClientRects.findIndex(
       (p) => p.id === id
@@ -251,9 +238,9 @@ export class OverviewPage extends connect(store)(LitElement) {
     if (current && predeccessor) {
       const translateX = current.clientRect.x - predeccessor.clientRect.x;
       const translateY = current.clientRect.y - predeccessor.clientRect.y;
-      return `transform: translate(${translateX}px, ${translateY}px)`;
+      return {transform: `translate(${translateX}px, ${translateY}px)`};
     }
-    return 'transform: translate(0px, 0px)';
+    return {transform: 'translate(0px, 0px)'};
   };
 
   private animatePaintings = (): void => {

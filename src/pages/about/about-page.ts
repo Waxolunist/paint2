@@ -1,11 +1,5 @@
-import {
-  css,
-  CSSResult,
-  customElement,
-  html,
-  LitElement,
-  TemplateResult,
-} from 'lit-element';
+import {css, CSSResult, html, LitElement, TemplateResult} from 'lit';
+import {customElement} from 'lit/decorators.js';
 import {connect} from 'pwa-helpers/connect-mixin';
 import store from '../../store';
 import {arrowBack} from '../paint/icons';

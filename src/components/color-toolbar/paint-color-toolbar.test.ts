@@ -2,6 +2,7 @@ import {ColorToolbar} from './paint-color-toolbar';
 import {fixture, html, oneEvent} from '@open-wc/testing';
 import {colors} from './colors';
 import {fireClickEvent} from '../../test/pointerevents';
+import {cleanHTML} from '../../test/htmlutils';
 
 describe('paint-color-toolbar', () => {
   it('is defined', () => {
@@ -13,7 +14,7 @@ describe('paint-color-toolbar', () => {
     const element = await fixture(
       html`<paint-color-toolbar></paint-color-toolbar>`
     );
-    expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
+    expect(cleanHTML(element)).toMatchSnapshot();
   });
 
   it('renders correctly with predefined active color', async () => {
@@ -22,7 +23,7 @@ describe('paint-color-toolbar', () => {
         activeColor="${colors[1]}"
       ></paint-color-toolbar>`
     );
-    expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
+    expect(cleanHTML(element)).toMatchSnapshot();
   });
 
   it('fires event on color change', async () => {

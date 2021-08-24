@@ -1,6 +1,7 @@
 import {IconButton} from './paint-icon-button';
 import {fixture, html, oneEvent} from '@open-wc/testing';
 import {fireClickEvent, firePointerEvent} from '../../test/pointerevents';
+import {cleanHTML} from '../../test/htmlutils';
 
 describe('paint-icon-button', () => {
   it('is defined', () => {
@@ -12,14 +13,14 @@ describe('paint-icon-button', () => {
     const element = await fixture(
       html`<paint-icon-button></paint-icon-button>`
     );
-    expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
+    expect(cleanHTML(element)).toMatchSnapshot();
   });
 
   it('renders correctly when active and with slot', async () => {
     const element = await fixture(
       html`<paint-icon-button active>Foo</paint-icon-button>`
     );
-    expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
+    expect(cleanHTML(element)).toMatchSnapshot();
   });
 
   it('renders correctly after pointerdown', async () => {
@@ -27,7 +28,7 @@ describe('paint-icon-button', () => {
       html`<paint-icon-button></paint-icon-button>`
     );
     await firePointerEvent(element, ['down']);
-    expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
+    expect(cleanHTML(element)).toMatchSnapshot();
   });
 
   it('renders correctly after pointerdown and up', async () => {
@@ -35,7 +36,7 @@ describe('paint-icon-button', () => {
       html`<paint-icon-button></paint-icon-button>`
     );
     await firePointerEvent(element, ['down', 'up']);
-    expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
+    expect(cleanHTML(element)).toMatchSnapshot();
   });
 
   it('fires event after pointer up', async () => {

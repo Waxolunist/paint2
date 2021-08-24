@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`paint-icon-button renders correctly 1`] = `
-"<!---->
+"
       <div class=\\"icon-button icon-wrapper shadow animated elevate elevate-2 elevated-3\\">
         <slot></slot>
       </div>
-    <!----><style>
+    <style>
   .animated {
     transition-duration: 0.28s;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -61,11 +61,11 @@ exports[`paint-icon-button renders correctly 1`] = `
 `;
 
 exports[`paint-icon-button renders correctly after pointerdown 1`] = `
-"<!---->
+"
       <div class=\\"icon-button icon-wrapper shadow animated elevate elevate-2 elevated-3 clicked\\">
         <slot></slot>
       </div>
-    <!----><style>
+    <style>
   .animated {
     transition-duration: 0.28s;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -121,11 +121,11 @@ exports[`paint-icon-button renders correctly after pointerdown 1`] = `
 `;
 
 exports[`paint-icon-button renders correctly after pointerdown and up 1`] = `
-"<!---->
+"
       <div class=\\"icon-button icon-wrapper shadow animated elevate elevate-2 elevated-3\\">
         <slot></slot>
       </div>
-    <!----><style>
+    <style>
   .animated {
     transition-duration: 0.28s;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -181,11 +181,11 @@ exports[`paint-icon-button renders correctly after pointerdown and up 1`] = `
 `;
 
 exports[`paint-icon-button renders correctly when active and with slot 1`] = `
-"<!---->
+"
       <div class=\\"icon-button icon-wrapper shadow animated elevate elevate-2 elevated-3\\">
         <slot></slot>
       </div>
-    <!----><style>
+    <style>
   .animated {
     transition-duration: 0.28s;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

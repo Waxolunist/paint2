@@ -6,5 +6,5 @@ exports[`overview-page renders correctly 1`] = `
     <mwc-button slot=\\"action\\">REFRESH</mwc-button>
     <mwc-icon-button icon=\\"close\\" slot=\\"dismiss\\"></mwc-icon-button>
   </mwc-snackbar>
-<!---->"
+"
 `;
