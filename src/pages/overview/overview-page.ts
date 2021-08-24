@@ -1,24 +1,24 @@
+import {LitElement, html, css, CSSResult, TemplateResult} from 'lit';
+import {customElement, property, queryAll} from 'lit/decorators.js';
+import {styleMap} from 'lit/directives/style-map.js';
 import '../../components/new-paint-button/new-paint-button';
 import '../../components/paint-button/paint-button';
 import '../../components/icon-button/paint-icon-button';
 import {closeIcon, shareIcon} from './icons';
-import {css, CSSResultGroup, html, LitElement, TemplateResult} from 'lit';
-import {customElement, property, queryAll} from 'lit/decorators.js';
-import {dataURLtoBlob, toFileExtension} from '../../ducks/paint-utils';
-import {defaultDataUrl, Painting, PaintState} from '../../ducks/paint-model';
+import store from '../../store';
+import {connect} from 'pwa-helpers/connect-mixin';
+import {Painting, PaintState, defaultDataUrl} from '../../ducks/paint-model';
+import {repeat} from 'lit/directives/repeat.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   loadData,
   newPainting,
-  removePainting,
   ThunkDispatch,
+  removePainting,
 } from '../../ducks/paint';
-import {AnimatedStyles} from '../../styles/shared-styles';
-import {connect} from 'pwa-helpers/connect-mixin';
-import {ifDefined} from 'lit/directives/if-defined.js';
-import {repeat} from 'lit/directives/repeat.js';
+import {toFileExtension, dataURLtoBlob} from '../../ducks/paint-utils';
 import {RouterState} from 'lit-redux-router/lib/reducer';
-import store from '../../store';
-import {styleMap} from 'lit/directives/style-map.js';
+import {AnimatedStyles} from '../../styles/shared-styles';
 
 interface PaintingAnimationData {
   id: number;
@@ -52,69 +52,68 @@ export class OverviewPage extends connect(store)(LitElement) {
     }
   }
 
-  static get styles(): CSSResultGroup[] {
-    return [
-      AnimatedStyles,
-      css`
+  static styles: CSSResult[] = [
+    //language=CSS
+    AnimatedStyles,
+    css`
+      :host {
+        display: block;
+        background-color: #91b5ff;
+        padding: 1.5em 0;
+        /* prettier-ignore */
+        min-width: calc((var(--painting-width) / var(--painting-scalefactor) + var(--painting-margin)) * 2);
+        position: relative;
+      }
+
+      .paintings {
+        display: grid;
+        grid-gap: var(--painting-margin);
+        grid-template-columns: repeat(
+          auto-fit,
+          calc(var(--painting-width) / var(--painting-scalefactor))
+        );
+        justify-content: center;
+      }
+
+      .painting {
+        width: calc(var(--painting-width) / var(--painting-scalefactor));
+        height: calc(var(--painting-height) / var(--painting-scalefactor));
+        position: relative;
+        transition-property: transform;
+        will-change: transform;
+      }
+
+      .painting.translate {
+        transform: translate(0px, 0px);
+      }
+
+      .about {
+        position: absolute;
+        bottom: -2em;
+        padding: 1em;
+        font-size: large;
+        font-family: monospace;
+        font-weight: bold;
+      }
+
+      .about a {
+        color: #ffffef;
+      }
+
+      @media screen and (max-width: 400px) {
         :host {
-          display: block;
-          background-color: #91b5ff;
           padding: 1.5em 0;
-          /* prettier-ignore */
-          min-width: calc((var(--painting-width) / var(--painting-scalefactor) + var(--painting-margin)) * 2);
-          position: relative;
+          --painting-margin: 1em;
         }
 
         .paintings {
-          display: grid;
-          grid-gap: var(--painting-margin);
-          grid-template-columns: repeat(
-            auto-fit,
-            calc(var(--painting-width) / var(--painting-scalefactor))
-          );
-          justify-content: center;
+          --painting-scalefactor: 1.3;
+          grid-column-gap: 1.3em;
+          grid-row-gap: 1.3em;
         }
-
-        .painting {
-          width: calc(var(--painting-width) / var(--painting-scalefactor));
-          height: calc(var(--painting-height) / var(--painting-scalefactor));
-          position: relative;
-          transition-property: transform;
-          will-change: transform;
-        }
-
-        .painting.translate {
-          transform: translate(0px, 0px);
-        }
-
-        .about {
-          position: absolute;
-          bottom: -2em;
-          padding: 1em;
-          font-size: large;
-          font-family: monospace;
-          font-weight: bold;
-        }
-
-        .about a {
-          color: #ffffef;
-        }
-
-        @media screen and (max-width: 400px) {
-          :host {
-            padding: 1.5em 0;
-            --painting-margin: 1em;
-          }
-
-          .paintings {
-            --painting-scalefactor: 1.3;
-            grid-column-gap: 1.3em;
-            grid-row-gap: 1.3em;
-          }
-        }
-      `,
-    ];
-  }
+      }
+    `,
+  ];
 
   render(): TemplateResult {
     return html`
@@ -126,7 +125,7 @@ export class OverviewPage extends connect(store)(LitElement) {
         ${repeat(
           this.paintings,
           (painting, index) =>
-            html` <paint-paint-button
+            html`<paint-paint-button
               class="painting translate"
               data-id="${ifDefined(painting.id)}"
               style="${styleMap(
@@ -140,16 +139,16 @@ export class OverviewPage extends connect(store)(LitElement) {
                 slot="addons"
                 class="delete"
                 @icon-clicked="${this.removePainting(painting.id)}"
-                >${closeIcon}
-              </paint-icon-button>
+                >${closeIcon}</paint-icon-button
+              >
               ${this.canShare()
-                ? html` <paint-icon-button
+                ? html`<paint-icon-button
                     slot="addons"
                     role="button"
                     class="share"
                     @icon-clicked="${this.sharePainting(painting.id)}"
-                    >${shareIcon}
-                  </paint-icon-button>`
+                    >${shareIcon}</paint-icon-button
+                  >`
                 : ''}
             </paint-paint-button>`
         )}

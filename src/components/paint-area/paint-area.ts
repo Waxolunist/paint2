@@ -1,18 +1,18 @@
 import {
   css,
-  CSSResult,
   html,
   LitElement,
   PropertyValues,
+  CSSResult,
   TemplateResult,
 } from 'lit';
 import {customElement, eventOptions, property, query} from 'lit/decorators.js';
-import {defaultMemory, PaintCommand, PaintMemory} from './paint-memory';
+import PaintWorker from 'web-worker:./paint.worker.ts';
 import store, {AppState} from '../../store';
 import {CanvasPainter} from './paint-painter';
-import PaintWorker from 'web-worker:./paint.worker.ts';
-import {PointerEventCoalescor} from './pointer-event-coalescor';
+import {defaultMemory, PaintCommand, PaintMemory} from './paint-memory';
 import {Stroke} from '../../ducks/paint-model';
+import {PointerEventCoalescor} from './pointer-event-coalescor';
 
 @customElement('paint-area')
 export class PaintArea extends LitElement {

@@ -1,7 +1,7 @@
-import {css, CSSResult, html, LitElement, TemplateResult} from 'lit';
+import {LitElement, html, TemplateResult, css, CSSResult} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
-import {initialLoad, ThunkDispatch} from './ducks/paint';
 import store, {AppState} from './store';
+import {initialLoad, ThunkDispatch} from './ducks/paint';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare global {
@@ -12,11 +12,9 @@ declare global {
       };
     };
   }
-
   interface HTMLElementTagNameMap {
     'lit-route': LitRouteElement;
   }
-
   interface Navigator {
     canShare?: (data?: ShareData) => boolean;
   }

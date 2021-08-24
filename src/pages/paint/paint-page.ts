@@ -1,14 +1,14 @@
+import {LitElement, html, css, CSSResult, TemplateResult} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators.js';
+import {arrowBack} from './icons';
 import '../../components/icon-button/paint-icon-button';
 import '../../components/color-toolbar/paint-color-toolbar';
 import '../../components/paint-area/paint-area';
-import {css, CSSResult, html, LitElement, TemplateResult} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators.js';
-import {storeData, ThunkDispatch, unloadData} from '../../ducks/paint';
-import {arrowBack} from './icons';
-import {connect} from 'pwa-helpers/connect-mixin';
-import {PaintArea} from '../../components/paint-area/paint-area';
-import {PaintState} from '../../ducks/paint-model';
 import store from '../../store';
+import {PaintArea} from '../../components/paint-area/paint-area';
+import {connect} from 'pwa-helpers/connect-mixin';
+import {ThunkDispatch, storeData, unloadData} from '../../ducks/paint';
+import {PaintState} from '../../ducks/paint-model';
 
 @customElement('paint-paint-page')
 export class PaintPage extends connect(store)(LitElement) {
@@ -131,7 +131,7 @@ export class PaintPage extends connect(store)(LitElement) {
         <div class="paint-wrapper">
           <div id="paint-area-container" class="paint-area-container">
             ${this.paintingLoaded
-              ? html` <paint-area
+              ? html`<paint-area
                   id="paint-area"
                   width="${this.width}"
                   height="${this.height}"

@@ -1,10 +1,10 @@
-import '../../components/icon-button/paint-icon-button';
 import {css, CSSResult, html, LitElement, TemplateResult} from 'lit';
-import {arrowBack} from '../paint/icons';
-import {connect} from 'pwa-helpers/connect-mixin';
 import {customElement} from 'lit/decorators.js';
-import {navigate} from 'lit-redux-router';
+import {connect} from 'pwa-helpers/connect-mixin';
 import store from '../../store';
+import {arrowBack} from '../paint/icons';
+import {navigate} from 'lit-redux-router';
+import '../../components/icon-button/paint-icon-button';
 
 @customElement('paint-about-page')
 export class AboutPage extends connect(store)(LitElement) {

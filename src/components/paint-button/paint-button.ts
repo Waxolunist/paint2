@@ -1,6 +1,6 @@
-import {AnimatedStyles, ShadowStyles} from '../../styles/shared-styles';
-import {css, CSSResult, html, LitElement, TemplateResult} from 'lit';
+import {css, html, LitElement, CSSResult, TemplateResult} from 'lit';
 import {customElement, eventOptions, property, query} from 'lit/decorators.js';
+import {AnimatedStyles, ShadowStyles} from '../../styles/shared-styles';
 
 @customElement('paint-paint-button')
 export class PaintButton extends LitElement {

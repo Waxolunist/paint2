@@ -1,13 +1,13 @@
-import {AnimatedStyles, ShadowStyles} from '../../styles/shared-styles';
-import {css, CSSResult, html, LitElement, TemplateResult} from 'lit';
+import {css, html, LitElement, CSSResult, TemplateResult} from 'lit';
 import {customElement, eventOptions, property, query} from 'lit/decorators.js';
+import {ShadowStyles, AnimatedStyles} from '../../styles/shared-styles';
 
 @customElement('paint-icon-button')
 export class IconButton extends LitElement {
   static styles: CSSResult[] = [
+    // language=CSS
     AnimatedStyles,
     ShadowStyles,
-    // language=CSS
     css`
       ::slotted(svg) {
         width: calc(var(--icon-size) - 6px);

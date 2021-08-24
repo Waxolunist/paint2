@@ -1,7 +1,7 @@
-import {elementUpdated, fixture, html} from '@open-wc/testing';
-import {cleanHTML} from '../../test/htmlutils';
 import {OverviewPage} from './overview-page';
+import {elementUpdated, fixture, html} from '@open-wc/testing';
 import {PaintingImpl} from '../../ducks/paint-model';
+import {cleanHTML} from '../../test/htmlutils';
 
 describe('overview-page', () => {
   it('is defined', () => {
@@ -11,14 +11,14 @@ describe('overview-page', () => {
 
   it('renders correctly', async () => {
     const element = await fixture(
-      html` <paint-overview-page></paint-overview-page>`
+      html`<paint-overview-page></paint-overview-page>`
     );
     expect(cleanHTML(element)).toMatchSnapshot();
   });
 
   it('renders correctly with paintings', async () => {
     const element: OverviewPage = await fixture(
-      html` <paint-overview-page></paint-overview-page>`
+      html`<paint-overview-page></paint-overview-page>`
     );
     element.paintings = [new PaintingImpl(), new PaintingImpl()];
     await elementUpdated(element);

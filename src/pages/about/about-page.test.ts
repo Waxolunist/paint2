@@ -9,7 +9,7 @@ describe('about-page', () => {
   });
 
   it('renders correctly', async () => {
-    const element = await fixture(html` <paint-about-page></paint-about-page>`);
+    const element = await fixture(html`<paint-about-page></paint-about-page>`);
     expect(cleanHTML(element)).toMatchSnapshot();
   });
 });

@@ -2,6 +2,7 @@ import {fireClickEvent, firePointerEvent} from '../../test/pointerevents';
 import {fixture, html, oneEvent} from '@open-wc/testing';
 import {cleanHTML} from '../../test/htmlutils';
 import {NewPaintButton} from './new-paint-button';
+import {cleanHTML} from '../../test/htmlutils';
 
 describe('new-paint-button', () => {
   it('is defined', () => {
