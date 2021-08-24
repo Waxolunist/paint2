@@ -49,15 +49,15 @@
   ],
   "author": "Christian Sterzl",
   "dependencies": {
-    "@material/mwc-button": "^0.21.0",
-    "@material/mwc-icon-button": "^0.21.0",
-    "@material/mwc-snackbar": "^0.21.0",
+    "@material/mwc-button": "^0.22.1",
+    "@material/mwc-icon-button": "^0.22.1",
+    "@material/mwc-snackbar": "^0.22.1",
     "dexie": "^3.0.3",
-    "lit": "^2.0.0-rc.3",
-    "lit-redux-router": "^0.17.1",
+    "lit": "> 2.0.0 || >= 2.0.0-rc.3",
+    "lit-redux-router": "^0.19.2",
     "o9n": "^2.1.0",
     "pwa-helpers": "^0.9.1",
-    "redux": "^4.1.0",
+    "redux": "^4.1.1",
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
@@ -116,7 +116,8 @@
     ],
     "transformIgnorePatterns": [],
     "testPathIgnorePatterns": [
-      "cypress"
+      "cypress",
+      "bundle/"
     ],
     "setupFilesAfterEnv": [
       "./setupEvents.cjs",
