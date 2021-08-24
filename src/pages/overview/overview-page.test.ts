@@ -1,6 +1,6 @@
-import {html} from 'lit-html';
+import {elementUpdated, fixture, html} from '@open-wc/testing';
+import {cleanHTML} from '../../test/htmlutils';
 import {OverviewPage} from './overview-page';
-import {elementUpdated, fixture} from '@open-wc/testing';
 import {PaintingImpl} from '../../ducks/paint-model';
 
 describe('overview-page', () => {
@@ -11,18 +11,18 @@ describe('overview-page', () => {
 
   it('renders correctly', async () => {
     const element = await fixture(
-      html`<paint-overview-page></paint-overview-page>`
+      html` <paint-overview-page></paint-overview-page>`
     );
-    expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
+    expect(cleanHTML(element)).toMatchSnapshot();
   });
 
   it('renders correctly with paintings', async () => {
     const element: OverviewPage = await fixture(
-      html`<paint-overview-page></paint-overview-page>`
+      html` <paint-overview-page></paint-overview-page>`
     );
     element.paintings = [new PaintingImpl(), new PaintingImpl()];
     await elementUpdated(element);
-    expect(element.shadowRoot?.innerHTML).toMatchSnapshot();
+    expect(cleanHTML(element)).toMatchSnapshot();
     expect(
       element.shadowRoot?.querySelectorAll('paint-paint-button')
     ).toHaveLength(2);

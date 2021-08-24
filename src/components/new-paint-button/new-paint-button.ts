@@ -1,12 +1,13 @@
-import {css, customElement, html, CSSResult, TemplateResult} from 'lit-element';
+import {css, CSSResult, html, TemplateResult} from 'lit';
+import {customElement} from 'lit/decorators.js';
 import {imageIcon} from './icons';
 import {PaintButton} from '../paint-button/paint-button';
 
 @customElement('paint-new-paint-button')
 export class NewPaintButton extends PaintButton {
-  static get styles(): CSSResult[] {
+  static styles: CSSResult[] =
     // language=CSS
-    return [
+    [
       css`
         :host {
           display: block;
@@ -24,7 +25,6 @@ export class NewPaintButton extends PaintButton {
         }
       `,
     ];
-  }
 
   render(): TemplateResult {
     return html`

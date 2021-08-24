@@ -1,20 +1,20 @@
+import {AnyAction, Reducer} from 'redux';
 import {
-  PaintState,
   CRUDPayload,
+  Painting,
   PaintingImpl,
   PaintingRawData,
-  Painting,
+  PaintState,
   Stroke,
 } from './paint-model';
-import {AnyAction, Reducer} from 'redux';
-import {ThunkDispatch as TDispatch, ThunkAction as TAction} from 'redux-thunk';
-import {PaintingDatabase} from '../database';
-import {AppState} from '../store';
 import {
-  removePaintingFromArray,
-  newSortedDeduplicatedPaintingsArray,
   extractIdFromUrl,
+  newSortedDeduplicatedPaintingsArray,
+  removePaintingFromArray,
 } from './paint-utils';
+import {ThunkAction as TAction, ThunkDispatch as TDispatch} from 'redux-thunk';
+import {AppState} from '../store';
+import {PaintingDatabase} from '../database';
 
 /*** types ***/
 const STORE = '@paint/STORE';

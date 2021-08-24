@@ -1,7 +1,6 @@
-import {html, render} from 'lit-html';
-import {Workbox} from 'workbox-window';
-import {TemplateResult} from 'lit-element';
+import {html, render, TemplateResult} from 'lit';
 import {Snackbar} from '@material/mwc-snackbar';
+import {Workbox} from 'workbox-window';
 
 declare global {
   interface HTMLElementEventMap {

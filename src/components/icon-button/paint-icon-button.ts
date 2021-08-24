@@ -1,44 +1,33 @@
-import {
-  css,
-  customElement,
-  html,
-  query,
-  eventOptions,
-  LitElement,
-  CSSResult,
-  TemplateResult,
-} from 'lit-element';
-import {ShadowStyles, AnimatedStyles} from '../../styles/shared-styles';
-import {property} from 'lit-element';
+import {AnimatedStyles, ShadowStyles} from '../../styles/shared-styles';
+import {css, CSSResult, html, LitElement, TemplateResult} from 'lit';
+import {customElement, eventOptions, property, query} from 'lit/decorators.js';
 
 @customElement('paint-icon-button')
 export class IconButton extends LitElement {
-  static get styles(): CSSResult[] {
+  static styles: CSSResult[] = [
+    AnimatedStyles,
+    ShadowStyles,
     // language=CSS
-    return [
-      AnimatedStyles,
-      ShadowStyles,
-      css`
-        ::slotted(svg) {
-          width: calc(var(--icon-size) - 6px);
-          height: calc(var(--icon-size) - 6px);
-          padding-top: 3px;
-          display: block;
-          margin: auto;
-        }
+    css`
+      ::slotted(svg) {
+        width: calc(var(--icon-size) - 6px);
+        height: calc(var(--icon-size) - 6px);
+        padding-top: 3px;
+        display: block;
+        margin: auto;
+      }
 
-        .icon-wrapper {
-          width: 100%;
-          height: 100%;
-          border-radius: var(--paint-icon-button-border-radius, 50%);
-          background-color: var(--paint-icon-button-background-color, white);
-          display: block;
-          transition-property: box-shadow, border-radius !important;
-          will-change: box-shadow, border-radius !important;
-        }
-      `,
-    ];
-  }
+      .icon-wrapper {
+        width: 100%;
+        height: 100%;
+        border-radius: var(--paint-icon-button-border-radius, 50%);
+        background-color: var(--paint-icon-button-background-color, white);
+        display: block;
+        transition-property: box-shadow, border-radius !important;
+        will-change: box-shadow, border-radius !important;
+      }
+    `,
+  ];
 
   @query('.icon-button')
   private button!: HTMLElement;

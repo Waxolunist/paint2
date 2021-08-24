@@ -1,15 +1,8 @@
-import {
-  css,
-  customElement,
-  html,
-  LitElement,
-  property,
-  CSSResult,
-  TemplateResult,
-} from 'lit-element';
-import {repeat} from 'lit-html/directives/repeat';
-import {colors} from './colors';
 import '../icon-button/paint-icon-button';
+import {css, CSSResult, html, LitElement, TemplateResult} from 'lit';
+import {customElement, property} from 'lit/decorators.js';
+import {colors} from './colors';
+import {repeat} from 'lit/directives/repeat.js';
 
 @customElement('paint-color-toolbar')
 export class ColorToolbar extends LitElement {

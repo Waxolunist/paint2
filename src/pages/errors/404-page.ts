@@ -1,4 +1,5 @@
-import {customElement, html, LitElement, TemplateResult} from 'lit-element';
+import {html, LitElement, TemplateResult} from 'lit';
+import {customElement} from 'lit/decorators.js';
 
 @customElement('paint-error404-page')
 export class Error404Page extends LitElement {

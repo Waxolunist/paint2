@@ -1,10 +1,10 @@
 import {
-  removePaintingFromArray,
+  extractIdFromUrl,
   newSortedDeduplicatedPaintingsArray,
+  removePaintingFromArray,
   toFileExtension,
 } from './paint-utils';
 import {Painting} from './paint-model';
-import {extractIdFromUrl} from './paint-utils';
 
 describe('paint utils', () => {
   describe('delete ops', () => {

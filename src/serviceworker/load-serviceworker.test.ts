@@ -1,5 +1,4 @@
-import {fixture} from '@open-wc/testing';
-import {html} from 'lit-html';
+import {fixture, html} from '@open-wc/testing';
 import {renderSnackbar} from './load-serviceworker';
 
 describe('overview-page', () => {

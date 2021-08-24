@@ -1,6 +1,6 @@
-import {logPerformance} from './paint-perf';
 import {defaultMemory, PaintCommand, PaintMemory} from './paint-memory';
 import {CanvasPainter} from './paint-painter';
+import {logPerformance} from './paint-perf';
 
 console.log('Paint Area Worker initialized');
 

@@ -1,10 +1,10 @@
-import {Stroke} from '../../ducks/paint-model';
 import {
-  middleOfTwoPoints,
   calculatePoint,
   distanceBetweenTwoPointsGreaterThan,
+  middleOfTwoPoints,
 } from './paint-math';
 import {PaintMemory} from './paint-memory';
+import {Stroke} from '../../ducks/paint-model';
 
 export class CanvasPainter {
   _: PaintMemory;

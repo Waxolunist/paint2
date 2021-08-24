@@ -1,5 +1,6 @@
-import {fixture, html, oneEvent} from '@open-wc/testing';
 import {fireClickEvent, firePointerEvent} from '../../test/pointerevents';
+import {fixture, html, oneEvent} from '@open-wc/testing';
+import {cleanHTML} from '../../test/htmlutils';
 import {NewPaintButton} from './new-paint-button';
 
 describe('new-paint-button', () => {
@@ -10,30 +11,30 @@ describe('new-paint-button', () => {
 
   it('renders correctly', async () => {
     const element = await fixture(
-      html`<paint-new-paint-button></paint-new-paint-button>`
+      html` <paint-new-paint-button></paint-new-paint-button>`
     );
-    expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
+    expect(cleanHTML(element)).toMatchSnapshot();
   });
 
   it('renders correctly after pointerdown', async () => {
     const element = await fixture(
-      html`<paint-new-paint-button></paint-new-paint-button>`
+      html` <paint-new-paint-button></paint-new-paint-button>`
     );
     await firePointerEvent(element, ['down']);
-    expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
+    expect(cleanHTML(element)).toMatchSnapshot();
   });
 
   it('renders correctly after pointerdown and up', async () => {
     const element = await fixture(
-      html`<paint-new-paint-button></paint-new-paint-button>`
+      html` <paint-new-paint-button></paint-new-paint-button>`
     );
     await firePointerEvent(element, ['down', 'up']);
-    expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
+    expect(cleanHTML(element)).toMatchSnapshot();
   });
 
   it('fires event after pointer up', async () => {
     const el = await fixture(
-      html`<paint-new-paint-button></paint-new-paint-button>`
+      html` <paint-new-paint-button></paint-new-paint-button>`
     );
     fireClickEvent(el.shadowRoot!.querySelector('paint-paint-button')!);
     const {detail} = await oneEvent(el, 'paint-clicked');

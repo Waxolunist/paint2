@@ -1,9 +1,14 @@
-import {ColorToolbar} from './paint-color-toolbar';
 import {fixture, html, oneEvent} from '@open-wc/testing';
+import {cleanHTML} from '../../test/htmlutils';
 import {colors} from './colors';
+import {ColorToolbar} from './paint-color-toolbar';
 import {fireClickEvent} from '../../test/pointerevents';
 
 describe('paint-color-toolbar', () => {
+  beforeEach(() => {
+    jest.spyOn(global.Math, 'random').mockReturnValue(0.1234567890123456);
+  });
+
   it('is defined', () => {
     const el = document.createElement('paint-color-toolbar');
     expect(el).toBeInstanceOf(ColorToolbar);
@@ -11,23 +16,23 @@ describe('paint-color-toolbar', () => {
 
   it('renders correctly', async () => {
     const element = await fixture(
-      html`<paint-color-toolbar></paint-color-toolbar>`
+      html` <paint-color-toolbar></paint-color-toolbar>`
     );
-    expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
+    expect(cleanHTML(element)).toMatchSnapshot();
   });
 
   it('renders correctly with predefined active color', async () => {
     const element = await fixture(
-      html`<paint-color-toolbar
+      html` <paint-color-toolbar
         activeColor="${colors[1]}"
       ></paint-color-toolbar>`
     );
-    expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
+    expect(cleanHTML(element)).toMatchSnapshot();
   });
 
   it('fires event on color change', async () => {
     const el = await fixture(
-      html`<paint-color-toolbar
+      html` <paint-color-toolbar
         activeColor="${colors[0]}"
       ></paint-color-toolbar>`
     );

@@ -1,45 +1,30 @@
-import {
-  customElement,
-  LitElement,
-  html,
-  css,
-  property,
-  CSSResult,
-  TemplateResult,
-  queryAll,
-} from 'lit-element';
 import '../../components/new-paint-button/new-paint-button';
 import '../../components/paint-button/paint-button';
 import '../../components/icon-button/paint-icon-button';
 import {closeIcon, shareIcon} from './icons';
-import store from '../../store';
-import {connect} from 'pwa-helpers/connect-mixin';
-import {Painting, PaintState, defaultDataUrl} from '../../ducks/paint-model';
-import {repeat} from 'lit-html/directives/repeat';
-import {ifDefined} from 'lit-html/directives/if-defined';
+import {css, CSSResultGroup, html, LitElement, TemplateResult} from 'lit';
+import {customElement, property, queryAll} from 'lit/decorators.js';
+import {dataURLtoBlob, toFileExtension} from '../../ducks/paint-utils';
+import {defaultDataUrl, Painting, PaintState} from '../../ducks/paint-model';
 import {
   loadData,
   newPainting,
-  ThunkDispatch,
   removePainting,
+  ThunkDispatch,
 } from '../../ducks/paint';
-import {toFileExtension, dataURLtoBlob} from '../../ducks/paint-utils';
-import {RouterState} from 'lit-redux-router/lib/reducer';
 import {AnimatedStyles} from '../../styles/shared-styles';
-import {directive, PropertyPart} from 'lit-html';
+import {connect} from 'pwa-helpers/connect-mixin';
+import {ifDefined} from 'lit/directives/if-defined.js';
+import {repeat} from 'lit/directives/repeat.js';
+import {RouterState} from 'lit-redux-router/lib/reducer';
+import store from '../../store';
+import {styleMap} from 'lit/directives/style-map.js';
 
 interface PaintingAnimationData {
   id: number;
   index: number;
   clientRect: DOMRect;
 }
-
-const elementDirtyCheck = directive((value) => (part: PropertyPart): void => {
-  const {name, element} = part.committer;
-  if (value !== element[name as keyof Element]) {
-    part.setValue(value);
-  }
-});
 
 @customElement('paint-overview-page')
 export class OverviewPage extends connect(store)(LitElement) {
@@ -67,7 +52,7 @@ export class OverviewPage extends connect(store)(LitElement) {
     }
   }
 
-  static get styles(): CSSResult[] {
+  static get styles(): CSSResultGroup[] {
     return [
       AnimatedStyles,
       css`
@@ -141,10 +126,10 @@ export class OverviewPage extends connect(store)(LitElement) {
         ${repeat(
           this.paintings,
           (painting, index) =>
-            html`<paint-paint-button
+            html` <paint-paint-button
               class="painting translate"
               data-id="${ifDefined(painting.id)}"
-              style="${elementDirtyCheck(
+              style="${styleMap(
                 this.calculateTranslateProperty(index, painting.id)
               )}"
               @paint-clicked="${this.openPainting(painting.id)}"
@@ -155,16 +140,16 @@ export class OverviewPage extends connect(store)(LitElement) {
                 slot="addons"
                 class="delete"
                 @icon-clicked="${this.removePainting(painting.id)}"
-                >${closeIcon}</paint-icon-button
-              >
+                >${closeIcon}
+              </paint-icon-button>
               ${this.canShare()
-                ? html`<paint-icon-button
+                ? html` <paint-icon-button
                     slot="addons"
                     role="button"
                     class="share"
                     @icon-clicked="${this.sharePainting(painting.id)}"
-                    >${shareIcon}</paint-icon-button
-                  >`
+                    >${shareIcon}
+                  </paint-icon-button>`
                 : ''}
             </paint-paint-button>`
         )}
@@ -236,12 +221,15 @@ export class OverviewPage extends connect(store)(LitElement) {
   private paintingDeleted = (oldVal: Painting[] = []): boolean =>
     !!oldVal && oldVal.length > this.paintings.length;
 
-  private calculateTranslateProperty = (index: number, id?: number): string => {
+  private calculateTranslateProperty = (
+    index: number,
+    id?: number
+  ): {[name: string]: string} => {
     const dataWithIndexAndId = this.currentPaintingClientRects.find(
       (p) => p.index === index && p.id === id
     );
     if (dataWithIndexAndId || this.currentPaintingClientRects.length === 0) {
-      return 'transform: translate(0px, 0px)';
+      return {transform: 'translate(0px, 0px)'};
     }
     const dataWithIdIndex = this.currentPaintingClientRects.findIndex(
       (p) => p.id === id
@@ -251,9 +239,9 @@ export class OverviewPage extends connect(store)(LitElement) {
     if (current && predeccessor) {
       const translateX = current.clientRect.x - predeccessor.clientRect.x;
       const translateY = current.clientRect.y - predeccessor.clientRect.y;
-      return `transform: translate(${translateX}px, ${translateY}px)`;
+      return {transform: `translate(${translateX}px, ${translateY}px)`};
     }
-    return 'transform: translate(0px, 0px)';
+    return {transform: 'translate(0px, 0px)'};
   };
 
   private animatePaintings = (): void => {

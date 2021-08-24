@@ -1,6 +1,6 @@
-import {fixture} from '@open-wc/testing';
-import {html} from 'lit-html';
+import {fixture, html} from '@open-wc/testing';
 import {AboutPage} from './about-page';
+import {cleanHTML} from '../../test/htmlutils';
 
 describe('about-page', () => {
   it('is defined', () => {
@@ -9,7 +9,7 @@ describe('about-page', () => {
   });
 
   it('renders correctly', async () => {
-    const element = await fixture(html`<paint-about-page></paint-about-page>`);
-    expect(element.shadowRoot!.innerHTML).toMatchSnapshot();
+    const element = await fixture(html` <paint-about-page></paint-about-page>`);
+    expect(cleanHTML(element)).toMatchSnapshot();
   });
 });

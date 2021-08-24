@@ -1,23 +1,23 @@
 import {
+  Action,
+  AnyAction,
+  applyMiddleware,
   combineReducers,
   compose,
   createStore,
-  applyMiddleware,
-  Action,
-  Middleware,
   Dispatch,
+  Middleware,
   Store,
-  AnyAction,
 } from 'redux';
-import {lazyReducerEnhancer} from 'pwa-helpers';
 import {connectRouter, navigate} from 'lit-redux-router';
-import paint from './ducks/paint';
-import thunk from 'redux-thunk';
-import {RouterState} from 'lit-redux-router/lib/reducer';
-import {PaintState} from './ducks/paint-model';
 import {Actions} from 'lit-redux-router/lib/actions';
 import database from './database';
+import {lazyReducerEnhancer} from 'pwa-helpers';
 import {LazyStore} from 'pwa-helpers/lazy-reducer-enhancer';
+import paint from './ducks/paint';
+import {PaintState} from './ducks/paint-model';
+import {RouterState} from 'lit-redux-router/lib/reducer';
+import thunk from 'redux-thunk';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare global {
