@@ -180,7 +180,7 @@ After that start by building
 - [ ] sort with drag and drop?
 - [ ] Multifileshare?
 - [ ] Popup for filename?
-- [ ] store image in worker (worker to indexdb)?
+- [ ] store image already in worker (worker to indexdb)?
 - [x] store image on pointer up or navigate back (not only backbutton)?
 - [x] 2-finger painting on devices without PointerEvent.prototype.getCoalescedEvents
 - [x] links on about page, open in browser
@@ -199,3 +199,6 @@ Server
 - [x] Better gzipping (brtl) - change to nginx
 - [x] reload on about page not working
 - [x] build and push docker image in dev azure
+
+Bugs
+- [ ] console.error on back navigation - can't find blob url 

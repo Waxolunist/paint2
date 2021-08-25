@@ -10,7 +10,7 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "images/manifest/android-chrome-48x48.png",
+      "src": "images/manifest/android-chrome-36x36.png",
       "sizes": "36x36",
       "type": "image/png"
     },
@@ -57,32 +57,32 @@
   ],
   "screenshots": [
     {
-      "src": "images/screenshots/android/Screenshot_1.png",
+      "src": "images/screenshots/android/Screenshot_1-864x1824.png",
       "type": "image/png",
       "sizes": "864×1824"
     },
     {
-      "src": "images/screenshots/android/Screenshot_2.png",
+      "src": "images/screenshots/android/Screenshot_2-864x1824.png",
       "type": "image/png",
       "sizes": "864×1824"
     },
     {
-      "src": "images/screenshots/android/Screenshot_3.png",
+      "src": "images/screenshots/android/Screenshot_3-864x1824.png",
       "type": "image/png",
       "sizes": "864×1824"
     },
     {
-      "src": "images/screenshots/android/Screenshot_4.png",
+      "src": "images/screenshots/android/Screenshot_4-864x1824.png",
       "type": "image/png",
       "sizes": "864×1824"
     },
     {
-      "src": "images/screenshots/android/Screenshot_5.png",
+      "src": "images/screenshots/android/Screenshot_5-864x1824.png",
       "type": "image/png",
       "sizes": "864×1824"
     },
     {
-      "src": "images/screenshots/android/Screenshot_6.png",
+      "src": "images/screenshots/android/Screenshot_6-864x1824.png",
       "type": "image/png",
       "sizes": "864×1824"
     }
