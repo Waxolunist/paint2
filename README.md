@@ -77,7 +77,7 @@ For example:
 mkcert -cert-file certs/cert.pem -key-file certs/key.pem v-collaborate.com '*.v-collaborate.com' localhost 127.0.0.1 ::1
 ```
 
-Configure the certificates in the file `es-dev-server.build.cjs`.
+Configure the certificates in the file `web-dev-server.build.mjs`.
 
 Then start the server:
 
