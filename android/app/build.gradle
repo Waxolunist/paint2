@@ -16,7 +16,10 @@
 
 import groovy.xml.MarkupBuilder
 
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+    
+}
 
 def twaManifest = [
     applicationId: 'com.v_collaborate.paint.twa',
@@ -44,16 +47,17 @@ def twaManifest = [
     // 'customtabs' and 'webview'.
     fallbackType: 'customtabs',
     enableSiteSettingsShortcut: 'true',
+    orientation: 'portrait-primary',
 ]
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.v_collaborate.paint.twa"
         minSdkVersion 19
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1"
+        targetSdkVersion 30
+        versionCode 3
+        versionName "3"
 
         // The name for the application
         resValue "string", "appName", twaManifest.name
@@ -72,18 +76,11 @@ android {
             resValue "string", "webManifestUrl", 'https://paint.v-collaborate.com/manifest.json'
         
 
+        
+
         // The hostname is used when building the intent-filter, so the TWA is able to
         // handle Intents to open https://svgomg.firebaseapp.com.
         resValue "string", "hostName", twaManifest.hostName
-
-        // This variable below expresses the relationship between the app and the site,
-        // as documented in the TWA documentation at
-        // https://developers.google.com/web/updates/2017/10/using-twa#set_up_digital_asset_links_in_an_android_app
-        // and is injected into the AndroidManifest.xml
-        resValue "string", "assetStatements",
-                '[{ \\"relation\\": [\\"delegate_permission/common.handle_all_urls\\"],' +
-                        '\\"target\\": {\\"namespace\\": \\"web\\", \\"site\\": \\"https://' +
-                        twaManifest.hostName + '\\"}}]'
 
         // This attribute sets the status bar color for the TWA. It can be either set here or in
         // `res/values/colors.xml`. Setting in both places is an error and the app will not
@@ -136,6 +133,7 @@ android {
         resValue "string", "fallbackType", twaManifest.fallbackType
 
         resValue "bool", "enableSiteSettingsShortcut", twaManifest.enableSiteSettingsShortcut
+        resValue "string", "orientation", twaManifest.orientation
     }
     buildTypes {
         release {
@@ -146,7 +144,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    lintOptions {
+        checkReleaseBuilds false
+    }
 }
+
+
 
 task generateShorcutsFile {
     assert twaManifest.shortcuts.size() < 5, "You can have at most 4 shortcuts."
@@ -192,5 +195,6 @@ repositories {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     
-    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.0.0'    
+        implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.2.1'
+    
 }

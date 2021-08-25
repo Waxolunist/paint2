@@ -58,8 +58,9 @@
                 android:value="@string/launchUrl" />
             </activity>
         
-        
+
         <activity android:name="LauncherActivity"
+            android:alwaysRetainTaskState="true"
             android:label="@string/launcherName">
             <meta-data android:name="android.support.customtabs.trusted.DEFAULT_URL"
                 android:value="@string/launchUrl" />
@@ -102,10 +103,16 @@
                 android:value="@string/fallbackType" />
 
             
-            <meta-data android:name="android.support.customtabs.trusted.DISPLAY_MODE"
-                android:value="immersive" />
 
             
+
+            <meta-data android:name="android.support.customtabs.trusted.SCREEN_ORIENTATION"
+                android:value="@string/orientation"/>
+
+            
+
+            
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -118,6 +125,8 @@
                 <data android:scheme="https"
                     android:host="@string/hostName"/>
             </intent-filter>
+
+            
         </activity>
 
         <activity android:name="com.google.androidbrowserhelper.trusted.FocusActivity" />
@@ -136,7 +145,7 @@
         </provider>
 
         <service
-            android:name="com.google.androidbrowserhelper.trusted.DelegationService"
+            android:name=".DelegationService"
             android:enabled="@bool/enableNotification"
             android:exported="@bool/enableNotification">
 
