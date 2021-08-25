@@ -121,8 +121,11 @@
       "bundle/"
     ],
     "testEnvironment": "jsdom",
+    "moduleNameMapper": {
+      "\\.worker.(js|ts)": "<rootDir>/__mocks__/workerMock.js"
+    },
     "setupFilesAfterEnv": [
-      "./setupEvents.cjs",
+      "./setupTestEnv.cjs",
       "fake-indexeddb/auto"
     ],
     "reporters": [
@@ -155,10 +158,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 16,
-        "functions": 33,
-        "lines": 28,
-        "statements": 28
+        "branches": 18,
+        "functions": 35,
+        "lines": 32,
+        "statements": 32
       }
     }
   },

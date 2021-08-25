@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`paint-page renders correctly 1`] = `
+"
+      <div class=\\"paint-page\\">
+        <div class=\\"paint-toolbar\\">
+          <paint-icon-button class=\\"back-button\\">
+            <svg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 448 512\\">
+  <path d=\\"M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z\\"></path>
+</svg>
+          </paint-icon-button>
+          <paint-color-toolbar activecolor=\\"#000000\\"></paint-color-toolbar>
+        </div>
+        <div class=\\"paint-wrapper\\">
+          <div id=\\"paint-area-container\\" class=\\"paint-area-container\\">
+            
+          </div>
+        </div>
+      </div>
+    <style>
+      :host {
+        display: block;
+        display: flex;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+      }
+
+      .paint-page {
+        display: flex;
+        width: 100%;
+      }
+
+      .paint-toolbar {
+        width: 45px;
+        min-width: 45px;
+        background-color: #eee;
+        display: flex;
+        align-items: flex-start;
+        padding-top: 5px;
+        flex-direction: column;
+        box-sizing: border-box;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+      }
+
+      .back-button {
+        height: var(--icon-size);
+        width: var(--icon-size);
+        margin-bottom: 5px;
+        margin-left: 7px;
+      }
+
+      .paint-wrapper {
+        display: flex;
+        align-items: stretch;
+        flex-grow: 1;
+        padding: 30px;
+        margin-left: 45px;
+      }
+
+      .paint-area-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>"
+`;

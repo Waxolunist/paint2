@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`model PaintingRawData should set default values 1`] = `
+PaintingRawData {
+  "paintingId": 1,
+  "strokes": Array [],
+}
+`;

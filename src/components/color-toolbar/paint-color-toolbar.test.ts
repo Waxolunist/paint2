@@ -3,7 +3,6 @@ import {cleanHTML} from '../../test/htmlutils';
 import {colors} from './colors';
 import {ColorToolbar} from './paint-color-toolbar';
 import {fireClickEvent} from '../../test/pointerevents';
-import {cleanHTML} from '../../test/htmlutils';
 
 describe('paint-color-toolbar', () => {
   beforeEach(() => {

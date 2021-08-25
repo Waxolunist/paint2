@@ -60,9 +60,9 @@ export class PaintPage extends connect(store)(LitElement) {
     }
   }
 
-  static get styles(): CSSResult {
+  static styles: CSSResult =
     // language=CSS
-    return css`
+    css`
       :host {
         display: block;
         display: flex;
@@ -112,7 +112,6 @@ export class PaintPage extends connect(store)(LitElement) {
         align-items: center;
       }
     `;
-  }
 
   render(): TemplateResult {
     return html`
