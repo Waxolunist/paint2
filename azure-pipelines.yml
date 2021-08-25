@@ -58,6 +58,12 @@ stages:
       - task: Npm@1
         inputs:
           command: 'custom'
+          customCommand: 'run clean'
+        displayName: 'npm clean'
+
+      - task: Npm@1
+        inputs:
+          command: 'custom'
           customCommand: 'run bundle:test'
         displayName: 'npm bundle:test'
         env:

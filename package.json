@@ -12,7 +12,7 @@
   "type": "module",
   "scripts": {
     "bundle": "npm run clean && NODE_ENV=production rollup -c",
-    "bundle:test": "npm run clean && NODE_ENV=test rollup -c",
+    "bundle:test": "NODE_ENV=test rollup -c",
     "watch": "npm run clean && rollup -c && chokidar 'src/**/*.*' -c 'rollup -c'",
     "clean": "rimraf bundle/* build/* coverage/*",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
