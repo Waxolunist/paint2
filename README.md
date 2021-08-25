@@ -199,6 +199,7 @@ Server
 - [x] Better gzipping (brtl) - change to nginx
 - [x] reload on about page not working
 - [x] build and push docker image in dev azure
+- [ ] include a robots.txt
 
 Bugs
 - [ ] console.error on back navigation - can't find blob url 
