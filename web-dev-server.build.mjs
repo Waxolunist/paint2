@@ -2,8 +2,6 @@ import historyApiFallback from 'koa-history-api-fallback';
 import fs from 'fs';
 import path from 'path';
 
-const extname = path.extname;
-
 export default {
     port: 4433,
     http2: true,

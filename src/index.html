@@ -106,10 +106,10 @@
       rel="stylesheet"
     />
     <script>
-      const process = {
+      process = {
         env: {},
       };
-      window.process = {
+      process = window.process = {
         env: {
           NODE_ENV: process.env.NODE_ENV || '',
           COMMITID: process.env.COMMITID || '',
