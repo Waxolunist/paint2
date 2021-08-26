@@ -2,13 +2,6 @@ import {Workbox} from 'workbox-window';
 import {html, render, TemplateResult} from 'lit';
 import {Snackbar} from '@material/mwc-snackbar';
 
-declare global {
-  interface HTMLElementEventMap {
-    'MDCSnackbar:opened': CustomEvent<unknown>;
-    'MDCSnackbar:closed': CustomEvent<{reason: string}>;
-  }
-}
-
 const snackbarTemplate = (): TemplateResult => html`
   <mwc-snackbar
     labelText="A new version is available. Press REFRESH to get the new version."

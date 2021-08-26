@@ -24,3 +24,8 @@ interface ShareData {
   url?: string;
   files?: File[];
 }
+
+interface HTMLElementEventMap {
+  'MDCSnackbar:opened': CustomEvent<unknown>;
+  'MDCSnackbar:closed': CustomEvent<{reason: string}>;
+}
