@@ -14,7 +14,7 @@
     "bundle": "npm run clean && NODE_ENV=production rollup -c",
     "bundle:test": "NODE_ENV=test rollup -c",
     "watch": "npm run clean && rollup -c -w",
-    "clean": "rimraf bundle/* build/* coverage/* .rollup.cache/*",
+    "clean": "rimraf bundle/* build/* coverage/* .rollup.cache/* *.tsbuildinfo",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
     "lint:warningson": "npm run lint:lit-analyzer && npm run lint:eslint:warningson",
     "lint:eslint:warningson": "eslint 'src/**/*.ts'",
@@ -63,6 +63,7 @@
   "devDependencies": {
     "@bubblewrap/cli": "^1.13.4",
     "@open-wc/testing": "^2.5.33",
+    "@rollup/plugin-multi-entry": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@rollup/plugin-typescript": "^8.2.5",
     "@types/jest": "^27.0.1",

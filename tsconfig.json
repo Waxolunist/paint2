@@ -11,7 +11,7 @@
     "removeComments": true,
     "importHelpers": true,
     "isolatedModules": false,
-    "noEmit": false,
+    "noEmit": true,
     "noEmitOnError": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -29,6 +29,6 @@
     ],
     "inlineSourceMap": true
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "bundle"]
+  "exclude": ["node_modules", "bundle"],
+  "rootDir": "src"
 }

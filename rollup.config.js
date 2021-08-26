@@ -7,7 +7,7 @@ import {injectManifest} from 'rollup-plugin-workbox';
 import {terser} from 'rollup-plugin-terser';
 import {constants} from 'zlib';
 import brotli from 'rollup-plugin-brotli';
-import multiInput from 'rollup-plugin-multi-input';
+import multiInput from '@rollup/plugin-multi-entry';
 
 const mapObj = {
   'process.env.BUILDID': `'${process.env.BUILDID || ''}'`,
@@ -23,7 +23,6 @@ const pluginsBase = [
   typescript({
     sourceMap: true,
     exclude: ['node_modules', '**/*.test.ts'],
-    include: ['src/**/*.ts'],
   }),
   copy({
     targets: [
