@@ -56,7 +56,7 @@ npm test
 
 ## Dev Server
 
-This sample uses open-wc's [es-dev-server](https://github.com/open-wc/open-wc/tree/master/packages/es-dev-server) for previewing the project without additional build steps. ES dev server handles resolving Node-style "bare" import specifiers, which aren't supported in browsers. It also automatically transpiles JavaScript and adds polyfills to support older browsers.
+This sample uses open-wc's [web-dev-server](https://modern-web.dev/docs/dev-server/overview/) for previewing the project without additional build steps. ES dev server handles resolving Node-style "bare" import specifiers, which aren't supported in browsers. It also automatically transpiles JavaScript and adds polyfills to support older browsers.
 
 To run the dev server and open the project in a new browser tab:
 
@@ -185,6 +185,7 @@ After that start by building
 - [x] 2-finger painting on devices without PointerEvent.prototype.getCoalescedEvents
 - [x] links on about page, open in browser
 - [x] service worker update (show that there is an update)
+- [ ] a11y
 
 Dev
 - [x] uglify / minimize / terser
@@ -192,6 +193,9 @@ Dev
 - [ ] npm 7 
 - [x] source maps on server for debugging
 - [ ] inspect esbuild and @web/dev-server
+- [x] compare lit-analyzer to @custom-elements-manifest/analyzer
+- [ ] use concurrently for watch development
+- [ ] try ts-jest, remove babel
 
 Server
 - [x] Server fallback page

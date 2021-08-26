@@ -106,12 +106,15 @@
       rel="stylesheet"
     />
     <script>
+      const process = {
+        env: {},
+      };
       window.process = {
         env: {
-          NODE_ENV: process.env.NODE_ENV,
-          COMMITID: process.env.COMMITID,
-          BUILDID: process.env.BUILDID,
-          VERSION: process.env.PAINT_VERSION,
+          NODE_ENV: process.env.NODE_ENV || '',
+          COMMITID: process.env.COMMITID || '',
+          BUILDID: process.env.BUILDID || '',
+          VERSION: process.env.PAINT_VERSION || '',
         },
       };
     </script>
@@ -125,7 +128,7 @@
       src="serviceworker/load-serviceworker.js"
       crossorigin
     ></script>
-    <script type="module" src="paint-app.js" crossorigin></script>
+    <script type="module" src="index.js" crossorigin></script>
     <script type="text/javascript" src="utils/logger.js" defer async></script>
   </body>
 </html>

@@ -1,3 +1,4 @@
+/* global process, console */
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import copy from 'rollup-plugin-copy';
@@ -7,6 +8,13 @@ import {terser} from 'rollup-plugin-terser';
 import {constants} from 'zlib';
 import brotli from 'rollup-plugin-brotli';
 import multiInput from 'rollup-plugin-multi-input';
+
+const mapObj = {
+  'process.env.BUILDID': `'${process.env.BUILDID || ''}'`,
+  'process.env.COMMITID': `'${process.env.COMMITID || ''}'`,
+  'process.env.NODE_ENV': `'${process.env.NODE_ENV || ''}'`,
+  'process.env.PAINT_VERSION': `'${process.env.PAINT_VERSION || ''}'`,
+};
 
 const pluginsBase = [
   multiInput(),
@@ -23,28 +31,20 @@ const pluginsBase = [
         src: 'src/index.html',
         dest: 'bundle',
         transform: (contents) =>
-          contents
-            .toString()
-            .replace(
-              new RegExp('process.env.NODE_ENV', 'g'),
-              // eslint-disable-next-line no-undef
-              `'${process.env.NODE_ENV || ''}'`
-            )
-            .replace(
-              new RegExp('process.env.COMMITID', 'g'),
-              // eslint-disable-next-line no-undef
-              `'${process.env.COMMITID || ''}'`
-            )
-            .replace(
-              new RegExp('process.env.BUILDID', 'g'),
-              // eslint-disable-next-line no-undef
-              `'${process.env.BUILDID || ''}'`
-            )
-            .replace(
-              new RegExp('process.env.PAINT_VERSION', 'g'),
-              // eslint-disable-next-line no-undef
-              `'${process.env.PAINT_VERSION || ''}'`
+          contents.toString().replace(
+            new RegExp(
+              // Convert the object to array of keys
+              Object.keys(mapObj)
+                // Escape any special characters in the search key
+                .map((key) => key.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'))
+                // Create the Regex pattern
+                .join('|'),
+              // Additional flags can be used. Like `i` - case-insensitive search
+              'g'
             ),
+            // For each key found, replace with the appropriate value
+            (match) => mapObj[match]
+          ),
       },
       {src: 'src/manifest.json', dest: 'bundle'},
       {src: 'src/images', dest: 'bundle'},
@@ -79,12 +79,11 @@ const pluginsProduction = [
   }),
 ];
 
-// eslint-disable-next-line no-undef
 console.log(`Use rollupconfig for ${process.env.NODE_ENV}.`);
 
 export default [
   {
-    input: ['src/paint-app.ts', 'src/serviceworker/load-serviceworker.ts'],
+    input: ['src/index.ts', 'src/serviceworker/load-serviceworker.ts'],
     output: {
       dir: './bundle',
       format: 'esm',
@@ -98,7 +97,6 @@ export default [
         console.error(`(!) ${warning.message}`);
       }
     },
-    // eslint-disable-next-line no-undef
     plugins:
       process.env.NODE_ENV === 'production' ? pluginsProduction : pluginsBase,
   },
