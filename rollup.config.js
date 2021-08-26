@@ -23,6 +23,7 @@ const pluginsBase = [
   typescript({
     sourceMap: true,
     exclude: ['node_modules', '**/*.test.ts'],
+    include: ['src/**/*.ts'],
   }),
   copy({
     targets: [

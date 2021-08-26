@@ -5,7 +5,7 @@
     "moduleResolution": "node",
     "lib": ["ESNext", "DOM", "DOM.Iterable", "WebWorker"],
     "strict": true,
-    "allowJs": false,
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "downlevelIteration": true,
     "removeComments": true,
@@ -28,6 +28,6 @@
     ],
     "inlineSourceMap": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "bundle"]
 }
