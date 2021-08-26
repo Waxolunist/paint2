@@ -153,7 +153,7 @@ export class OverviewPage extends connect(store)(LitElement) {
             </paint-paint-button>`
         )}
       </div>
-      <div class="about"><a href="/about">About this app</a></div>
+      <div class="about"><a href="/about">About tffffhis app</a></div>
     `;
   }
 

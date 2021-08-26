@@ -7,7 +7,7 @@ import {injectManifest} from 'rollup-plugin-workbox';
 import {terser} from 'rollup-plugin-terser';
 import {constants} from 'zlib';
 import brotli from 'rollup-plugin-brotli';
-import multiInput from '@rollup/plugin-multi-entry';
+import multiInput from 'rollup-plugin-multi-input';
 
 const mapObj = {
   'process.env.BUILDID': `'${process.env.BUILDID || ''}'`,

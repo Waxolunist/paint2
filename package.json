@@ -63,7 +63,6 @@
   "devDependencies": {
     "@bubblewrap/cli": "^1.13.4",
     "@open-wc/testing": "^2.5.33",
-    "@rollup/plugin-multi-entry": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@rollup/plugin-typescript": "^8.2.5",
     "@types/jest": "^27.0.1",
