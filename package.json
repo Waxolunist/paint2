@@ -13,7 +13,7 @@
   "scripts": {
     "bundle": "npm run clean && NODE_ENV=production rollup -c",
     "bundle:test": "NODE_ENV=test rollup -c",
-    "watch": "npm run clean && rollup -c -w",
+    "watch": "npm run clean && rollup -c && chokidar 'src/**/*.*' -c 'rollup -c'",
     "clean": "rimraf bundle/* build/* coverage/* .rollup.cache/* *.tsbuildinfo",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
     "lint:warningson": "npm run lint:lit-analyzer && npm run lint:eslint:warningson",
@@ -70,6 +70,7 @@
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.29.3",
     "@web/dev-server": "^0.1.22",
+    "chokidar-cli": "^3.0.0",
     "cypress": "^8.3.0",
     "eslint": "^7.32.0",
     "eslint-plugin-cypress": "^2.11.3",

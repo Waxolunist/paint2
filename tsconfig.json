@@ -29,6 +29,5 @@
     ],
     "inlineSourceMap": true
   },
-  "exclude": ["node_modules", "bundle"],
-  "rootDir": "src"
+  "exclude": ["node_modules", "bundle"]
 }
