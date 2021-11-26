@@ -19,7 +19,7 @@ const config = {
     'node_modules/lit/.+\\.(j|t)s?$': 'ts-jest',
   },
   transformIgnorePatterns: [`node_modules/(?!(${ignoreModules})/)`],
-  testPathIgnorePatterns: ['cypress', 'bundle/'],
+  testPathIgnorePatterns: ['cypress', 'bundle/', '.rollup.cache/'],
   testEnvironment: 'jsdom',
   moduleNameMapper: {
     '\\.worker.(js|ts)': '<rootDir>/__mocks__/workerMock.js',

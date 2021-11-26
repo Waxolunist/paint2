@@ -8,6 +8,9 @@ import {terser} from 'rollup-plugin-terser';
 import {constants} from 'zlib';
 import brotli from 'rollup-plugin-brotli';
 import multiInput from 'rollup-plugin-multi-input';
+import tsLang from 'typescript';
+
+import path from 'path';
 
 const mapObj = {
   'process.env.BUILDID': `'${process.env.BUILDID || ''}'`,
@@ -20,11 +23,13 @@ const pluginsBase = [
   multiInput(),
   resolve(),
   workerLoader({inline: false, sourcemap: false}),
-  typescript({
-    sourceMap: true,
-    exclude: ['node_modules', '**/*.test.ts'],
-    tsconfig: './tsconfig.json',
-  }),
+  typescript(),
+  /*{
+    typescript: tsLang,
+    cacheRoot: path.join(path.resolve(), '.rts_cache'),
+  }
+  */
+
   copy({
     targets: [
       // eslint-disable-next-line no-undef, @typescript-eslint/explicit-function-return-type
