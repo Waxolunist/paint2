@@ -1,5 +1,5 @@
 import {IconButton} from './paint-icon-button';
-import {fixture, html, oneEvent} from '@open-wc/testing';
+import {fixture, html, oneEvent} from '@open-wc/testing-helpers';
 import {fireClickEvent, firePointerEvent} from '../../test/pointerevents';
 import {cleanHTML} from '../../test/htmlutils';
 

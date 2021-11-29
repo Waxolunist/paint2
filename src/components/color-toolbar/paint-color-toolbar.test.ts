@@ -1,4 +1,4 @@
-import {fixture, html, oneEvent} from '@open-wc/testing';
+import {fixture, html, oneEvent} from '@open-wc/testing-helpers';
 import {cleanHTML} from '../../test/htmlutils';
 import {colors} from './colors';
 import {ColorToolbar} from './paint-color-toolbar';

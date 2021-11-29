@@ -1,4 +1,4 @@
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html} from '@open-wc/testing-helpers';
 import {AboutPage} from './about-page';
 import {cleanHTML} from '../../test/htmlutils';
 

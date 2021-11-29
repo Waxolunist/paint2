@@ -1,5 +1,5 @@
 import {fireClickEvent, firePointerEvent} from '../../test/pointerevents';
-import {fixture, html, oneEvent} from '@open-wc/testing';
+import {fixture, html, oneEvent} from '@open-wc/testing-helpers';
 import {cleanHTML} from '../../test/htmlutils';
 import {NewPaintButton} from './new-paint-button';
 

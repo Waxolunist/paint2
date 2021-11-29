@@ -29,5 +29,5 @@
     ],
     "inlineSourceMap": true
   },
-  "exclude": ["node_modules", "bundle"]
+  "exclude": ["node_modules", "bundle", "cypress"]
 }
