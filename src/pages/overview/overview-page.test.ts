@@ -1,7 +1,7 @@
 import {OverviewPage} from './overview-page';
 import {elementUpdated, fixture, html} from '@open-wc/testing-helpers';
 import {PaintingImpl} from '../../ducks/paint-model';
-//import {cleanHTML} from '../../test/htmlutils';
+import {cleanHTML} from '../../test/htmlutils';
 
 describe('overview-page', () => {
   it('is defined', () => {
@@ -13,7 +13,7 @@ describe('overview-page', () => {
     const element = await fixture(
       html`<paint-overview-page></paint-overview-page>`
     );
-    expect(element).toMatchSnapshot();
+    expect(cleanHTML(element)).toMatchSnapshot();
   });
 
   it('renders correctly with paintings', async () => {
@@ -22,7 +22,7 @@ describe('overview-page', () => {
     );
     element.paintings = [new PaintingImpl(), new PaintingImpl()];
     await elementUpdated(element);
-    expect(element).toMatchSnapshot();
+    expect(cleanHTML(element)).toMatchSnapshot();
     expect(
       element.shadowRoot?.querySelectorAll('paint-paint-button')
     ).toHaveLength(2);
