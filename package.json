@@ -58,7 +58,7 @@
     "o9n": "^2.1.0",
     "pwa-helpers": "^0.9.1",
     "redux": "^4.1.2",
-    "redux-thunk": "^2.4.0"
+    "redux-thunk": "^2.4.1"
   },
   "devDependencies": {
     "@bubblewrap/cli": "^1.14.0",
