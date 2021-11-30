@@ -16,3 +16,4 @@ build_info.txt
 tsconfig.tsbuildinfo
 /.tools/
 /.rollup.cache/
+/.rts_cache/

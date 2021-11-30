@@ -1,5 +1,5 @@
 import {OverviewPage} from './overview-page';
-import {elementUpdated, fixture, html} from '@open-wc/testing';
+import {elementUpdated, fixture, html} from '@open-wc/testing-helpers';
 import {PaintingImpl} from '../../ducks/paint-model';
 import {cleanHTML} from '../../test/htmlutils';
 

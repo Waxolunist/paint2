@@ -51,7 +51,7 @@ export const database = async (): Promise<PaintingDatabase> => {
       return _database;
     } catch (err) {
       if (window.process.env.NODE_ENV === 'production') {
-        console.error('Failed to open db: ' + (err.stack || err));
+        console.error('Failed to open db: ' + ((err as Error).stack || err));
       }
     }
   }

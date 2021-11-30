@@ -15,9 +15,6 @@ declare global {
   interface HTMLElementTagNameMap {
     'lit-route': LitRouteElement;
   }
-  interface Navigator {
-    canShare?: (data?: ShareData) => boolean;
-  }
 }
 
 @customElement('paint-app')
