@@ -28,6 +28,7 @@ const pluginsBase = [
         src: 'src/index.html',
         dest: 'bundle',
         transform: (contents) =>
+          // replace vars from mapObj
           contents.toString().replace(
             new RegExp(
               // Convert the object to array of keys
