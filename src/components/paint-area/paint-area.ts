@@ -1,36 +1,31 @@
 import {
   css,
+  CSSResult,
   html,
   LitElement,
   PropertyValues,
-  CSSResult,
   TemplateResult,
 } from 'lit';
 import {customElement, eventOptions, property, query} from 'lit/decorators.js';
-import PaintWorker from 'web-worker:./paint.worker.ts';
-import store, {AppState} from '../../store';
-import {CanvasPainter} from './paint-painter';
-import {defaultMemory, PaintCommand, PaintMemory} from './paint-memory';
 import {Stroke} from '../../ducks/paint-model';
+import store, {AppState} from '../../store';
+import {defaultMemory, PaintCommand, PaintMemory} from './paint-memory';
+import {CanvasPainter} from './paint-painter';
+import {getPaintWorker} from './paint.worker.loader';
 import {PointerEventCoalescor} from './pointer-event-coalescor';
 
 @customElement('paint-area')
 export class PaintArea extends LitElement {
-  @query('#canvas')
-  private canvas!: HTMLCanvasElement;
-
   @property({type: String})
   paintingId = '';
-
   @property()
   width: number | string = 0;
-
   @property()
   height: number | string = 0;
-
   @property()
   colorCode = '#000';
-
+  @query('#canvas')
+  private canvas!: HTMLCanvasElement;
   private worker?: Worker;
 
   private pointerActive = false;
@@ -44,6 +39,23 @@ export class PaintArea extends LitElement {
   private pointerEventCoalescor = new PointerEventCoalescor();
 
   private painter?: CanvasPainter = undefined;
+  private throttledMove = this.throttle(requestAnimationFrame);
+
+  static get styles(): CSSResult[] {
+    // language=CSS
+    return [
+      css`
+        :host {
+          display: block;
+        }
+
+        canvas {
+          background-color: white;
+          touch-action: none;
+        }
+      `,
+    ];
+  }
 
   connectedCallback(): void {
     super.connectedCallback();
@@ -52,7 +64,10 @@ export class PaintArea extends LitElement {
     this.coalesceEventsSupported = !!PointerEvent.prototype.getCoalescedEvents;
 
     if (this.workerSupported && !this.worker) {
-      this.worker = new PaintWorker();
+      this.worker = getPaintWorker();
+      this.worker.onerror = function (event) {
+        console.log('There is an error with your worker!', event);
+      };
     } else {
       this.painter = new CanvasPainter({
         ...defaultMemory,
@@ -84,6 +99,49 @@ export class PaintArea extends LitElement {
         this.initWorker();
       }
     }
+  }
+
+  toImage(): string {
+    const destinationCanvas: HTMLCanvasElement =
+      document.createElement('canvas');
+    destinationCanvas.width = this.canvas.width;
+    destinationCanvas.height = this.canvas.height;
+
+    const destCtx = destinationCanvas.getContext('2d');
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    destCtx!.fillStyle = '#FFFFFF';
+    destCtx?.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    destCtx?.drawImage(this.canvas, 0, 0);
+    return destinationCanvas.toDataURL('image/png');
+  }
+
+  async getStrokes(): Promise<Stroke[]> {
+    return new Promise<Stroke[]>((resolve) => {
+      if (this.workerSupported) {
+        this.worker?.addEventListener(
+          'message',
+          (e) => resolve(e.data.strokes),
+          {once: true}
+        );
+        this.worker?.postMessage({command: 'strokes'});
+      } else {
+        resolve(this.painter?.getStrokes() ?? []);
+      }
+    });
+  }
+
+  render(): TemplateResult {
+    return html`
+      <canvas
+        id="canvas"
+        width="${this.width}"
+        height="${this.height}"
+        @pointerdown="${this.pointerDown}"
+        @pointerup="${this.pointerUp}"
+        @pointercancel="${this.pointerUp}"
+        @pointermove="${this.throttledPointerMove}"
+      ></canvas>
+    `;
   }
 
   private cloneCanvas(): void {
@@ -219,8 +277,6 @@ export class PaintArea extends LitElement {
     };
   }
 
-  private throttledMove = this.throttle(requestAnimationFrame);
-
   @eventOptions({capture: true, passive: true})
   private throttledPointerMove(e: PointerEvent): void {
     if (this.coalesceEventsSupported) {
@@ -232,64 +288,5 @@ export class PaintArea extends LitElement {
         this.pointerEventCoalescor.clear();
       });
     }
-  }
-
-  toImage(): string {
-    const destinationCanvas: HTMLCanvasElement =
-      document.createElement('canvas');
-    destinationCanvas.width = this.canvas.width;
-    destinationCanvas.height = this.canvas.height;
-
-    const destCtx = destinationCanvas.getContext('2d');
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    destCtx!.fillStyle = '#FFFFFF';
-    destCtx?.fillRect(0, 0, this.canvas.width, this.canvas.height);
-    destCtx?.drawImage(this.canvas, 0, 0);
-    return destinationCanvas.toDataURL('image/png');
-  }
-
-  async getStrokes(): Promise<Stroke[]> {
-    return new Promise<Stroke[]>((resolve) => {
-      if (this.workerSupported) {
-        this.worker?.addEventListener(
-          'message',
-          (e) => resolve(e.data.strokes),
-          {once: true}
-        );
-        this.worker?.postMessage({command: 'strokes'});
-      } else {
-        resolve(this.painter?.getStrokes() ?? []);
-      }
-    });
-  }
-
-  static get styles(): CSSResult[] {
-    // language=CSS
-    return [
-      css`
-        :host {
-          display: block;
-        }
-
-        canvas {
-          background-color: white;
-          touch-action: none;
-        }
-      `,
-    ];
-  }
-
-  render(): TemplateResult {
-    return html`
-      <canvas
-        id="canvas"
-        width="${this.width}"
-        height="${this.height}"
-        @pointerdown="${this.pointerDown}"
-        @pointerup="${this.pointerUp}"
-        @pointercancel="${this.pointerUp}"
-        @pointermove="${this.throttledPointerMove}"
-      ></canvas>
-    `;
   }
 }

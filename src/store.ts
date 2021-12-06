@@ -1,3 +1,8 @@
+import {connectRouter, navigate} from 'lit-redux-router';
+import {Actions} from 'lit-redux-router/lib/actions';
+import {RouterState} from 'lit-redux-router/lib/reducer';
+import {lazyReducerEnhancer} from 'pwa-helpers';
+import {LazyStore} from 'pwa-helpers/lazy-reducer-enhancer';
 import {
   Action,
   AnyAction,
@@ -9,15 +14,10 @@ import {
   Middleware,
   Store,
 } from 'redux';
-import {connectRouter, navigate} from 'lit-redux-router';
-import {Actions} from 'lit-redux-router/lib/actions';
+import thunk from 'redux-thunk';
 import database from './database';
-import {lazyReducerEnhancer} from 'pwa-helpers';
-import {LazyStore} from 'pwa-helpers/lazy-reducer-enhancer';
 import paint from './ducks/paint';
 import {PaintState} from './ducks/paint-model';
-import {RouterState} from 'lit-redux-router/lib/reducer';
-import thunk from 'redux-thunk';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare global {
@@ -34,12 +34,15 @@ const logger =
   <S, T>({getState}: {getState: () => S}) =>
   (next: (action: Action<T>) => unknown) =>
   (action: Action<T>) => {
-    console.groupCollapsed(`store dispatch ${action.type}`);
-    console.log('will dispatch', action);
-    const returnValue = next(action);
-    console.log('state after dispatch', getState());
-    console.groupEnd();
-    return returnValue;
+    try {
+      console.groupCollapsed(`store dispatch ${action.type}`);
+      console.log('will dispatch', action);
+      const returnValue = next(action);
+      console.log('state after dispatch', getState());
+      return returnValue;
+    } finally {
+      console.groupEnd();
+    }
   };
 
 const knownRoutes = ['/', '/about'];

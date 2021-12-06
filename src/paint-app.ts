@@ -32,7 +32,7 @@ export class PaintApp extends LitElement {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     import('./ponyfills/o9n').then(() => {
-      window.o9n.orientation.lock('portrait').catch((err) => {
+      window.o9n?.orientation.lock('portrait').catch((err) => {
         console.log(`Ignore this error: ${err.message}`);
       });
     });

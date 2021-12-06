@@ -1,1 +1,1 @@
-module.exports = Object.create(null);
+export const getPaintWorker = () => Object.create(null);
