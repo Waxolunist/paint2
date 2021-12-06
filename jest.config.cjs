@@ -45,6 +45,7 @@ module.exports = {
   ],
   collectCoverageFrom: [
     'src/**/*.{js,ts}',
+    '!src/**/*.loader.{js,ts}',
     '!src/test/**/*.{js,ts}',
     '!src/ponyfills/**/*.{js,ts}',
   ],
