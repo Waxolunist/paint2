@@ -64,23 +64,13 @@ stages:
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'run bundle:test'
-        displayName: 'npm bundle:test'
-        env:
-          BUILDID: $(Build.BuildId)
-          COMMITID: $(SHORT_HASH)
-          PAINT_VERSION: $(PAINT2_VERSION)
-
-      - task: Npm@1
-        inputs:
-          command: 'custom'
           customCommand: 'run test:coverage'
         displayName: 'npm test'
 
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'run test:cy'    
+          customCommand: 'run test:cy'
         displayName: 'npm cypress'
 
       - task: PublishTestResults@2
@@ -120,7 +110,7 @@ stages:
         displayName: Copy assetlinks
 
       - task: Bash@3
-        displayName: create build artifact  
+        displayName: create build artifact
         inputs:
           targetType: 'filePath'
           filePath: $(System.DefaultWorkingDirectory)/scripts/build_info.sh
