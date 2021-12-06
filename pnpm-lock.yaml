@@ -12,6 +12,7 @@ specifiers:
   '@types/jest': ^27.0.3
   '@types/offscreencanvas': ^2019.6.4
   '@types/rewire': ^2.5.28
+  '@types/workbox-window': ^4.3.4
   '@typescript-eslint/eslint-plugin': ^5.6.0
   '@typescript-eslint/parser': ^5.6.0
   '@web/dev-server': ^0.1.28
@@ -48,6 +49,7 @@ specifiers:
   typescript: ^4.5.2
   web-component-analyzer: ^1.1.6
   workbox-build: ^6.4.2
+  workbox-window: ^6.4.2
 
 dependencies:
   '@material/mwc-button': 0.25.3
@@ -70,6 +72,7 @@ devDependencies:
   '@types/jest': 27.0.3
   '@types/offscreencanvas': 2019.6.4
   '@types/rewire': 2.5.28
+  '@types/workbox-window': 4.3.4
   '@typescript-eslint/eslint-plugin': 5.6.0_c73ee81e7e5a72fe329c49340cf4792a
   '@typescript-eslint/parser': 5.6.0_eslint@8.4.0+typescript@4.5.2
   '@web/dev-server': 0.1.28
@@ -99,6 +102,7 @@ devDependencies:
   typescript: 4.5.2
   web-component-analyzer: 1.1.6
   workbox-build: 6.4.2
+  workbox-window: 6.4.2
 
 packages:
 
@@ -2821,6 +2825,10 @@ packages:
 
   /@types/valid-url/1.0.3:
     resolution: {integrity: sha512-+33x29mg+ecU88ODdWpqaie2upIuRkhujVLA7TuJjM823cNMbeggfI6NhxewaRaRF8dy+g33e4uIg/m5Mb3xDQ==}
+    dev: true
+
+  /@types/workbox-window/4.3.4:
+    resolution: {integrity: sha512-Zyac7JfCO1iWLeHxC/hwJ132nXta/x0hl1kERdvHSUU2qVgQ7slmF9C0xhzWADRu7XO4v9+po9xtGD4yonlzyA==}
     dev: true
 
   /@types/ws/7.4.7:

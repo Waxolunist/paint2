@@ -56,7 +56,8 @@
     "o9n": "^2.1.0",
     "pwa-helpers": "^0.9.1",
     "redux": "^4.1.2",
-    "redux-thunk": "^2.4.1"
+    "redux-thunk": "^2.4.1",
+    "workbox-window": "^6.4.2"
   },
   "devDependencies": {
     "@bubblewrap/cli": "^1.14.0",
@@ -67,6 +68,7 @@
     "@types/jest": "^27.0.3",
     "@types/offscreencanvas": "^2019.6.4",
     "@types/rewire": "^2.5.28",
+    "@types/workbox-window": "^4.3.4",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
     "@web/dev-server": "^0.1.28",
