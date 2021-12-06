@@ -11,7 +11,7 @@
   "module": "paint-app.js",
   "type": "module",
   "scripts": {
-    "bundle": "npm run clean && NODE_ENV=production esbuild.config.js",
+    "bundle": "npm run clean && NODE_ENV=production node esbuild.config.js",
     "clean": "rimraf bundle/* build/* coverage/* *.tsbuildinfo",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
     "lint:warningson": "npm run lint:lit-analyzer && npm run lint:eslint:warningson",
