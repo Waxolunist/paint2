@@ -1,7 +1,7 @@
 import {fixture, html} from '@open-wc/testing-helpers';
 import {renderSnackbar} from './load-serviceworker';
 
-describe('overview-page', () => {
+describe('snackbar', () => {
   it('renders correctly', async () => {
     const placeholderelement = await fixture(html`<div id="snackbar"></div>`);
     await renderSnackbar('snackbar');

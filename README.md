@@ -22,7 +22,7 @@ npm i
 
 ## Build
 
-This sample uses the TypeScript compiler to produce JavaScript that runs in modern browsers.
+This sample uses esbuild as compiler to transpile to JavaScript.
 
 To build the JavaScript version of your component:
 
@@ -30,46 +30,38 @@ To build the JavaScript version of your component:
 npm run bundle
 ```
 
-To run
+To run the bundle (before create certificates).
+
+```bash
+npm run serve:bundle
+```
+
+To watch files and rebuild when the files are modified, run the following command:
 
 ```bash
 npm run serve
-```
-
-To watch files and rebuild when the files are modified, run the following command in a separate shell:
-
-```bash
-npm run watch
 ```
 
 Both the TypeScript compiler and lit-analyzer are configured to be very strict. You may want to change `tsconfig.json` to make them less strict.
 
 ## Testing
 
-This sample uses Karma, Chai, Mocha, and the open-wc test helpers for testing. See the [open-wc testing documentation](https://open-wc.org/testing/testing.html) for more information.
+This sample uses jest and the open-wc test helpers for testing. See the [open-wc testing documentation](https://open-wc.org/testing/testing.html) for more information.
 
 Tests can be run with the `test` script:
 
 ```bash
-npm test
+npm run test
 ```
 
 ## Dev Server
 
 This sample uses open-wc's [web-dev-server](https://modern-web.dev/docs/dev-server/overview/) for previewing the project without additional build steps. ES dev server handles resolving Node-style "bare" import specifiers, which aren't supported in browsers. It also automatically transpiles JavaScript and adds polyfills to support older browsers.
 
-To run the dev server and open the project in a new browser tab:
-
-```bash
-npm run serve
-```
-
-There is a development HTML file located at `/dev/index.html` that you can view at http://localhost:8000/dev/index.html.
-
 ## Test service worker
 
 First create once the certificates. Best tool for that is
-`mkcert`. [https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/][see ``````https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/] 
+`mkcert`. [https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/][see https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/] 
 
 For example:
 
@@ -78,12 +70,6 @@ mkcert -cert-file certs/cert.pem -key-file certs/key.pem v-collaborate.com '*.v-
 ```
 
 Configure the certificates in the file `web-dev-server.build.mjs`.
-
-Then start the server:
-
-```bash
-npm run serve:bundle
-```
 
 # Build Docker image
 
@@ -102,7 +88,6 @@ Run it with:
     docker rm paintforkids
     docker run -p 8043:8043 --name paintforkids waxolunist/paint2:latest 
 
-    
 ## Editing
 
 If you use VS Code, we highly reccomend the [lit-plugin extension](https://marketplace.visualstudio.com/items?itemName=runem.lit-plugin), which enables some extremely useful features for lit-html templates:
@@ -156,6 +141,14 @@ After that start by building
 
     npm run twa:build
 
+# Build systems
+
+Not one build system is perfect. Each has its issues.
+- Using rollup, the webworker loader could not run in watch mode, thus resulting in slow development cycles.
+- Esbuild is a better alternative, blazing fast btw, but workers are hard to get right when bundling
+- Testing with ts-jest has problems with workers
+- esbuild has problems with debugging and dynamic imports
+
 # Issues
 - [x] about page
 - [x] eraser
@@ -189,13 +182,16 @@ After that start by building
 
 Dev
 - [x] uglify / minimize / terser
-- [ ] better watching
+- [x] better watching
 - [ ] npm 7 
 - [x] source maps on server for debugging
-- [ ] inspect esbuild and @web/dev-server
+- [x] inspect esbuild and @web/dev-server
 - [x] compare lit-analyzer to @custom-elements-manifest/analyzer
-- [ ] use concurrently for watch development
-- [ ] try ts-jest, remove babel
+- [x] use concurrently for watch development
+- [x] try ts-jest, remove babel
+- [ ] try esbuild-jest
+- [ ] hot module reloading
+- [ ] remove esbuild-copy plugin
 
 Server
 - [x] Server fallback page

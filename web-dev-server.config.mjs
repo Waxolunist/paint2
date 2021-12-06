@@ -1,36 +1,35 @@
+import {esbuildPlugin} from '@web/dev-server-esbuild';
 import historyApiFallback from 'koa-history-api-fallback';
+import rollupReplace from '@rollup/plugin-replace';
+import {fromRollup} from '@web/dev-server-rollup';
+const replace = fromRollup(rollupReplace);
+
+const mapObj = {
+  'process.env.BUILDID': `'${process.env.BUILDID || ''}'`,
+  'process.env.COMMITID': `'${process.env.COMMITID || ''}'`,
+  'process.env.NODE_ENV': `'${process.env.NODE_ENV || ''}'`,
+  'process.env.PAINT_VERSION': `'${process.env.PAINT_VERSION || ''}'`,
+};
 
 export default {
-    open: false,
-    watch: false,
-    port: 8000,
-    nodeResolve: true,
-    appIndex: 'index.html',
-    rootDir: './',
-    middlewares: [
-        historyApiFallback({
-            index: '/bundle/index.html',
-        }),
-        function rewriteIndex(context, next) {
-            // middleware for debugging worker
-            if (context.url.startsWith('/bundle/src')) {
-                context.url = context.url.replace('/bundle', '');
-            }
-
-            return next();
-        },
-    ],
-    plugins: [
-        {
-            transform(context) {
-                if (context.path === '/bundle/index.html') {
-                    const transformedBody = context.body.replace(
-                        /<base href=".*"/,
-                        '<base href="/bundle/"'
-                    );
-                    return {body: transformedBody};
-                }
-            },
-        },
-    ],
+  open: false,
+  watch: false,
+  port: 8000,
+  nodeResolve: true,
+  appIndex: '/index.html',
+  rootDir: './src',
+  debug: false,
+  middlewares: [
+    historyApiFallback({
+      index: '/index.html',
+    }),
+  ],
+  plugins: [
+    replace({
+      include: ['src/index.html'],
+      values: mapObj,
+      preventAssignment: true,
+    }),
+    esbuildPlugin({ts: true, target: 'es2021'}),
+  ],
 };

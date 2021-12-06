@@ -1,29 +1,31 @@
+const {jsWithTsESM: tsjPreset} = require('ts-jest/presets');
+
 const ignoreModules = [
   '@open-wc',
   'lit-html',
   'lit-element',
   'lit',
   '@lit',
-  'chai-a11y-axe',
   'lit-redux-router',
   'pwa-helpers',
   '@material',
 ].join('|');
 
 /** @type {import('@jest/types').Config.InitialOptions} */
-const config = {
+module.exports = {
   verbose: true,
+  preset: 'ts-jest/presets/js-with-ts-esm',
   moduleFileExtensions: ['js', 'ts'],
   moduleDirectories: ['node_modules'],
   transform: {
-    'node_modules/lit/.+\\.(j|t)s?$': 'ts-jest',
+    ...tsjPreset.transform,
   },
   transformIgnorePatterns: [`node_modules/(?!(${ignoreModules})/)`],
-  testPathIgnorePatterns: ['cypress', 'bundle/', '.rollup.cache/'],
-  testEnvironment: 'jsdom',
   moduleNameMapper: {
-    '\\.worker.(js|ts)': '<rootDir>/__mocks__/workerMock.js',
+    '\\.worker.loader.(js|ts)': '<rootDir>/__mocks__/workerMock.js',
   },
+  testPathIgnorePatterns: ['cypress', 'bundle/'],
+  testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['./setupTestEnv.cjs', 'fake-indexeddb/auto'],
   reporters: [
     'default',
@@ -55,7 +57,4 @@ const config = {
       statements: 32,
     },
   },
-  preset: 'ts-jest/presets/js-with-ts',
 };
-
-export default config;
