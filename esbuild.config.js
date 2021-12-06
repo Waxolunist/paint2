@@ -56,6 +56,10 @@ try {
             from: ['./src/manifest.json'],
             to: ['./'],
           },
+          {
+            from: ['node_modules/workbox-sw/build/workbox-sw.js'],
+            to: ['./serviceworker/'],
+          },
         ],
       }),
     ],
