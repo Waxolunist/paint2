@@ -66,12 +66,16 @@ stages:
           command: 'custom'
           customCommand: 'run test:coverage'
         displayName: 'npm test'
+        env:
+          JEST_MAX_WORKERS: "100%"
 
       - task: Npm@1
         inputs:
           command: 'custom'
           customCommand: 'run test:cy'
         displayName: 'npm cypress'
+        env:
+          JEST_MAX_WORKERS: "100%"
 
       - task: PublishTestResults@2
         inputs:
