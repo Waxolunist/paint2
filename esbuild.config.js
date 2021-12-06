@@ -5,64 +5,38 @@
 import {html} from '@esbuilder/html';
 import {compress} from 'brotli';
 import esbuild from 'esbuild';
-import copy from 'esbuild-plugin-copy';
 import {promises as fs} from 'fs';
 import glob from 'tiny-glob';
 import {injectManifest} from 'workbox-build';
 import {constants} from 'zlib';
-
+import copyfiles from 'copyfiles';
 /** ES Build */
+const outdir = 'bundle';
 const globalOptions = {
-  outdir: 'bundle',
+  outdir,
   brotliSettings: {
     extension: 'br',
     mode: 0, // 0 = generic, 1 = text, 2 = font (WOFF2)
     quality: constants.BROTLI_MAX_QUALITY,
   },
-};
-
-try {
-  const resultHTML = await esbuild.build({
-    entryPoints: ['src/index.html'],
+  esBuildSettings: {
+    outdir,
     bundle: true,
     splitting: true,
-    outdir: globalOptions.outdir,
     format: 'esm',
     minify: true,
     sourcemap: 'external',
     metafile: true,
     treeShaking: true,
-    plugins: [
-      html(),
-      copy.default({
-        assets: [
-          {
-            from: ['./src/images/*'],
-            to: ['./images/'],
-          },
-          {
-            from: ['./src/images/manifest/*'],
-            to: ['./images/manifest/'],
-          },
-          {
-            from: ['./src/images/screenshots/android/*'],
-            to: ['./images/screenshots/android/'],
-          },
-          {
-            from: ['./src/styles/*.css'],
-            to: ['./styles/'],
-          },
-          {
-            from: ['./src/manifest.json'],
-            to: ['./'],
-          },
-          {
-            from: ['node_modules/workbox-sw/build/workbox-sw.js'],
-            to: ['./serviceworker/'],
-          },
-        ],
-      }),
-    ],
+    plugins: [],
+  },
+};
+
+try {
+  const resultHTML = await esbuild.build({
+    ...globalOptions.esBuildSettings,
+    entryPoints: ['src/index.html'],
+    plugins: [html()],
     assetNames: '[name]',
     define: {
       'process.env.BUILDID': `'${process.env.BUILDID || ''}'`,
@@ -71,7 +45,7 @@ try {
       'process.env.PAINT_VERSION': `'${process.env.PAINT_VERSION || ''}'`,
     },
   });
-  console.log('HTML Build successful!');
+  console.log('HTML-Build successful!');
   console.log(resultHTML.errors);
   console.log(resultHTML.warnings);
   console.log(resultHTML.metafile);
@@ -80,24 +54,56 @@ try {
   console.log(`Found ${workerEntryPoints.length}  workers.`);
   console.log(workerEntryPoints);
   const resultWorkers = await esbuild.build({
+    ...globalOptions.esBuildSettings,
     entryPoints: workerEntryPoints,
-    bundle: true,
     splitting: false,
-    outdir: globalOptions.outdir,
-    format: 'esm',
-    minify: true,
-    sourcemap: 'external',
-    metafile: true,
-    treeShaking: true,
-    plugins: [],
   });
 
-  console.log('Workers Build successful!');
+  console.log('Workers-Build successful!');
   console.log(resultWorkers.errors);
   console.log(resultWorkers.warnings);
   console.log(resultWorkers.metafile);
 } catch (e) {
   console.error('Error during esBuild.', e);
+  process.exit(1);
+}
+
+/** Assets */
+try {
+  await new Promise((resolve, reject) =>
+    copyfiles(
+      [
+        './src/images/**/*',
+        './src/styles/**/*.css',
+        './src/manifest.json',
+        globalOptions.outdir,
+      ],
+      {up: 1},
+      (err) => {
+        if (err) reject();
+        else resolve();
+      }
+    )
+  );
+  await new Promise((resolve, reject) =>
+    copyfiles(
+      [
+        './node_modules/workbox-sw/build/workbox-sw.js',
+        `${globalOptions.outdir}/serviceworker/`,
+      ],
+      {
+        up: 3,
+        flat: true,
+      },
+      (err) => {
+        if (err) reject();
+        else resolve();
+      }
+    )
+  );
+  console.log('Successful copied assets.');
+} catch (e) {
+  console.error('Error during assets build step.', e);
   process.exit(1);
 }
 
