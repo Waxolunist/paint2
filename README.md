@@ -66,10 +66,32 @@ First create once the certificates. Best tool for that is
 For example:
 
 ```bash
+mkcert -install
 mkcert -cert-file certs/cert.pem -key-file certs/key.pem v-collaborate.com '*.v-collaborate.com' localhost 127.0.0.1 ::1
 ```
 
 Configure the certificates in the file `web-dev-server.build.mjs`.
+
+To test, that the serviceworker, something has to change in the shipped code.
+E.g. the buildid.
+
+So run the server as follows:
+
+```bash
+BUILDID=1 npm run serve:bundle
+```
+
+Open the browser. Go to the about page.
+
+Stop the server and restart it with a different buildid.
+
+```bash
+BUILDID=2 npm run serve:bundle
+```
+
+Reload the browser. The same version as before should be shown and a box should appear
+hinting you, that a new version is available. Click on the refresh button and the new 
+bundleid should appear.
 
 # Build Docker image
 
