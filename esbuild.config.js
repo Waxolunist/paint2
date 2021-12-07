@@ -89,6 +89,7 @@ try {
     copyfiles(
       [
         './node_modules/workbox-sw/build/workbox-sw.js',
+        './node_modules/workbox-sw/build/workbox-sw.js.map',
         `${globalOptions.outdir}/serviceworker/`,
       ],
       {

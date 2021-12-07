@@ -20,7 +20,9 @@ module.exports = {
   transform: {
     ...tsjPreset.transform,
   },
-  transformIgnorePatterns: [`node_modules/(?!(${ignoreModules})/)`],
+  transformIgnorePatterns: [
+    `node_modules/(?!((.pnpm/)?(${ignoreModules})\+?[^/]*)/)`,
+  ],
   moduleNameMapper: {
     '\\.worker.loader.(js|ts)': '<rootDir>/__mocks__/workerMock.js',
   },

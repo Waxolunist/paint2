@@ -19,19 +19,32 @@ stages:
 
       - task: Npm@1
         inputs:
-          command: 'install'
-        displayName: 'npm install'
-
-      - task: Npm@1
-        inputs:
           command: 'custom'
-          customCommand: 'audit --production'
+          customCommand: 'install -g pnpm'
+        displayName: 'pnpm install'
+
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
+            pnpm i
+          workingDirectory: $(Build.SourcesDirectory)
+        displayName: 'install dependencies'
+
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
+            pnpm audit --prod
+          workingDirectory: $(Build.SourcesDirectory)
         displayName: 'npm audit'
 
-      - task: Npm@1
+      - task: Bash@3
         inputs:
-          command: 'custom'
-          customCommand: 'outdated'
+          targetType: 'inline'
+          script: |
+            pnpm outdated
+          workingDirectory: $(Build.SourcesDirectory)
         displayName: 'npm outdated'
 
       - task: Npm@1
