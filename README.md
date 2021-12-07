@@ -12,6 +12,8 @@ Use a touch screen compatible pen for the best user experience.
 
 If you have any issues with the app or want to see new features, just create an github issue please.
     
+
+
 ## Setup
 
 Install dependencies:
@@ -61,7 +63,7 @@ This sample uses open-wc's [web-dev-server](https://modern-web.dev/docs/dev-serv
 ## Test service worker
 
 First create once the certificates. Best tool for that is
-`mkcert`. [https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/][see https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/] 
+`mkcert` (see [https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/](https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/)). 
 
 For example:
 
@@ -201,19 +203,21 @@ Not one build system is perfect. Each has its issues.
 - [x] links on about page, open in browser
 - [x] service worker update (show that there is an update)
 - [ ] a11y
+- [ ] pencil thickness
 
 Dev
 - [x] uglify / minimize / terser
 - [x] better watching
-- [ ] npm 7 
+- [x] npm 7 
 - [x] source maps on server for debugging
 - [x] inspect esbuild and @web/dev-server
 - [x] compare lit-analyzer to @custom-elements-manifest/analyzer
 - [x] use concurrently for watch development
 - [x] try ts-jest, remove babel
-- [ ] try esbuild-jest
-- [ ] hot module reloading
-- [ ] remove esbuild-copy plugin
+- [x] try esbuild-jest
+- [ ] hot module reloading (depends on import.meta)
+- [x] remove esbuild-copy plugin
+- [ ] ts-jest modules (import.meta bug)
 
 Server
 - [x] Server fallback page
