@@ -1,14 +1,12 @@
-import {css, html, LitElement, CSSResult, TemplateResult} from 'lit';
+import {animate} from '@lit-labs/motion';
+import {css, CSSResult, html, LitElement, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {repeat} from 'lit/directives/repeat.js';
-import {colors} from './colors';
 import '../icon-button/paint-icon-button';
+import {colors} from './colors';
 
 @customElement('paint-color-toolbar')
 export class ColorToolbar extends LitElement {
-  @property({type: String, reflect: true})
-  activeColor = colors[0];
-
   static styles: CSSResult[] = [
     // language=CSS
     css`
@@ -24,11 +22,23 @@ export class ColorToolbar extends LitElement {
         position: absolute;
         top: 0;
         bottom: 0;
+        width: 70px;
+      }
+
+      .color-palette .wrapper {
+        width: 100%;
+        opacity: 1;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         overflow-y: scroll;
-        width: 70px;
+        transform: translateY(-100%);
+        transition: transform 1.5s cubic-bezier(1, 0.49, 0.63, 1.25);
+        will-change: transform;
+      }
+
+      .color-palette .wrapper.active {
+        transform: translateY(0);
       }
 
       .color-option {
@@ -48,20 +58,34 @@ export class ColorToolbar extends LitElement {
       }
     `,
   ];
+  @property({type: String, reflect: true})
+  activeColor = colors[0];
+
+  @property({type: Boolean, reflect: true})
+  active = false;
+
+  @property({type: Boolean, reflect: false})
+  animated = false;
+
+  firstUpdated(): void {
+    this.animated = this.active;
+  }
 
   render(): TemplateResult {
     return html`
       <div class="color-palette">
-        ${repeat(
-          colors,
-          (code) => html` <paint-icon-button
-            class="color-option"
-            style="--paint-icon-button-background-color: ${code}"
-            data-color-code="${code}"
-            ?active="${this.activeColor === code}"
-            @icon-clicked="${this.colorChange(code)}"
-          ></paint-icon-button>`
-        )}
+        <div class="wrapper ${this.animated ? 'active' : ''}" ${animate()}>
+          ${repeat(
+            colors,
+            (code) => html` <paint-icon-button
+              class="color-option"
+              style="--paint-icon-button-background-color: ${code}"
+              data-color-code="${code}"
+              ?active="${this.activeColor === code}"
+              @icon-clicked="${this.colorChange(code)}"
+            ></paint-icon-button>`
+          )}
+        </div>
       </div>
     `;
   }
