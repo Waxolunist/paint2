@@ -55,7 +55,7 @@
           'use strict';
 
           function getOrientation() {
-            if (!window) return undefined;
+            if (typeof window === 'undefined') return undefined;
             var screen = window.screen;
             var orientation;
 
@@ -232,7 +232,7 @@
             }
 
             return function lock(lockType) {
-              const Promise = window.Promise;
+              var Promise = window.Promise;
               if (delegateFn(lockType)) {
                 return Promise.resolve(lockType);
               } else {

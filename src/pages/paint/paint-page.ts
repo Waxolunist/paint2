@@ -124,7 +124,7 @@ export class PaintPage extends connect(store)(LitElement) {
             ${arrowBack}
           </paint-icon-button>
           <paint-color-toolbar
-            active="${this.paintingLoaded}"
+            ?active="${this.paintingLoaded}"
             @color-changed="${this.colorChanged}"
           ></paint-color-toolbar>
         </div>
