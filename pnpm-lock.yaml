@@ -7,6 +7,7 @@ specifiers:
   '@bubblewrap/cli': ^1.15.0
   '@esbuilder/html': 0.0.3
   '@lit-labs/motion': ^1.0.2
+  '@lit/reactive-element': ^1.2.2
   '@material/mwc-button': ^0.25.3
   '@material/mwc-icon-button': ^0.25.3
   '@material/mwc-snackbar': ^0.25.3
@@ -55,6 +56,7 @@ specifiers:
 
 dependencies:
   '@lit-labs/motion': 1.0.2
+  '@lit/reactive-element': 1.2.2
   '@material/mwc-button': 0.25.3
   '@material/mwc-icon-button': 0.25.3
   '@material/mwc-snackbar': 0.25.3

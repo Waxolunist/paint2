@@ -1,3 +1,4 @@
+import {PropertyValues} from '@lit/reactive-element';
 import {LitElement, html, css, CSSResult, TemplateResult} from 'lit';
 import {customElement, property, queryAll} from 'lit/decorators.js';
 import {styleMap} from 'lit/directives/style-map.js';
@@ -46,7 +47,7 @@ export class OverviewPage extends connect(store)(LitElement) {
     if (router.routes['/']?.active) this.paintings = paint.paintings;
   }
 
-  updated(changedProperties: Map<string, Painting[]>): void {
+  updated(changedProperties: PropertyValues): void {
     if (this.paintingDeleted(changedProperties.get('paintings'))) {
       this.updateComplete.then(this.animatePaintings);
     }

@@ -47,6 +47,7 @@
   ],
   "author": "Christian Sterzl",
   "dependencies": {
+    "@lit/reactive-element": "^1.2.2",
     "@lit-labs/motion": "^1.0.2",
     "@material/mwc-button": "^0.25.3",
     "@material/mwc-icon-button": "^0.25.3",
