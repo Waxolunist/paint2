@@ -9,6 +9,7 @@ const ignoreModules = [
   'lit-redux-router',
   'pwa-helpers',
   '@material',
+  'dexie',
 ].join('|');
 
 /** @type {import('@jest/types').Config.InitialOptions} */
@@ -28,7 +29,8 @@ module.exports = {
   },
   testPathIgnorePatterns: ['cypress', 'bundle/'],
   testEnvironment: 'jsdom',
-  setupFilesAfterEnv: ['./setupTestEnv.cjs', 'fake-indexeddb/auto'],
+  setupFiles: ['fake-indexeddb/auto'],
+  setupFilesAfterEnv: ['./setupTestEnv.cjs'],
   reporters: [
     'default',
     [

@@ -37,7 +37,7 @@ describe('new-paint-button', () => {
       html` <paint-new-paint-button></paint-new-paint-button>`
     );
     fireClickEvent(el.shadowRoot!.querySelector('paint-paint-button')!);
-    const {detail} = await oneEvent(el, 'paint-clicked');
+    const {detail} = await oneEvent(el, 'paint-clicked', false);
     expect(detail).not.toBeUndefined();
   });
 });

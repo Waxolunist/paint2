@@ -28,5 +28,5 @@
       }
     ]
   },
-  "exclude": ["node_modules", "bundle", "cypress"]
+  "exclude": ["node_modules", "bundle", "cypress", "cypress.config.ts"]
 }

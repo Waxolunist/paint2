@@ -3,7 +3,7 @@ import {
   CRUDPayload,
   Painting,
   PaintingImpl,
-  PaintingRawData,
+  PaintingRawDataImpl,
   PaintState,
   Stroke,
 } from './paint-model';
@@ -86,7 +86,7 @@ export const storeData =
       ?.freeMemory();
     const db = await database;
     const painting = new PaintingImpl(dataUrl, id);
-    const rawData = new PaintingRawData(id, strokes);
+    const rawData = new PaintingRawDataImpl(id, strokes);
     try {
       await db.transaction('rw', db.paintings, db.strokes, async () => {
         const updated = await db.paintings.update(id, painting);

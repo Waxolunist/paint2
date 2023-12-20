@@ -35,7 +35,7 @@ describe('paint-button', () => {
   it('fires event after click', async () => {
     const el = await fixture(html` <paint-paint-button></paint-paint-button>`);
     fireClickEvent(el);
-    const {detail} = await oneEvent(el, 'paint-clicked');
+    const {detail} = await oneEvent(el, 'paint-clicked', false);
     expect(detail).not.toBeUndefined();
   });
 });
