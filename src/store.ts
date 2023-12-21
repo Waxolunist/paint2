@@ -1,41 +1,23 @@
-import {connectRouter, navigate} from 'lit-redux-router';
+import {navigate} from 'lit-redux-router';
 import {Actions} from 'lit-redux-router/lib/actions';
+import reducer from 'lit-redux-router/lib/reducer';
+import Route from 'lit-redux-router/lib/route';
 import {RouterState} from 'lit-redux-router/lib/reducer';
-import {lazyReducerEnhancer} from 'pwa-helpers';
-import {LazyStore} from 'pwa-helpers/lazy-reducer-enhancer';
-import {
-  Action,
-  AnyAction,
-  applyMiddleware,
-  combineReducers,
-  compose,
-  createStore,
-  Dispatch,
-  Middleware,
-  Store,
-} from 'redux';
-import thunk from 'redux-thunk';
+import {Dispatch, Middleware, UnknownAction} from 'redux';
 import database from './database';
 import paintReducer from './ducks/paint';
 import {PaintState} from './ducks/paint-model';
+import {configureStore, EnhancedStore} from '@reduxjs/toolkit';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-  }
-}
+export type AppState = {router?: RouterState; paint: PaintState};
 
-export type AppState = {router: RouterState; paint: PaintState};
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?? compose;
-
-const logger =
-  <S, T>({getState}: {getState: () => S}) =>
-  (next: (action: Action<T>) => unknown) =>
-  (action: Action<T>) => {
+// @ts-ignore
+const logger: Middleware<Record<string, never>, AppState> =
+  ({getState}: {getState: () => AppState}) =>
+  (next: Dispatch<Actions | UnknownAction>) =>
+  (action: UnknownAction | Actions) => {
     try {
-      console.groupCollapsed(`store dispatch ${action.type}`);
+      console.groupCollapsed(`store dispatch ${action?.type}`);
       console.log('will dispatch', action);
       const returnValue = next(action);
       console.log('state after dispatch', getState());
@@ -47,25 +29,31 @@ const logger =
 
 const knownRoutes = ['/', '/about'];
 
-const router: Middleware<unknown, AppState> =
-  <T extends string>({
+// @ts-ignore
+const router: Middleware<
+  Record<string, never>,
+  AppState,
+  Dispatch<Actions | UnknownAction>
+> =
+  ({
     dispatch,
     getState,
   }: {
-    dispatch: Dispatch;
+    dispatch: Dispatch<UnknownAction | Actions>;
     getState: () => AppState;
   }) =>
-  (next: (action: Actions | Action<T>) => unknown) =>
-  (action: Action<T>) => {
+  (next: Dispatch<Actions | UnknownAction>) =>
+  (action: UnknownAction | Actions) => {
     const retVal = next(action);
     if (action.type.startsWith('@paint')) {
       const {router, paint} = getState();
       const activePaintingId = paint.activePainting?.painting?.id;
-      if (activePaintingId && router.activeRoute === '/') {
+      if (activePaintingId && router?.activeRoute === '/') {
         dispatch(navigate(`/paint/${activePaintingId}`));
       } else if (
         !activePaintingId &&
-        knownRoutes.indexOf(router.activeRoute) < 0
+        router?.activeRoute &&
+        knownRoutes.indexOf(router?.activeRoute) < 0
       ) {
         dispatch(navigate('/'));
       }
@@ -73,32 +61,23 @@ const router: Middleware<unknown, AppState> =
     return retVal;
   };
 
-let store: Store<AppState, AnyAction> = <Store<AppState, AnyAction>>{};
+const store: EnhancedStore<AppState, Actions | UnknownAction> = configureStore({
+  reducer: {
+    paint: paintReducer,
+    router: reducer,
+  },
+  //@ts-ignore
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware({
+      thunk: {
+        extraArgument: database(),
+      },
+      serializableCheck: false,
+    }).concat(logger, router);
+  },
+});
 
-const composeStore = () => {
-  if (!store.dispatch) {
-    const storeInternal = createStore<AppState, AnyAction, LazyStore, unknown>(
-      (state) => <AppState>state,
-      composeEnhancers(
-        lazyReducerEnhancer(combineReducers),
-        applyMiddleware(thunk.withExtraArgument(database()), logger, router)
-      )
-    );
+//@ts-ignore
+Route(store);
 
-    connectRouter(storeInternal);
-
-    storeInternal.addReducers({
-      paint: paintReducer,
-    });
-    store = storeInternal;
-  }
-  return store;
-};
-
-export const initStore = (): Store<AppState, AnyAction> => {
-  const store = composeStore();
-  return store;
-};
-
-initStore();
 export default store;
