@@ -171,7 +171,23 @@ stages:
         - task: Npm@1
           inputs:
             command: 'custom'
-            customCommand: 'install @bubblewrap/cli'
+            customCommand: 'install -g pnpm'
+          displayName: 'pnpm install'
+
+        - task: Bash@3
+          inputs:
+            targetType: 'inline'
+            script: |
+              pnpm i
+            workingDirectory: $(Build.SourcesDirectory)
+          displayName: 'install dependencies'
+
+        - task: Bash@3
+          inputs:
+            targetType: 'inline'
+            script: |
+              pnpm install @bubblewrap/cli
+            workingDirectory: $(Build.SourcesDirectory)
           displayName: 'install bubblewrap'
 
         - task: JavaToolInstaller@0
