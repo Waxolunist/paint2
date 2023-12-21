@@ -42,7 +42,7 @@ describe('paint-icon-button', () => {
   it('fires event after pointer up', async () => {
     const el = await fixture(html`<paint-icon-button></paint-icon-button>`);
     fireClickEvent(el);
-    const {detail} = await oneEvent(el, 'icon-clicked');
+    const {detail} = await oneEvent(el, 'icon-clicked', false);
     expect(detail).not.toBeUndefined();
   });
 });

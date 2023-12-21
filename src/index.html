@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 
 <html lang="en">
   <head>
@@ -106,10 +106,10 @@
       rel="stylesheet"
     />
     <script>
-      process = {
+      this.process = {
         env: {},
       };
-      process = window.process = {
+      this.process = window.process = {
         env: {
           NODE_ENV: process.env.NODE_ENV || '',
           COMMITID: process.env.COMMITID || '',

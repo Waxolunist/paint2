@@ -26,6 +26,7 @@ export class ColorToolbar extends LitElement {
       }
 
       .color-palette .wrapper {
+        max-height: 100vw;
         width: 100%;
         opacity: 1;
         display: flex;
@@ -77,13 +78,14 @@ export class ColorToolbar extends LitElement {
         <div class="wrapper ${this.animated ? 'active' : ''}" ${animate()}>
           ${repeat(
             colors,
-            (code) => html` <paint-icon-button
-              class="color-option"
-              style="--paint-icon-button-background-color: ${code}"
-              data-color-code="${code}"
-              ?active="${this.activeColor === code}"
-              @icon-clicked="${this.colorChange(code)}"
-            ></paint-icon-button>`
+            (code) =>
+              html` <paint-icon-button
+                class="color-option"
+                style="--paint-icon-button-background-color: ${code}"
+                data-color-code="${code}"
+                ?active="${this.activeColor === code}"
+                @icon-clicked="${this.colorChange(code)}"
+              ></paint-icon-button>`
           )}
         </div>
       </div>

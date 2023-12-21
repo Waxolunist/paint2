@@ -1,9 +1,9 @@
-import {AnyAction, Reducer} from 'redux';
+import {Action, AnyAction, Reducer} from 'redux';
 import {
   CRUDPayload,
   Painting,
   PaintingImpl,
-  PaintingRawData,
+  PaintingRawDataImpl,
   PaintState,
   Stroke,
 } from './paint-model';
@@ -24,15 +24,16 @@ const NEW = '@paint/NEW';
 const DELETE = '@paint/DELETE';
 const INIT = '@paint/INIT';
 
+export type CRUDActionTypes =
+  | typeof STORE
+  | typeof LOAD
+  | typeof UNLOAD
+  | typeof NEW
+  | typeof DELETE
+  | typeof INIT;
 /*** actions ***/
-interface CRUDAction extends AnyAction {
-  type:
-    | typeof STORE
-    | typeof LOAD
-    | typeof UNLOAD
-    | typeof NEW
-    | typeof DELETE
-    | typeof INIT;
+interface CRUDAction extends Action {
+  type: CRUDActionTypes;
   payload?: CRUDPayload | PaintState | number | string;
 }
 
@@ -86,7 +87,7 @@ export const storeData =
       ?.freeMemory();
     const db = await database;
     const painting = new PaintingImpl(dataUrl, id);
-    const rawData = new PaintingRawData(id, strokes);
+    const rawData = new PaintingRawDataImpl(id, strokes);
     try {
       await db.transaction('rw', db.paintings, db.strokes, async () => {
         const updated = await db.paintings.update(id, painting);

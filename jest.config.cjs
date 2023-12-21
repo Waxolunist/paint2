@@ -9,6 +9,7 @@ const ignoreModules = [
   'lit-redux-router',
   'pwa-helpers',
   '@material',
+  'dexie',
 ].join('|');
 
 /** @type {import('@jest/types').Config.InitialOptions} */
@@ -28,7 +29,8 @@ module.exports = {
   },
   testPathIgnorePatterns: ['cypress', 'bundle/'],
   testEnvironment: 'jsdom',
-  setupFilesAfterEnv: ['./setupTestEnv.cjs', 'fake-indexeddb/auto'],
+  setupFiles: ['fake-indexeddb/auto'],
+  setupFilesAfterEnv: ['./setupTestEnv.cjs'],
   reporters: [
     'default',
     [
@@ -49,15 +51,15 @@ module.exports = {
     'src/**/*.{js,ts}',
     '!src/**/*.loader.{js,ts}',
     '!src/test/**/*.{js,ts}',
-    '!src/ponyfills/**/*.{js,ts}',
+    '!src/ponyfills/**/*.{mjs,js,ts}',
   ],
   coverageReporters: ['json', 'lcov', 'text', 'clover', 'cobertura'],
   coverageThreshold: {
     global: {
-      branches: 16,
-      functions: 35,
-      lines: 32,
-      statements: 32,
+      branches: 15,
+      functions: 37,
+      lines: 42,
+      statements: 44,
     },
   },
 };

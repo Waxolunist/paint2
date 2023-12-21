@@ -2,10 +2,10 @@
 
 exports[`paint-button renders correctly 1`] = `
 "
-      <div class=\\"paint-button shadow animated elevate elevate-1 elevated-3\\">
-         <slot name=\\"content\\"></slot>
-        <div class=\\"addons\\">
-          <slot name=\\"addons\\"></slot>
+      <div class="paint-button shadow animated elevate elevate-1 elevated-3">
+         <slot name="content"></slot>
+        <div class="addons">
+          <slot name="addons"></slot>
         </div>
       </div>
     <style>
@@ -27,20 +27,26 @@ exports[`paint-button renders correctly 1`] = `
 
   .shadow.elevate.elevate-1,
   .shadow.elevate.elevated-1:hover {
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
+    box-shadow:
+      0 2px 2px 0 rgba(0, 0, 0, 0.14),
+      0 1px 5px 0 rgba(0, 0, 0, 0.12),
       0 3px 1px -2px rgba(0, 0, 0, 0.2);
   }
 
   .shadow.elevate.elevate-2,
   .shadow.elevate.elevated-2:hover {
-    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
-      0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+    box-shadow:
+      0 4px 5px 0 rgba(0, 0, 0, 0.14),
+      0 1px 10px 0 rgba(0, 0, 0, 0.12),
+      0 2px 4px -1px rgba(0, 0, 0, 0.4);
   }
 
   .shadow.elevate.elevate-3,
   .shadow.elevate.elevated-3:hover {
-    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14),
-      0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
+    box-shadow:
+      0 16px 24px 2px rgba(0, 0, 0, 0.14),
+      0 6px 30px 5px rgba(0, 0, 0, 0.12),
+      0 8px 10px -5px rgba(0, 0, 0, 0.4);
   }
 </style><style>
         :host {
@@ -99,10 +105,10 @@ exports[`paint-button renders correctly 1`] = `
 
 exports[`paint-button renders correctly after pointerdown 1`] = `
 "
-      <div class=\\"paint-button shadow animated elevate elevate-1 elevated-3 clicked\\">
-         <slot name=\\"content\\"></slot>
-        <div class=\\"addons\\">
-          <slot name=\\"addons\\"></slot>
+      <div class="paint-button shadow animated elevate elevate-1 elevated-3 clicked">
+         <slot name="content"></slot>
+        <div class="addons">
+          <slot name="addons"></slot>
         </div>
       </div>
     <style>
@@ -124,20 +130,26 @@ exports[`paint-button renders correctly after pointerdown 1`] = `
 
   .shadow.elevate.elevate-1,
   .shadow.elevate.elevated-1:hover {
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
+    box-shadow:
+      0 2px 2px 0 rgba(0, 0, 0, 0.14),
+      0 1px 5px 0 rgba(0, 0, 0, 0.12),
       0 3px 1px -2px rgba(0, 0, 0, 0.2);
   }
 
   .shadow.elevate.elevate-2,
   .shadow.elevate.elevated-2:hover {
-    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
-      0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+    box-shadow:
+      0 4px 5px 0 rgba(0, 0, 0, 0.14),
+      0 1px 10px 0 rgba(0, 0, 0, 0.12),
+      0 2px 4px -1px rgba(0, 0, 0, 0.4);
   }
 
   .shadow.elevate.elevate-3,
   .shadow.elevate.elevated-3:hover {
-    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14),
-      0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
+    box-shadow:
+      0 16px 24px 2px rgba(0, 0, 0, 0.14),
+      0 6px 30px 5px rgba(0, 0, 0, 0.12),
+      0 8px 10px -5px rgba(0, 0, 0, 0.4);
   }
 </style><style>
         :host {
@@ -196,10 +208,10 @@ exports[`paint-button renders correctly after pointerdown 1`] = `
 
 exports[`paint-button renders correctly after pointerdown and up 1`] = `
 "
-      <div class=\\"paint-button shadow animated elevate elevate-1 elevated-3\\">
-         <slot name=\\"content\\"></slot>
-        <div class=\\"addons\\">
-          <slot name=\\"addons\\"></slot>
+      <div class="paint-button shadow animated elevate elevate-1 elevated-3">
+         <slot name="content"></slot>
+        <div class="addons">
+          <slot name="addons"></slot>
         </div>
       </div>
     <style>
@@ -221,20 +233,26 @@ exports[`paint-button renders correctly after pointerdown and up 1`] = `
 
   .shadow.elevate.elevate-1,
   .shadow.elevate.elevated-1:hover {
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
+    box-shadow:
+      0 2px 2px 0 rgba(0, 0, 0, 0.14),
+      0 1px 5px 0 rgba(0, 0, 0, 0.12),
       0 3px 1px -2px rgba(0, 0, 0, 0.2);
   }
 
   .shadow.elevate.elevate-2,
   .shadow.elevate.elevated-2:hover {
-    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
-      0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+    box-shadow:
+      0 4px 5px 0 rgba(0, 0, 0, 0.14),
+      0 1px 10px 0 rgba(0, 0, 0, 0.12),
+      0 2px 4px -1px rgba(0, 0, 0, 0.4);
   }
 
   .shadow.elevate.elevate-3,
   .shadow.elevate.elevated-3:hover {
-    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14),
-      0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
+    box-shadow:
+      0 16px 24px 2px rgba(0, 0, 0, 0.14),
+      0 6px 30px 5px rgba(0, 0, 0, 0.12),
+      0 8px 10px -5px rgba(0, 0, 0, 0.4);
   }
 </style><style>
         :host {

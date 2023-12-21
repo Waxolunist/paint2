@@ -218,6 +218,7 @@ Dev
 - [ ] hot module reloading (depends on import.meta)
 - [x] remove esbuild-copy plugin
 - [ ] ts-jest modules (import.meta bug)
+- [ ] types in store.ts
 
 Server
 - [x] Server fallback page

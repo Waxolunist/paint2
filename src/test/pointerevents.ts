@@ -16,7 +16,7 @@ export const firePointerEvent = async (
   pointerId = 1
 ): Promise<void> => {
   const fire = (event: string, cb: (() => void) | undefined): number =>
-    setTimeout(() => {
+    window.setTimeout(() => {
       dispatchEvent(
         el,
         querySelector,
@@ -41,7 +41,7 @@ export const fireClickEvent = async (
   querySelector = ':first-child'
 ): Promise<void> => {
   const fire = (cb: (() => void) | undefined): number =>
-    setTimeout(() => {
+    window.setTimeout(() => {
       dispatchEvent(el, querySelector, new MouseEvent('click'));
       if (cb) cb();
     });

@@ -6,7 +6,7 @@ import {fireClickEvent} from '../../test/pointerevents';
 
 describe('paint-color-toolbar', () => {
   beforeEach(() => {
-    jest.spyOn(global.Math, 'random').mockReturnValue(0.1234567890123456);
+    jest.spyOn(Math, 'random').mockReturnValue(0.1234567890123456);
   });
 
   it('is defined', () => {
@@ -41,7 +41,7 @@ describe('paint-color-toolbar', () => {
       `paint-icon-button[data-color-code="${colors[1]}"]`
     )!;
     fireClickEvent(colorButton);
-    const {detail} = await oneEvent(el, 'color-changed');
+    const {detail} = await oneEvent(el, 'color-changed', false);
     expect(detail.code).toEqual(colors[1]);
     expect((<ColorToolbar>el).activeColor).toEqual(detail.code);
   });

@@ -52,7 +52,7 @@ export interface PaintingRawData {
   strokes: Stroke[];
 }
 
-export class PaintingRawData implements PaintingRawData {
+export class PaintingRawDataImpl implements PaintingRawData {
   paintingId: number;
   strokes: Stroke[];
 

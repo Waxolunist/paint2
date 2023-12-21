@@ -1,4 +1,4 @@
-import {PaintingImpl, PaintingRawData} from './paint-model';
+import {PaintingImpl, PaintingRawDataImpl} from './paint-model';
 
 describe('model', () => {
   describe('PaintingImpl', () => {
@@ -10,7 +10,7 @@ describe('model', () => {
 
   describe('PaintingRawData', () => {
     it('should set default values', () => {
-      const model = new PaintingRawData(1, []);
+      const model = new PaintingRawDataImpl(1, []);
       expect(model).toMatchSnapshot();
     });
   });
