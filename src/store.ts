@@ -16,7 +16,7 @@ import {
 } from 'redux';
 import thunk from 'redux-thunk';
 import database from './database';
-import paint from './ducks/paint';
+import paintReducer from './ducks/paint';
 import {PaintState} from './ducks/paint-model';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -88,7 +88,7 @@ const composeStore = () => {
     connectRouter(storeInternal);
 
     storeInternal.addReducers({
-      paint,
+      paint: paintReducer,
     });
     store = storeInternal;
   }

@@ -1,4 +1,4 @@
-import {AnyAction, Reducer} from 'redux';
+import {Action, AnyAction, Reducer} from 'redux';
 import {
   CRUDPayload,
   Painting,
@@ -24,15 +24,16 @@ const NEW = '@paint/NEW';
 const DELETE = '@paint/DELETE';
 const INIT = '@paint/INIT';
 
+export type CRUDActionTypes =
+  | typeof STORE
+  | typeof LOAD
+  | typeof UNLOAD
+  | typeof NEW
+  | typeof DELETE
+  | typeof INIT;
 /*** actions ***/
-interface CRUDAction extends AnyAction {
-  type:
-    | typeof STORE
-    | typeof LOAD
-    | typeof UNLOAD
-    | typeof NEW
-    | typeof DELETE
-    | typeof INIT;
+interface CRUDAction extends Action {
+  type: CRUDActionTypes;
   payload?: CRUDPayload | PaintState | number | string;
 }
 

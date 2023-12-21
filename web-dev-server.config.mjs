@@ -30,6 +30,6 @@ export default {
       values: mapObj,
       preventAssignment: true,
     }),
-    esbuildPlugin({ts: true, target: 'es2021'}),
+    esbuildPlugin({ts: true, target: 'es2022', tsconfig: 'tsconfig.json'}),
   ],
 };

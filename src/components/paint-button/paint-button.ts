@@ -1,11 +1,11 @@
 import {css, html, LitElement, CSSResult, TemplateResult} from 'lit';
-import {customElement, eventOptions, property, query} from 'lit/decorators.js';
+import {customElement, eventOptions, property} from 'lit/decorators.js';
 import {AnimatedStyles, ShadowStyles} from '../../styles/shared-styles';
+import {Ref, createRef, ref} from 'lit/directives/ref.js';
 
 @customElement('paint-paint-button')
 export class PaintButton extends LitElement {
-  @query('.paint-button')
-  private button!: HTMLElement;
+  buttonRef: Ref<HTMLElement> = createRef();
 
   @property({type: String})
   imageUrl?: string;
@@ -79,6 +79,7 @@ export class PaintButton extends LitElement {
         @pointerup="${this.pointerUp}"
         @pointercancel="${this.pointerUp}"
         @click="${this.clicked}"
+        ${ref(this.buttonRef)}
       >
         ${this.imageUrl
           ? html`<img class="content" src="${this.imageUrl}"></img>`
@@ -92,16 +93,16 @@ export class PaintButton extends LitElement {
 
   @eventOptions({capture: false, passive: true})
   private pointerDown(e: PointerEvent): void {
-    this.button.classList.add('clicked');
+    this.buttonRef.value?.classList.add('clicked');
     if (process?.env?.NODE_ENV !== 'test')
-      this.button.setPointerCapture(e.pointerId);
+      this.buttonRef.value?.setPointerCapture(e.pointerId);
   }
 
   @eventOptions({capture: false, passive: true})
   private pointerUp(e: PointerEvent): void {
-    this.button.classList.remove('clicked');
+    this.buttonRef.value?.classList.remove('clicked');
     if (process?.env?.NODE_ENV !== 'test')
-      this.button.releasePointerCapture(e.pointerId);
+      this.buttonRef.value?.releasePointerCapture(e.pointerId);
   }
 
   @eventOptions({capture: false, passive: true})

@@ -51,15 +51,15 @@ module.exports = {
     'src/**/*.{js,ts}',
     '!src/**/*.loader.{js,ts}',
     '!src/test/**/*.{js,ts}',
-    '!src/ponyfills/**/*.{js,ts}',
+    '!src/ponyfills/**/*.{mjs,js,ts}',
   ],
   coverageReporters: ['json', 'lcov', 'text', 'clover', 'cobertura'],
   coverageThreshold: {
     global: {
       branches: 16,
-      functions: 35,
-      lines: 32,
-      statements: 32,
+      functions: 38,
+      lines: 44,
+      statements: 45,
     },
   },
 };
